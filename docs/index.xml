@@ -7,6 +7,33 @@
       <language>en-us</language>
       <copyright>Creative Commons BY-NC-SA 4.0</copyright>
       <item>
+<title>Chaining comparison operators</title>
+<description>&lt;p&gt;I recently came across this lesser known feature in Python and started to play around with it.&lt;/p&gt;
+&lt;p&gt;Being able to chain comparison operators is a rarity among most modern programming languages, which is a shame considering how elegant and intuitive it turns out to be.&lt;/p&gt;
+&lt;p&gt;Here are some examples:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true"&gt;&lt;/a&gt;a, b, c &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;5&lt;/span&gt;, &lt;span class="dv"&gt;10&lt;/span&gt;, &lt;span class="dv"&gt;15&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a href="#cb1-2" aria-hidden="true"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(a &lt;span class="op"&gt;&amp;lt;&lt;/span&gt; b &lt;span class="op"&gt;&amp;lt;&lt;/span&gt; c)&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a href="#cb1-3" aria-hidden="true"&gt;&lt;/a&gt;&lt;span class="co"&gt;# True&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The code above is equivalent to:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb2-1"&gt;&lt;a href="#cb2-1" aria-hidden="true"&gt;&lt;/a&gt;a, b, c &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;5&lt;/span&gt;, &lt;span class="dv"&gt;10&lt;/span&gt;, &lt;span class="dv"&gt;15&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a href="#cb2-2" aria-hidden="true"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(a &lt;span class="op"&gt;&amp;lt;&lt;/span&gt; b &lt;span class="kw"&gt;and&lt;/span&gt; b &lt;span class="op"&gt;&amp;lt;&lt;/span&gt; c) &lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a href="#cb2-3" aria-hidden="true"&gt;&lt;/a&gt;&lt;span class="co"&gt;# True&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And something a bit more complex:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb3-1"&gt;&lt;a href="#cb3-1" aria-hidden="true"&gt;&lt;/a&gt;a, b, c, d, e, f, g &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;5&lt;/span&gt;, &lt;span class="dv"&gt;10&lt;/span&gt;, &lt;span class="dv"&gt;30&lt;/span&gt;, &lt;span class="dv"&gt;20&lt;/span&gt;, &lt;span class="dv"&gt;15&lt;/span&gt;, &lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="dv"&gt;0&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a href="#cb3-2" aria-hidden="true"&gt;&lt;/a&gt;flag &lt;span class="op"&gt;=&lt;/span&gt; a &lt;span class="op"&gt;&amp;lt;=&lt;/span&gt; b &lt;span class="op"&gt;&amp;gt;&lt;/span&gt; f &lt;span class="op"&gt;&amp;lt;&lt;/span&gt; c &lt;span class="op"&gt;&amp;gt;&lt;/span&gt; d &lt;span class="kw"&gt;is&lt;/span&gt; &lt;span class="kw"&gt;not&lt;/span&gt; f &lt;span class="kw"&gt;is&lt;/span&gt; g&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a href="#cb3-3" aria-hidden="true"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(flag)&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a href="#cb3-4" aria-hidden="true"&gt;&lt;/a&gt;&lt;span class="co"&gt;# True&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;That is all equivalent to:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb4-1"&gt;&lt;a href="#cb4-1" aria-hidden="true"&gt;&lt;/a&gt;a, b, c, d, e, f, g &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;5&lt;/span&gt;, &lt;span class="dv"&gt;10&lt;/span&gt;, &lt;span class="dv"&gt;30&lt;/span&gt;, &lt;span class="dv"&gt;20&lt;/span&gt;, &lt;span class="dv"&gt;15&lt;/span&gt;, &lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="dv"&gt;0&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a href="#cb4-2" aria-hidden="true"&gt;&lt;/a&gt;flag &lt;span class="op"&gt;=&lt;/span&gt; a &lt;span class="op"&gt;&amp;lt;=&lt;/span&gt; b &lt;span class="kw"&gt;and&lt;/span&gt; b &lt;span class="op"&gt;&amp;gt;&lt;/span&gt; f &lt;span class="kw"&gt;and&lt;/span&gt; f &lt;span class="op"&gt;&amp;lt;&lt;/span&gt; c &lt;span class="kw"&gt;and&lt;/span&gt; c &lt;span class="op"&gt;&amp;gt;&lt;/span&gt; d &lt;span class="kw"&gt;and&lt;/span&gt; d &lt;span class="kw"&gt;is&lt;/span&gt; &lt;span class="kw"&gt;not&lt;/span&gt; f &lt;span class="kw"&gt;and&lt;/span&gt; f &lt;span class="kw"&gt;is&lt;/span&gt; g&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a href="#cb4-3" aria-hidden="true"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(flag)&lt;/span&gt;
+&lt;span id="cb4-4"&gt;&lt;a href="#cb4-4" aria-hidden="true"&gt;&lt;/a&gt;&lt;span class="co"&gt;# True&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You can see how tedious things might get. Python continues to amaze me with how beautiful and concise it can be.&lt;/p&gt;</description>
+<link>https://liams.me/posts/Chaining_comparison_operators/</link>
+<pubDate>Fri, 21 Aug 2020 23:53:00 +0000</pubDate>
+<guid>https://liams.me/posts/Chaining_comparison_operators/</guid>
+</item>
+<item>
 <title>A few words</title>
 <description>&lt;p&gt;This blog exists primarily because I’d like to further develop my ability to write as well as take on interesting topics and share my thoughts or explain them concisely. After all, what better way to is there to learn than to teach?&lt;/p&gt;</description>
 <link>https://liams.me/posts/A_few_words/</link>
