@@ -1,0 +1,275 @@
+@import url('https://rsms.me/inter/inter.css');
+@import url(https://cdn.jsdelivr.net/gh/tonsky/FiraCode@3/distr/fira_code.css);
+
+div.hot-links {
+  float: right;
+  padding: 0.3rem 0rem;
+  margin: -0.5rem 0;
+}
+
+.feed-button, .donate-button {
+  background-color: var(--dark-white);
+  border-radius: 0.2rem;
+  border: 0px solid var(--dark-white);
+  color: var(--black) !important;
+  font-size: 0.8rem;
+  margin: -0.5rem 0;
+  padding: 0.3rem 0.5rem;
+  text-decoration: none;
+}
+
+::-moz-selection, ::selection {
+  color: var(--black);
+  background: var(--cyan);
+}
+
+:root {
+  --cyan: #00cece;
+  --pink: #d344e2;
+  --black: #212121;
+  --light-black: #666666;
+  --white: #ffffff;
+  --dark-white: #eeeeee;
+
+  --light-yellow: #F7B955;
+  --dark-yellow: #F49B0B;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cyan: #79ffe1;
+    --pink: #ff3299;
+    --black: #dedede;
+    --light-black: #ccc;
+    --white: #000;
+    --dark-white: #323232;
+  }
+  ::-moz-selection, ::selection {
+    color: var(--white);
+    background: var(--cyan);
+  }
+}
+
+body { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+  body {
+    font-family: 'Inter var', sans-serif; 
+    font-feature-settings: 'ss01' 1, 'kern' 1, 'liga' 1, 'cv05' 1, 'tnum' 1;
+  }
+}
+
+body {
+  background-color: var(--white);
+  color: var(--black);
+  padding: 0;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  text-align: center;
+}
+
+html {
+  scroll-behavior: smooth;
+  padding: 0;
+  line-height: 1.5;
+  font-size: 18px;
+}
+
+h1 {
+  font-size: 1.8rem;
+}
+h2 {
+  font-size: 1.6rem;
+}
+h3 {
+  font-size: 1.4rem;
+}
+h4 {
+  font-size: 1.2rem;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  margin-top: 3rem;
+}
+h4, h5, h6 {
+  margin: 0;
+  margin-top: 1.5rem;
+}
+
+.subheading {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--light-black);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+figcaption {
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-post {
+  width: 70%;
+}
+
+.table-stats {
+  width: 30%;
+  text-align: right;
+}
+
+td {
+  padding: 0.5rem 0;
+}
+
+.posts {
+  width: 95%;
+  max-width: 650px;
+}
+
+pre:not(.sourceCode),div.sourceCode {
+  overflow: auto !important;
+  padding: 1.3rem;
+  margin: 1rem -1.3rem !important;
+  border: 2px solid var(--dark-white);
+  border-radius: 0.4rem;
+}
+
+pre, code {
+  font-family: 'Fira Code', monospace;
+}
+
+@supports (font-variation-settings: normal) {
+  pre, code {
+    font-family: 'Fira Code VF', monospace;  
+  }
+}
+
+code {
+  color: var(--pink);
+}
+
+pre > code {
+  white-space: pre !important;
+  border: none;
+  color: var(--black);
+}
+
+@media only screen and (min-width: 1080px) {
+  .posts {
+    max-width: 650px;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .posts {
+    max-width: 650px;
+  }
+}
+
+.posts {
+  text-align: left;
+  display: inline-block;
+}
+
+
+.post {
+  margin: 0.5rem;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 50%;
+}
+
+hr {
+  height: 2px;
+  background-color: var(--dark-white);
+  border: none;
+}
+
+.date {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--light-black);
+}
+
+.separator {
+  margin: 0;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-top: 2px solid var(--dark-white);
+}
+
+
+.intro {
+  font-size: 0.8rem;
+  overflow: auto;
+  padding: 1.3rem;
+  padding-right: 0.6rem;
+  border: 2px solid var(--dark-white);
+  border-radius: 0.4rem;
+  margin: 2rem -1.3rem;
+  font-family: 'Inter', sans-serif;
+}
+
+a, a:hover, a:visited, a:active {
+  transition: ease 0.2s;
+  color: var(--light-black);
+}
+
+.post-link, .post-link:hover, .post-link:visited, .post-link:active {
+  color: var(--black);
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+}
+
+.post-end-link, .post-end-link:hover, .post-end-link:visited, .post-end-link:active
+{
+  text-decoration: none;
+  color: var(--light-black);
+  text-shadow: none;
+  font-size: 0.8rem;
+}
+
+.post-text {
+  font-size: 0.9rem;
+}
+
+ul {
+  list-style: lower-greek inside none;
+}
+
+.stats {
+  float: right;
+  text-align: right;
+  color: var(--light-black);
+}
+
+.stats-number {
+  font-size: 0.8rem;
+}
+
+.stats-unit {
+  font-size: 0.6rem;
+}
+
+.footer {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.footimgs {
+  max-height: 0.7rem;
+  display: inline-block;
+  vertical-align: middle;
+  image-orientation: from-image;
+  cursor: pointer;
+  box-shadow: none;
+}
+

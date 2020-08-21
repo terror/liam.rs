@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/syntax.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1">
+    <meta content="#ffffff" name="theme-color">
+    <meta name="HandheldFriendly" content="true">
+    <meta property="og:title" content="<%=$title%>">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="programming, software, books">
+    <meta property="og:url" content="https://liams.me">
+    <link rel="icon" type="image/x-icon" href="/favicon.png">
+    <title><%=$title%> · liams.me</title>
+    <body>
+      <div class="posts">
+        <div class="post">
+          <a href="/" class="post-end-link">⟵ Back</a>
+          <a class="stats post-end-link" href="https://raw.githubusercontent.com/terror/liams.me/master/posts/<% basename $file%>">View Raw</a>
+          <div class="separator"></div>
+          <div class="date">
+            <%="$date"%>
+            <div class="stats">
+              <span class="stats-number">
+                <%="$height"%>
+              </span>
+              <span class="stats-unit">cm</span>
+              &nbsp
+              <span class="stats-number">
+                <%="$read_time"%>
+              </span>
+              <span class="stats-unit">min</span>
+            </div>
+          </div>
+          <h1>
+            <%=$title%>
+          </h1>
+          <div class="post-text">
+            <% pandoc --quiet -t html --highlight-style monochrome "$file" %>
+          </div>
+          <%= "$intro" %>
+          <a href="/" class="post-end-link">⟵ Back</a>
+          <a class="stats post-end-link" href="https://raw.githubusercontent.com/terror/liams.me/master/posts/<% basename $file%>">View Raw</a>
+        </div>
+      </div>
+    </body>
+</html>
