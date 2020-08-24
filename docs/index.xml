@@ -7,6 +7,13 @@
       <language>en-us</language>
       <copyright>Creative Commons BY-NC-SA 4.0</copyright>
       <item>
+<title>A few words</title>
+<description>&lt;p&gt;This blog exists primarily because I’d like to further develop my ability to write as well as take on interesting topics and share my thoughts or explain them concisely. After all, what better way is there to learn than to teach?&lt;/p&gt;</description>
+<link>https://liams.me/posts/A_few_words/</link>
+<pubDate>Mon, 24 Aug 2020 16:29:00 +0000</pubDate>
+<guid>https://liams.me/posts/A_few_words/</guid>
+</item>
+<item>
 <title>Chaining comparison operators</title>
 <description>&lt;p&gt;I recently came across this lesser known feature in Python and started to play around with it.&lt;/p&gt;
 &lt;p&gt;Being able to chain comparison operators is a rarity among most modern programming languages, which is a shame considering how elegant and intuitive it turns out to be.&lt;/p&gt;
@@ -32,13 +39,6 @@
 <link>https://liams.me/posts/Chaining_comparison_operators/</link>
 <pubDate>Fri, 21 Aug 2020 23:53:00 +0000</pubDate>
 <guid>https://liams.me/posts/Chaining_comparison_operators/</guid>
-</item>
-<item>
-<title>A few words</title>
-<description>&lt;p&gt;This blog exists primarily because I’d like to further develop my ability to write as well as take on interesting topics and share my thoughts or explain them concisely. After all, what better way to is there to learn than to teach?&lt;/p&gt;</description>
-<link>https://liams.me/posts/A_few_words/</link>
-<pubDate>Fri, 21 Aug 2020 00:02:00 +0000</pubDate>
-<guid>https://liams.me/posts/A_few_words/</guid>
 </item>
 
     </channel>
