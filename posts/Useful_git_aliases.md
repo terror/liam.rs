@@ -6,7 +6,6 @@ Some basic ones I use
 ```
 alias ga="git add"
 alias gc="git commit"
-alias gp="git pull"
 alias gd="git diff"
 alias gch="git checkout"
 alias gst="git status"

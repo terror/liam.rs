@@ -12,7 +12,6 @@
 &lt;p&gt;Some basic ones I use&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;alias ga=&amp;quot;git add&amp;quot;
 alias gc=&amp;quot;git commit&amp;quot;
-alias gp=&amp;quot;git pull&amp;quot;
 alias gd=&amp;quot;git diff&amp;quot;
 alias gch=&amp;quot;git checkout&amp;quot;
 alias gst=&amp;quot;git status&amp;quot;
@@ -35,7 +34,7 @@ last = log -1 HEAD&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;code&gt;last&lt;/code&gt; shows information for the last commit&lt;/p&gt;
 &lt;p&gt;Whether they make me more productive or not, I just enjoy using them and see no reason not to.&lt;/p&gt;</description>
 <link>https://liams.me/posts/Useful_git_aliases/</link>
-<pubDate>Wed, 02 Sep 2020 01:32:00 +0000</pubDate>
+<pubDate>Wed, 02 Sep 2020 20:25:00 +0000</pubDate>
 <guid>https://liams.me/posts/Useful_git_aliases/</guid>
 </item>
 <item>
