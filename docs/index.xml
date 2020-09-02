@@ -7,6 +7,38 @@
       <language>en-us</language>
       <copyright>Creative Commons BY-NC-SA 4.0</copyright>
       <item>
+<title>Useful git aliases</title>
+<description>&lt;p&gt;I really enjoy using &lt;code&gt;aliases&lt;/code&gt; for git commands because a) I’m lazy and b) it makes me feel more productive.&lt;/p&gt;
+&lt;p&gt;Some basic ones I use&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;alias ga=&amp;quot;git add&amp;quot;
+alias gc=&amp;quot;git commit&amp;quot;
+alias gp=&amp;quot;git pull&amp;quot;
+alias gd=&amp;quot;git diff&amp;quot;
+alias gch=&amp;quot;git checkout&amp;quot;
+alias gst=&amp;quot;git status&amp;quot;
+alias gp=&amp;quot;git push -u origin master&amp;quot;
+alias gpo=&amp;quot;git push origin&amp;quot;
+alias gb=&amp;quot;git branch&amp;quot;
+alias gcb=&amp;quot;git checkout -b&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;These ones are set up in my &lt;code&gt;.bashrc&lt;/code&gt; file so that I can just execute them as is, i.e &lt;code&gt;gc&lt;/code&gt; -&amp;gt; &lt;code&gt;git commit&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Some more complex ones (except for fetch) in my &lt;code&gt;.gitconfig&lt;/code&gt; I enjoy:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;f = fetch
+fu = fetch upstream master
+track = branch --set-upstream-to=upstream/master master
+parent = &amp;quot;!git show-branch | grep &amp;#39;*&amp;#39; | grep -v \&amp;quot;$(git rev-parse --abbrev-ref HEAD)\&amp;quot; | head -n1 | sed &amp;#39;s/.*\\[\\(.*\\)\\].*/\\1/&amp;#39; | sed &amp;#39;s/[\\^~].*//&amp;#39; #&amp;quot;
+lg = log --oneline
+last = log -1 HEAD&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;fu&lt;/code&gt; and &lt;code&gt;track&lt;/code&gt; are useful for doing things when I’m working on a forked repository&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;parent&lt;/code&gt; shows the parent branch of the current working branch&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;lg&lt;/code&gt; shows commit history one line at a time&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;last&lt;/code&gt; shows information for the last commit&lt;/p&gt;
+&lt;p&gt;Whether they make me more productive or not, I just enjoy using them and see no reason not to.&lt;/p&gt;</description>
+<link>https://liams.me/posts/Useful_git_aliases/</link>
+<pubDate>Wed, 02 Sep 2020 01:32:00 +0000</pubDate>
+<guid>https://liams.me/posts/Useful_git_aliases/</guid>
+</item>
+<item>
 <title>Chaining comparison operators</title>
 <description>&lt;p&gt;I recently came across this lesser known feature in Python and started to play around with it.&lt;/p&gt;
 &lt;p&gt;Being able to chain comparison operators is a rarity among most modern programming languages, which is a shame considering how elegant and intuitive it turns out to be.&lt;/p&gt;
