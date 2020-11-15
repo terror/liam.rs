@@ -7,6 +7,28 @@
       <language>en-us</language>
       <copyright>Creative Commons BY-NC-SA 4.0</copyright>
       <item>
+<title>How I read blogs</title>
+<description>&lt;p&gt;I have recently gotten into the habit of reading more blogs, in particular, ones featured on &lt;a href="https://news.ycombinator.com/news"&gt;HackerNews&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Reading books, personally, has been a difficult habit to cultivate over time, which I mainly attribute to the periodic feelings of being “stuck” or bored on a certain set of books. Blogs, however, offer a condensed read making them efficient and often amusing sources of information.&lt;/p&gt;
+&lt;p&gt;My typical sourcing routine would usually just consist of scrolling through HackerNews, potentially seeing something that peaked my interest and reading it, or realizing I didn’t have the time and putting the url off in a &lt;code&gt;.txt&lt;/code&gt; file somewhere.&lt;/p&gt;
+&lt;p&gt;Realizing the severe lack of efficiency present in this routine, I thought about how to make it better. First, by asking the question: what were the things I didn’t like?&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Having to scroll through articles myself&lt;/li&gt;
+&lt;li&gt;Reading on mobile or desktop&lt;/li&gt;
+&lt;li&gt;Having no effortless &lt;code&gt;like&lt;/code&gt; or &lt;code&gt;archive&lt;/code&gt; feature&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To address these problems I chose to try out &lt;a href="https://www.instapaper.com/"&gt;&lt;code&gt;Instapaper&lt;/code&gt;&lt;/a&gt; and build a simple tool called &lt;a href="https://github.com/terror/hackerpaper"&gt;&lt;code&gt;hackerpaper&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Instapaper has a feature that let’s you send articles to your Kindle, which makes reading blogs much more comfortable. Moreover, the built in &lt;code&gt;like&lt;/code&gt; and &lt;code&gt;archive&lt;/code&gt; features carryover to the Kindle as well, making it a seamless process of &lt;code&gt;read&lt;/code&gt; -&amp;gt; &lt;code&gt;archive or like&lt;/code&gt; -&amp;gt; &lt;code&gt;repeat&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To solve the issue of having to scroll through articles myself and add them to Instapaper, I built &lt;code&gt;hackerpaper&lt;/code&gt;. This tool sends HackerNews articles to Instapaper with certain filters such as type, subdomains or a specific article id.&lt;/p&gt;
+&lt;p&gt;I run a &lt;code&gt;cron job&lt;/code&gt; that sends the articles to Instapaper at 5:00AM and have Instapaper send those articles to my Kindle at 7:00AM.&lt;/p&gt;
+&lt;p&gt;The script is as simple as this:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true"&gt;&lt;/a&gt;&lt;span class="ex"&gt;~/path/to/python3&lt;/span&gt; ~/path/to/hackerpaper -a &lt;span class="op"&gt;&amp;lt;&lt;/span&gt;email&lt;span class="op"&gt;&amp;gt;&lt;/span&gt; &lt;span class="op"&gt;&amp;lt;&lt;/span&gt;password&lt;span class="op"&gt;&amp;gt;&lt;/span&gt; -t topstories&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;To recap the routine: - Have &lt;code&gt;hackerpaper&lt;/code&gt; send articles to Instapaper - Have &lt;code&gt;Instapaper&lt;/code&gt; send those articles to Kindle - Read and archive those articles - Repeat&lt;/p&gt;</description>
+<link>https://liams.me/posts/How_I_read_blogs/</link>
+<pubDate>Sun, 15 Nov 2020 18:53:00 +0000</pubDate>
+<guid>https://liams.me/posts/How_I_read_blogs/</guid>
+</item>
+<item>
 <title>Useful git aliases</title>
 <description>&lt;p&gt;I really enjoy using &lt;code&gt;aliases&lt;/code&gt; for git commands because a) I’m lazy and b) it makes me feel more productive.&lt;/p&gt;
 &lt;p&gt;Some basic ones I use&lt;/p&gt;
