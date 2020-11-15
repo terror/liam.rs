@@ -24,12 +24,12 @@
 &lt;p&gt;The script is as simple as:&lt;/p&gt;
 &lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true"&gt;&lt;/a&gt;$ &lt;span class="ex"&gt;~/path/to/python3&lt;/span&gt; ~/path/to/hackerpaper -a &lt;span class="op"&gt;&amp;lt;&lt;/span&gt;email&lt;span class="op"&gt;&amp;gt;&lt;/span&gt; &lt;span class="op"&gt;&amp;lt;&lt;/span&gt;password&lt;span class="op"&gt;&amp;gt;&lt;/span&gt; -t topstories&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;To recap the routine:&lt;br /&gt;
-- Have &lt;code&gt;hackerpaper&lt;/code&gt; send articles to Instapaper&lt;br /&gt;
-- Have &lt;code&gt;Instapaper&lt;/code&gt; send those articles to Kindle&lt;br /&gt;
-- Read and archive those articles&lt;br /&gt;
-- Repeat&lt;/p&gt;</description>
+1. Have &lt;code&gt;hackerpaper&lt;/code&gt; send articles to Instapaper&lt;br /&gt;
+2. Have &lt;code&gt;Instapaper&lt;/code&gt; send those articles to Kindle&lt;br /&gt;
+3. Read and archive those articles&lt;br /&gt;
+4. Repeat&lt;/p&gt;</description>
 <link>https://liams.me/posts/How_I_read_blogs/</link>
-<pubDate>Sun, 15 Nov 2020 18:59:00 +0000</pubDate>
+<pubDate>Sun, 15 Nov 2020 19:02:00 +0000</pubDate>
 <guid>https://liams.me/posts/How_I_read_blogs/</guid>
 </item>
 <item>

@@ -27,8 +27,8 @@ $ ~/path/to/python3 ~/path/to/hackerpaper -a <email> <password> -t topstories
 ```
 
 To recap the routine:  
-- Have `hackerpaper` send articles to Instapaper  
-- Have `Instapaper` send those articles to Kindle   
-- Read and archive those articles  
-- Repeat
+1. Have `hackerpaper` send articles to Instapaper  
+2. Have `Instapaper` send those articles to Kindle   
+3. Read and archive those articles  
+4. Repeat
 
