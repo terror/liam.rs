@@ -17,18 +17,18 @@ To address these problems I chose to try out [`Instapaper`](https://www.instapap
 
 Instapaper has a feature that let's you send articles to your Kindle, which makes reading blogs much more comfortable. Moreover, the built in `like` and `archive` features carryover to the Kindle as well, making it a seamless process of `read` -> `archive or like` -> `repeat`.
 
-To solve the issue of having to scroll through articles myself and add them to Instapaper, I built `hackerpaper`. This tool sends HackerNews articles to Instapaper with certain filters such as type, subdomains or a specific article id.
+To solve the issue of having to scroll through articles myself and add them to Instapaper, as mentioned above, I built `hackerpaper`. This tool sends HackerNews articles to Instapaper with certain filters such as type, subdomains or a specific article id.
 
 I run a `cron job` that sends the articles to Instapaper at 5:00AM and have Instapaper send those articles to my Kindle at 7:00AM.
 
-The script is as simple as this:
+The script is as simple as:
 ```bash
-~/path/to/python3 ~/path/to/hackerpaper -a <email> <password> -t topstories
+$ ~/path/to/python3 ~/path/to/hackerpaper -a <email> <password> -t topstories
 ```
 
-To recap the routine:
-- Have `hackerpaper` send articles to Instapaper
-- Have `Instapaper` send those articles to Kindle 
-- Read and archive those articles
+To recap the routine:  
+- Have `hackerpaper` send articles to Instapaper  
+- Have `Instapaper` send those articles to Kindle   
+- Read and archive those articles  
 - Repeat
 

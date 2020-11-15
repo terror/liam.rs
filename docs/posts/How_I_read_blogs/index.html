@@ -38,7 +38,7 @@
               <span class="stats-unit">cm</span>
               &nbsp
               <span class="stats-number">
-                2.1
+                2.2
               </span>
               <span class="stats-unit">min</span>
             </div>
@@ -58,11 +58,15 @@
 </ol>
 <p>To address these problems I chose to try out <a href="https://www.instapaper.com/"><code>Instapaper</code></a> and build a simple tool called <a href="https://github.com/terror/hackerpaper"><code>hackerpaper</code></a>.</p>
 <p>Instapaper has a feature that let’s you send articles to your Kindle, which makes reading blogs much more comfortable. Moreover, the built in <code>like</code> and <code>archive</code> features carryover to the Kindle as well, making it a seamless process of <code>read</code> -&gt; <code>archive or like</code> -&gt; <code>repeat</code>.</p>
-<p>To solve the issue of having to scroll through articles myself and add them to Instapaper, I built <code>hackerpaper</code>. This tool sends HackerNews articles to Instapaper with certain filters such as type, subdomains or a specific article id.</p>
+<p>To solve the issue of having to scroll through articles myself and add them to Instapaper, as mentioned above, I built <code>hackerpaper</code>. This tool sends HackerNews articles to Instapaper with certain filters such as type, subdomains or a specific article id.</p>
 <p>I run a <code>cron job</code> that sends the articles to Instapaper at 5:00AM and have Instapaper send those articles to my Kindle at 7:00AM.</p>
-<p>The script is as simple as this:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ex">~/path/to/python3</span> ~/path/to/hackerpaper -a <span class="op">&lt;</span>email<span class="op">&gt;</span> <span class="op">&lt;</span>password<span class="op">&gt;</span> -t topstories</span></code></pre></div>
-<p>To recap the routine: - Have <code>hackerpaper</code> send articles to Instapaper - Have <code>Instapaper</code> send those articles to Kindle - Read and archive those articles - Repeat</p>
+<p>The script is as simple as:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>$ <span class="ex">~/path/to/python3</span> ~/path/to/hackerpaper -a <span class="op">&lt;</span>email<span class="op">&gt;</span> <span class="op">&lt;</span>password<span class="op">&gt;</span> -t topstories</span></code></pre></div>
+<p>To recap the routine:<br />
+- Have <code>hackerpaper</code> send articles to Instapaper<br />
+- Have <code>Instapaper</code> send those articles to Kindle<br />
+- Read and archive those articles<br />
+- Repeat</p>
 
           </div>
           
