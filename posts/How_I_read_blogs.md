@@ -26,9 +26,10 @@ The script is as simple as:
 $ ~/path/to/python3 ~/path/to/hackerpaper -a <email> <password> -t topstories
 ```
 
-To recap the routine:  
-1. Have `hackerpaper` send articles to Instapaper  
-2. Have `Instapaper` send those articles to Kindle   
-3. Read and archive those articles  
+To recap the routine:
+
+1. Have `hackerpaper` send articles to Instapaper
+2. Have `Instapaper` send those articles to Kindle
+3. Read and archive those articles
 4. Repeat
 
