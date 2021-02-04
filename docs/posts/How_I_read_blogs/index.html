@@ -61,7 +61,7 @@
 <p>To solve the issue of having to scroll through articles myself and add them to Instapaper, as mentioned above, I built <code>hackerpaper</code>. This tool sends HackerNews articles to Instapaper with certain filters such as type, subdomains or a specific article id.</p>
 <p>I run a <code>cron job</code> that sends the articles to Instapaper at 5:00AM and have Instapaper send those articles to my Kindle at 7:00AM.</p>
 <p>The script is as simple as:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>$ <span class="ex">~/path/to/python3</span> ~/path/to/hackerpaper -a <span class="op">&lt;</span>email<span class="op">&gt;</span> <span class="op">&lt;</span>password<span class="op">&gt;</span> -t topstories</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ~/path/to/python3 ~/path/to/hackerpaper <span class="at">-a</span> <span class="op">&lt;</span>email<span class="op">&gt;</span> <span class="op">&lt;</span>password<span class="op">&gt;</span> -t topstories</span></code></pre></div>
 <p>To recap the routine:</p>
 <ol type="1">
 <li>Have <code>hackerpaper</code> send articles to Instapaper</li>

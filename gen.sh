@@ -74,7 +74,7 @@ cat > ./docs/index.html << EOF
 <meta property="og:type" content="website">
 <meta property="og:description" content="liam's musings">
 <meta property="og:url" content="https://liams.me">
-<title>liams.me</title>
+<title>liam.rs</title>
 <body>
     <div>
     <img src="https://files.catbox.moe/2jvig1.jpeg" width="100" height="100">
