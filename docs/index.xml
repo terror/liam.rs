@@ -7,6 +7,26 @@
       <language>en-us</language>
       <copyright>Creative Commons BY-NC-SA 4.0</copyright>
       <item>
+<title>Binary search for bugs</title>
+<description>&lt;p&gt;I recently encountered a build failure in a dependency of a Rust crate I was trying to install which led me to be introduced to a git command called &lt;code&gt;bisect&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;From the official docs found over at &lt;a href="https://git-scm.com/docs/git-bisect"&gt;git-scm.com&lt;/a&gt;, the small description under the name heading reads:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Use binary search to find the commit that introduced a bug&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Sounds super cool right? Using this feature I was able to track down the commit that introduced the bug in less than 6 steps.&lt;/p&gt;
+&lt;p&gt;Here’s a general overview of how this command works:&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;p&gt;Run &lt;code&gt;git bisect start&lt;/code&gt; to start the bisect session&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Specify a bad commit (usually HEAD) using &lt;code&gt;git bisect bad &amp;lt;commit-id&amp;gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Specify a good commit using &lt;code&gt;git bisect good &amp;lt;commit-id&amp;gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This will kick off the binary search and pick a new commit in which you can evaluate using &lt;code&gt;git bisect good&lt;/code&gt; or &lt;code&gt;git bisect bad&lt;/code&gt;, in between the two endpoints.&lt;/p&gt;
+&lt;p&gt;It is clear that using this method, over the linear scan approach, can save a tremendous amount of time in the quest for finding where a breaking change was introduced.&lt;/p&gt;</description>
+<link>https://liams.me/posts/Binary_search_for_bugs/</link>
+<pubDate>Mon, 15 Feb 2021 22:04:00 +0000</pubDate>
+<guid>https://liams.me/posts/Binary_search_for_bugs/</guid>
+</item>
+<item>
 <title>How I read blogs</title>
 <description>&lt;p&gt;I have recently gotten into the habit of reading more blogs, in particular, ones featured on &lt;a href="https://news.ycombinator.com/news"&gt;HackerNews&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Reading books, personally, has been a difficult habit to cultivate over time, which I mainly attribute to the periodic feelings of being “stuck” or bored on a certain set of books. Blogs, however, offer a condensed read making them efficient and often amusing sources of information.&lt;/p&gt;
