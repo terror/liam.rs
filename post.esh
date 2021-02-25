@@ -19,14 +19,14 @@
     <meta property="og:title" content="<%=$title%>">
     <meta property="og:type" content="website">
     <meta property="og:description" content="programming, software, books">
-    <meta property="og:url" content="https://liams.me">
+    <meta property="og:url" content="https://liam.rs">
     <link rel="icon" type="image/x-icon" href="/favicon.png">
-    <title><%=$title%> · liams.me</title>
+    <title><%=$title%> · liam.rs</title>
     <body>
       <div class="posts">
         <div class="post">
           <a href="/" class="post-end-link">⟵ Back</a>
-          <a class="stats post-end-link" href="https://raw.githubusercontent.com/terror/liams.me/master/posts/<% basename $file%>">View Raw</a>
+          <a class="stats post-end-link" href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/<% basename $file%>">View Raw</a>
           <div class="separator"></div>
           <div class="date">
             <%="$date"%>
@@ -50,7 +50,7 @@
           </div>
           <%= "$intro" %>
           <a href="/" class="post-end-link">⟵ Back</a>
-          <a class="stats post-end-link" href="https://raw.githubusercontent.com/terror/liams.me/master/posts/<% basename $file%>">View Raw</a>
+          <a class="stats post-end-link" href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/<% basename $file%>">View Raw</a>
         </div>
       </div>
     </body>

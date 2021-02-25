@@ -36,17 +36,17 @@ link_wrapper() {
 intro() {
     echo -ne "
     <div class="intro">
-        Hi. 
+        Hi.
         <div class="hot-links">
             <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
             <a href="https://www.buymeacoffee.com/terror" class="donate-button" target="_blank">Donate</a>
         </div>
         <p>I'm Liam, I go by terror on the internet.</p>
         <p>
-        I am a second year Computer Science Student @ John Abbott College. 
+        I am a second year Computer Science Student @ John Abbott College.
         When I'm not doing coursework, I enjoy bodybuilding, reading and solving programming problems.
         </p>
-        <p>Send me a message by email at liamscalzulli@gmail.com or discord at liam#0005</p>
+        <p>Send me a message by email at liam@scalzulli.com or discord at liam#0005</p>
     </div>
     "
 }
@@ -93,7 +93,7 @@ rm -rf "./docs/posts/"
 
 for f in $posts; do
     file="./posts/$f"
-    id="${file##*/}"   
+    id="${file##*/}"
 
     # generate posts
     stats=$(wc "$file")
@@ -131,9 +131,9 @@ cat >> ./docs/index.html << EOF
     </table>
     <div class="separator"></div>
     <div class="footer">
-        <a href="https://linkedin.com/in/liam-scalzulli" target="_blank">LinkedIn</a> · 
-        <a href="https://github.com/terror" target="_blank">Github</a> · 
-        <a href="mailto:liamscalzulli@gmail.com">Mail</a> · 
+        <a href="https://linkedin.com/in/liam-scalzulli" target="_blank">LinkedIn</a> ·
+        <a href="https://github.com/terror" target="_blank">Github</a> ·
+        <a href="mailto:liamscalzulli@gmail.com">Mail</a> ·
         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
             <img class="footimgs" src="https://d33wubrfki0l68.cloudfront.net/94387e9d77fbc8b4360db81e72603ecba3df94a7/632bc/static/cc.svg">
         </a>

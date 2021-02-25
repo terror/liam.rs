@@ -1,9 +1,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
       <title>liam's blog</title>
-      <link>https://liams.me</link>
+      <link>https://liam.rs</link>
       <description>programming, software, books</description>
-      <atom:link href="https://liams.me/index.xml" rel="self" type="application/rss+xml" />
+      <atom:link href="https://liam.rs/index.xml" rel="self" type="application/rss+xml" />
       <language>en-us</language>
       <copyright>Creative Commons BY-NC-SA 4.0</copyright>
       <% for f in `ls -t ./posts`; do
@@ -13,7 +13,7 @@
           id="${file##*/}"
           id="${id%.*}"
           post_title=$(echo "$id" | sed -E -e "s/\..+$//g"  -e "s/_(.)/ \1/g" -e "s/^(.)/\1/g")
-          post_link="https://liams.me/posts/$id/"
+          post_link="https://liam.rs/posts/$id/"
 
           echo "<item>"
 
