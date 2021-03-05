@@ -112,7 +112,7 @@ for f in $posts; do
     mkdir -p "docs/posts/$id"
     esh -s /bin/bash \
         -o "docs/posts/$id/index.html" \
-        "./post.esh" \
+        "./templates/post.esh" \
         file="$file" \
         date="$post_date" \
         title="$post_title" \
@@ -125,7 +125,7 @@ done
 echo "generating RSS feeds ..."
 esh -s /bin/bash \
     -o "./docs/index.xml" \
-    "rss.esh"
+    "./templates/rss.esh"
 
 cat >> ./docs/index.html << EOF
     </table>
