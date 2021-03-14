@@ -1,5 +1,9 @@
 #! /usr/bin/env bash
 
+#	 ───────────────────────────────────────────────────────────────────────────│─╗
+#	 │ Utilities                                                              ─╬─│┼
+#	 ╚────────────────────────────────────────────────────────────────────────────│
+
 title_wrapper() {
     echo "$1" | sed -E -e "s/\..+$//g"  -e "s/_(.)/ \1/g" -e "s/^(.)/\1/g"
 }
@@ -51,6 +55,10 @@ intro() {
     "
 }
 
+#	 ───────────────────────────────────────────────────────────────────────────│─╗
+#	 │ Meta & Intro                                                           ─╬─│┼
+#	 ╚────────────────────────────────────────────────────────────────────────────│
+
 cat > ./docs/index.html << EOF
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +69,6 @@ cat > ./docs/index.html << EOF
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'UA-151954055-3');
 </script>
 <link rel="stylesheet" href="./style.css">
@@ -86,7 +93,10 @@ EOF
 
 echo -ne "$(intro)<table>" >> ./docs/index.html
 
-# posts
+#	 ───────────────────────────────────────────────────────────────────────────│─╗
+#	 │ Posts                                                                  ─╬─│┼
+#	 ╚────────────────────────────────────────────────────────────────────────────│
+
 posts=$(ls -t ./posts)
 mkdir -p docs/posts
 rm -rf "./docs/posts/"
@@ -95,7 +105,6 @@ for f in $posts; do
     file="./posts/$f"
     id="${file##*/}"
 
-    # generate posts
     stats=$(wc "$file")
     words="$(echo $stats | awk '{ print $2 }')"
     lines="$(echo $stats | awk '{ print $1 }')"
@@ -121,19 +130,27 @@ for f in $posts; do
         intro="$(intro)"
 done
 
-# generate rss feeds
+#	 ───────────────────────────────────────────────────────────────────────────│─╗
+#	 │ RSS                                                                    ─╬─│┼
+#	 ╚────────────────────────────────────────────────────────────────────────────│
+
 echo "generating RSS feeds ..."
 esh -s /bin/bash \
     -o "./docs/index.xml" \
     "./templates/rss.esh"
 
+#	 ───────────────────────────────────────────────────────────────────────────│─╗
+#	 │ Footer                                                                 ─╬─│┼
+#	 ╚────────────────────────────────────────────────────────────────────────────│
+
 cat >> ./docs/index.html << EOF
     </table>
     <div class="separator"></div>
     <div class="footer">
+        <a href="https://www.goodreads.com/mail" target="_blank">Books</a> ·
         <a href="https://linkedin.com/in/liam-scalzulli" target="_blank">LinkedIn</a> ·
         <a href="https://github.com/terror" target="_blank">Github</a> ·
-        <a href="mailto:liamscalzulli@gmail.com">Mail</a> ·
+        <a href="mailto:liam@scalzulli.com">Mail</a> ·
         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
             <img class="footimgs" src="https://d33wubrfki0l68.cloudfront.net/94387e9d77fbc8b4360db81e72603ecba3df94a7/632bc/static/cc.svg">
         </a>
