@@ -7,6 +7,103 @@
       <language>en-us</language>
       <copyright>Creative Commons BY-NC-SA 4.0</copyright>
       <item>
+<title>Higher order functions</title>
+<description>&lt;p&gt;The higher-order function is one of the many powerful and important concepts I have run into when dabbling in the world of functional programming.&lt;/p&gt;
+&lt;p&gt;Before diving into the details, it’s worth mentioning that in certain languages like Python or Javascript, functions are treated as first-class citizens. What does this mean? It means that functions can be stored in variables, passed around to functions or returned from functions, just as you would be able to do with a primitive or non-primitive data type.&lt;/p&gt;
+&lt;p&gt;Knowing this, a higher-order function is a function that either takes in a function as input or returns a function as output.&lt;/p&gt;
+&lt;p&gt;Examples of higher-order functions that you may deal with on a daily basis but may be unaware of the underlying concept: &lt;code&gt;filter&lt;/code&gt;, &lt;code&gt;map&lt;/code&gt;, &lt;code&gt;reduce&lt;/code&gt;, &lt;code&gt;sort&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Now that definitions are taken care of, let’s take a look at some examples:&lt;/p&gt;
+&lt;h3 id="filter"&gt;Filter&lt;/h3&gt;
+&lt;p&gt;Problem: &lt;em&gt;given an arbitrary iterable, filter out elements whose value fail to meet a certain criteria.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;filter&lt;/code&gt; function takes in a single-argument predicate function (a function that returns a boolean value) and an iterable, and returns a new iterable that consists of each element in the passed in iterable that when passed into to the predicate function evaluate to true.&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; &lt;span class="bu"&gt;filter&lt;/span&gt;(func, iterable):&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a href="#cb1-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;return&lt;/span&gt; [el &lt;span class="cf"&gt;for&lt;/span&gt; el &lt;span class="kw"&gt;in&lt;/span&gt; iterable &lt;span class="cf"&gt;if&lt;/span&gt; func(el)]&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a href="#cb1-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a href="#cb1-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="bu"&gt;filter&lt;/span&gt;(&lt;span class="kw"&gt;lambda&lt;/span&gt; x: x &lt;span class="op"&gt;&amp;amp;&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;, [&lt;span class="dv"&gt;1&lt;/span&gt;, &lt;span class="dv"&gt;2&lt;/span&gt;, &lt;span class="dv"&gt;3&lt;/span&gt;, &lt;span class="dv"&gt;4&lt;/span&gt;, &lt;span class="dv"&gt;5&lt;/span&gt;])) &lt;span class="co"&gt;# [1, 3 ,5]&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="map"&gt;Map&lt;/h3&gt;
+&lt;p&gt;Problem: &lt;em&gt;given an arbitrary iterable, apply some transformation to each element in that iterable.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;map&lt;/code&gt; function takes in a single-argument function and an iterable applies that function to each item in the iterable, returning the resulting iterable.&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb2-1"&gt;&lt;a href="#cb2-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; &lt;span class="bu"&gt;map&lt;/span&gt;(func, iterable):&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a href="#cb2-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;return&lt;/span&gt; [func(x) &lt;span class="cf"&gt;for&lt;/span&gt; x &lt;span class="kw"&gt;in&lt;/span&gt; iterable]&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a href="#cb2-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-4"&gt;&lt;a href="#cb2-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="bu"&gt;map&lt;/span&gt;(&lt;span class="kw"&gt;lambda&lt;/span&gt; x: x &lt;span class="op"&gt;//&lt;/span&gt; &lt;span class="dv"&gt;2&lt;/span&gt;, [&lt;span class="dv"&gt;2&lt;/span&gt;, &lt;span class="dv"&gt;4&lt;/span&gt;, &lt;span class="dv"&gt;6&lt;/span&gt;, &lt;span class="dv"&gt;8&lt;/span&gt;])) &lt;span class="co"&gt;# [1, 2, 3, 4]&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="reduce"&gt;Reduce&lt;/h3&gt;
+&lt;p&gt;Problem: &lt;em&gt;given an arbitrary iterable, accumulate some transformation to each element in that iterable and return the resulting value.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;reduce&lt;/code&gt; function takes in a two-argument function and an iterable and applies that function to elements in the iterable, accumulating the result along the way.&lt;/p&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb3-1"&gt;&lt;a href="#cb3-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; &lt;span class="bu"&gt;reduce&lt;/span&gt;(func, iterable, init&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;None&lt;/span&gt;):&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a href="#cb3-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  it  &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="bu"&gt;iter&lt;/span&gt;(iterable)&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a href="#cb3-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  val &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="bu"&gt;next&lt;/span&gt;(it) &lt;span class="cf"&gt;if&lt;/span&gt; init &lt;span class="kw"&gt;is&lt;/span&gt; &lt;span class="va"&gt;None&lt;/span&gt; &lt;span class="cf"&gt;else&lt;/span&gt; init&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a href="#cb3-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-5"&gt;&lt;a href="#cb3-5" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;for&lt;/span&gt; el &lt;span class="kw"&gt;in&lt;/span&gt; it:&lt;/span&gt;
+&lt;span id="cb3-6"&gt;&lt;a href="#cb3-6" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    val &lt;span class="op"&gt;=&lt;/span&gt; func(val, el)&lt;/span&gt;
+&lt;span id="cb3-7"&gt;&lt;a href="#cb3-7" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-8"&gt;&lt;a href="#cb3-8" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;return&lt;/span&gt; val&lt;/span&gt;
+&lt;span id="cb3-9"&gt;&lt;a href="#cb3-9" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-10"&gt;&lt;a href="#cb3-10" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="bu"&gt;reduce&lt;/span&gt;(&lt;span class="kw"&gt;lambda&lt;/span&gt; x, y: x &lt;span class="op"&gt;*&lt;/span&gt; y, [&lt;span class="dv"&gt;1&lt;/span&gt;, &lt;span class="dv"&gt;2&lt;/span&gt;, &lt;span class="dv"&gt;3&lt;/span&gt;])) &lt;span class="co"&gt;# 6&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;As we can see above, we first deal with our initializer value, if none is present we use the first element in the list.&lt;/p&gt;
+&lt;p&gt;We then run through the list, applying the passed in &lt;code&gt;func&lt;/code&gt; with our current value and each subsequent element in the list.&lt;/p&gt;
+&lt;h3 id="composition-of-programs"&gt;Composition of programs&lt;/h3&gt;
+&lt;p&gt;Now that we’ve gone through some basic examples, let’s see how this pattern might be useful in a practical scenerio.&lt;/p&gt;
+&lt;p&gt;Problem: &lt;em&gt;write a program that outputs the sum of naturals, squares and cubes from numbers 1 to N where N is some arbitrary input&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Seems easy enough? Without the use of higher order functions, we can simple write the program like so:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb4-1"&gt;&lt;a href="#cb4-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; natural(N):&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a href="#cb4-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;return&lt;/span&gt; &lt;span class="bu"&gt;sum&lt;/span&gt;([x &lt;span class="cf"&gt;for&lt;/span&gt; x &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(&lt;span class="dv"&gt;1&lt;/span&gt;, N &lt;span class="op"&gt;+&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;)])&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a href="#cb4-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-4"&gt;&lt;a href="#cb4-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; square(N):&lt;/span&gt;
+&lt;span id="cb4-5"&gt;&lt;a href="#cb4-5" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;return&lt;/span&gt; &lt;span class="bu"&gt;sum&lt;/span&gt;([x &lt;span class="op"&gt;**&lt;/span&gt; &lt;span class="dv"&gt;2&lt;/span&gt; &lt;span class="cf"&gt;for&lt;/span&gt; x &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(&lt;span class="dv"&gt;1&lt;/span&gt;, N &lt;span class="op"&gt;+&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;)])&lt;/span&gt;
+&lt;span id="cb4-6"&gt;&lt;a href="#cb4-6" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-7"&gt;&lt;a href="#cb4-7" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; cube(N):&lt;/span&gt;
+&lt;span id="cb4-8"&gt;&lt;a href="#cb4-8" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;return&lt;/span&gt; &lt;span class="bu"&gt;sum&lt;/span&gt;([x &lt;span class="op"&gt;**&lt;/span&gt; &lt;span class="dv"&gt;3&lt;/span&gt; &lt;span class="cf"&gt;for&lt;/span&gt; x &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(&lt;span class="dv"&gt;1&lt;/span&gt;, N &lt;span class="op"&gt;+&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;)])&lt;/span&gt;
+&lt;span id="cb4-9"&gt;&lt;a href="#cb4-9" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-10"&gt;&lt;a href="#cb4-10" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; main(N):&lt;/span&gt;
+&lt;span id="cb4-11"&gt;&lt;a href="#cb4-11" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;for&lt;/span&gt; func &lt;span class="kw"&gt;in&lt;/span&gt; [natural, square, cube]:&lt;/span&gt;
+&lt;span id="cb4-12"&gt;&lt;a href="#cb4-12" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(func(N))&lt;/span&gt;
+&lt;span id="cb4-13"&gt;&lt;a href="#cb4-13" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-14"&gt;&lt;a href="#cb4-14" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;if&lt;/span&gt; &lt;span class="va"&gt;__name__&lt;/span&gt; &lt;span class="op"&gt;==&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb4-15"&gt;&lt;a href="#cb4-15" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  main(&lt;span class="bu"&gt;int&lt;/span&gt;(&lt;span class="bu"&gt;input&lt;/span&gt;()))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Notice that the three different functions are actually very similar, the only difference is the &lt;em&gt;transformation of data&lt;/em&gt; we perform on each number in the sequence.&lt;/p&gt;
+&lt;p&gt;We can introduce a higher order function that &lt;em&gt;applies&lt;/em&gt; this transformation to the data.&lt;/p&gt;
+&lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb5-1"&gt;&lt;a href="#cb5-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; summation(func, N):&lt;/span&gt;
+&lt;span id="cb5-2"&gt;&lt;a href="#cb5-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;return&lt;/span&gt; &lt;span class="bu"&gt;sum&lt;/span&gt;(&lt;span class="bu"&gt;list&lt;/span&gt;(&lt;span class="bu"&gt;map&lt;/span&gt;(func, &lt;span class="bu"&gt;range&lt;/span&gt;(&lt;span class="dv"&gt;1&lt;/span&gt;, N &lt;span class="op"&gt;+&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;))))&lt;/span&gt;
+&lt;span id="cb5-3"&gt;&lt;a href="#cb5-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb5-4"&gt;&lt;a href="#cb5-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; main(N):&lt;/span&gt;
+&lt;span id="cb5-5"&gt;&lt;a href="#cb5-5" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;for&lt;/span&gt; func &lt;span class="kw"&gt;in&lt;/span&gt; [&lt;span class="kw"&gt;lambda&lt;/span&gt; x: x, &lt;span class="kw"&gt;lambda&lt;/span&gt; x: x &lt;span class="op"&gt;**&lt;/span&gt; &lt;span class="dv"&gt;2&lt;/span&gt;, &lt;span class="kw"&gt;lambda&lt;/span&gt; x: x &lt;span class="op"&gt;**&lt;/span&gt; &lt;span class="dv"&gt;3&lt;/span&gt;]:&lt;/span&gt;
+&lt;span id="cb5-6"&gt;&lt;a href="#cb5-6" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(summation(func, N))&lt;/span&gt;
+&lt;span id="cb5-7"&gt;&lt;a href="#cb5-7" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb5-8"&gt;&lt;a href="#cb5-8" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;if&lt;/span&gt; &lt;span class="va"&gt;__name__&lt;/span&gt; &lt;span class="op"&gt;==&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb5-9"&gt;&lt;a href="#cb5-9" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  main(&lt;span class="bu"&gt;int&lt;/span&gt;(&lt;span class="bu"&gt;input&lt;/span&gt;()))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="decorators"&gt;Decorators&lt;/h3&gt;
+&lt;p&gt;It’s worth covering another type of higher-order function, one that &lt;em&gt;returns&lt;/em&gt; a function. In Python, the idea of a &lt;em&gt;decorator&lt;/em&gt; is simply a function that takes in another function and returns a new one with some modified behaviour.&lt;/p&gt;
+&lt;p&gt;Here’s a simple example of a timer, a function that computes the time of a function call.&lt;/p&gt;
+&lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb6-1"&gt;&lt;a href="#cb6-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; time&lt;/span&gt;
+&lt;span id="cb6-2"&gt;&lt;a href="#cb6-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb6-3"&gt;&lt;a href="#cb6-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; timer(func):&lt;/span&gt;
+&lt;span id="cb6-4"&gt;&lt;a href="#cb6-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="kw"&gt;def&lt;/span&gt; wrap(&lt;span class="op"&gt;*&lt;/span&gt;args, &lt;span class="op"&gt;**&lt;/span&gt;kwargs):&lt;/span&gt;
+&lt;span id="cb6-5"&gt;&lt;a href="#cb6-5" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    start &lt;span class="op"&gt;=&lt;/span&gt; time.perf_counter()&lt;/span&gt;
+&lt;span id="cb6-6"&gt;&lt;a href="#cb6-6" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    func(&lt;span class="op"&gt;*&lt;/span&gt;args, &lt;span class="op"&gt;**&lt;/span&gt;kwargs)&lt;/span&gt;
+&lt;span id="cb6-7"&gt;&lt;a href="#cb6-7" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    end   &lt;span class="op"&gt;=&lt;/span&gt; time.perf_counter()&lt;/span&gt;
+&lt;span id="cb6-8"&gt;&lt;a href="#cb6-8" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f&amp;#39;Function &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;func&lt;span class="sc"&gt;.&lt;/span&gt;&lt;span class="va"&gt;__name__&lt;/span&gt;&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt; executed in &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;end &lt;span class="op"&gt;-&lt;/span&gt; start&lt;span class="sc"&gt;:.4f}&lt;/span&gt;&lt;span class="ss"&gt;s&amp;#39;&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb6-9"&gt;&lt;a href="#cb6-9" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;return&lt;/span&gt; wrap&lt;/span&gt;
+&lt;span id="cb6-10"&gt;&lt;a href="#cb6-10" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb6-11"&gt;&lt;a href="#cb6-11" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;@timer&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-12"&gt;&lt;a href="#cb6-12" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; waste(n):&lt;/span&gt;
+&lt;span id="cb6-13"&gt;&lt;a href="#cb6-13" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;for&lt;/span&gt; _ &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(n):&lt;/span&gt;
+&lt;span id="cb6-14"&gt;&lt;a href="#cb6-14" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;pass&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-15"&gt;&lt;a href="#cb6-15" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb6-16"&gt;&lt;a href="#cb6-16" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; main():&lt;/span&gt;
+&lt;span id="cb6-17"&gt;&lt;a href="#cb6-17" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  waste(&lt;span class="dv"&gt;2000000&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb6-18"&gt;&lt;a href="#cb6-18" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb6-19"&gt;&lt;a href="#cb6-19" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;if&lt;/span&gt; &lt;span class="va"&gt;__name__&lt;/span&gt; &lt;span class="op"&gt;==&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb6-20"&gt;&lt;a href="#cb6-20" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  main() &lt;span class="co"&gt;# Function waste executed in 0.0396s&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;As we can see, the function &lt;code&gt;timer&lt;/code&gt; takes in a function as input and returns a wrapper function that modifies the behaviour of the passed in function by performing operations before and after the function call. Now the new function will embody this new behaviour whenever it is called.&lt;/p&gt;
+&lt;h3 id="fin"&gt;Fin&lt;/h3&gt;
+&lt;p&gt;Being able to treat functions as first-class citizens in your programming language is a powerful idea to wrap your head around and a worth while design choice when composing large scale and complex applications.&lt;/p&gt;
+&lt;p&gt;All of the functions written for this post can be found here -&amp;gt; &lt;a href="https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e"&gt;https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e&lt;/a&gt;&lt;/p&gt;</description>
+<link>https://liam.rs/posts/Higher_order_functions/</link>
+<pubDate>Tue, 08 Jun 2021 17:20:00 +0000</pubDate>
+<guid>https://liam.rs/posts/Higher_order_functions/</guid>
+</item>
+<item>
 <title>Binary search for bugs</title>
 <description>&lt;p&gt;I recently encountered a build failure in a dependency of a Rust crate I was trying to install which led me to be introduced to a git command called &lt;code&gt;bisect&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;From the official docs found over at &lt;a href="https://git-scm.com/docs/git-bisect"&gt;git-scm.com&lt;/a&gt;, the small description under the name heading reads:&lt;/p&gt;

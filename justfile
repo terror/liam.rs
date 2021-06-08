@@ -1,5 +1,5 @@
 gen:
-    ./gen.sh
+	./gen.sh
 
 dev:
-    open -a "Google Chrome" ./docs/index.html
+	open -a "Google Chrome" ./docs/index.html
