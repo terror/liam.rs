@@ -84,7 +84,7 @@ cat > ./docs/index.html << EOF
 <title>liam.rs</title>
 <body>
     <div>
-    <img src="https://files.catbox.moe/2jvig1.jpeg" width="100" height="100">
+    <img src="https://files.catbox.moe/s77mzm.jpeg" width="105" height="105">
     <h4 class="subheading">liam's musings</h4>
     </div>
     <div class="posts">
