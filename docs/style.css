@@ -53,7 +53,7 @@ div.hot-links {
 body { font-family: 'Inter', sans-serif; }
 @supports (font-variation-settings: normal) {
   body {
-    font-family: 'Inter var', sans-serif; 
+    font-family: 'Inter var', sans-serif;
     font-feature-settings: 'ss01' 1, 'kern' 1, 'liga' 1, 'cv05' 1, 'tnum' 1;
   }
 }
@@ -145,7 +145,7 @@ pre, code {
 
 @supports (font-variation-settings: normal) {
   pre, code {
-    font-family: 'Fira Code VF', monospace;  
+    font-family: 'Fira Code VF', monospace;
   }
 }
 
@@ -213,7 +213,7 @@ hr {
   padding-right: 0.6rem;
   border: 2px solid var(--dark-white);
   border-radius: 0.4rem;
-  margin: 2rem -1.3rem;
+  margin: 1rem -1.3rem;
   font-family: 'Inter', sans-serif;
 }
 
@@ -273,3 +273,17 @@ ul {
   box-shadow: none;
 }
 
+.recent-heading {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--black);
+  padding-top: 1rem;
+}
+
+.post-end-link, .post-end-link:hover, .post-end-link:visited, .post-end-link:active
+{
+  text-decoration: none;
+  color: var(--light-black);
+  text-shadow: none;
+  font-size: 0.8rem;
+}
