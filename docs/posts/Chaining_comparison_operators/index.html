@@ -1,94 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151954055-3"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-151954055-3"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag() {
+        dataLayer.push(arguments);
+      }
       gtag('js', new Date());
 
       gtag('config', 'UA-151954055-3');
     </script>
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/syntax.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1">
-    <meta content="#ffffff" name="theme-color">
-    <meta name="HandheldFriendly" content="true">
-    <meta property="og:title" content="Chaining comparison operators">
-    <meta property="og:type" content="website">
-    <meta property="og:description" content="programming, software, books">
-    <meta property="og:url" content="https://liam.rs">
-    <link rel="icon" type="image/x-icon" href="/favicon.png">
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/syntax.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1" />
+    <meta content="#ffffff" name="theme-color" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta property="og:title" content="Chaining comparison operators" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="programming, software, books" />
+    <meta property="og:url" content="https://liam.rs" />
+    <link rel="icon" type="image/x-icon" href="/favicon.png" />
     <title>Chaining comparison operators · liam.rs</title>
-    <body>
-      <div class="posts">
-        <div class="post">
-          <a href="/" class="post-end-link">⟵ Back</a>
-          <a class="stats post-end-link" href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Chaining_comparison_operators.md
-">View Raw</a>
-          <div class="separator"></div>
-          <div class="date">
-            25/08 — 2020
-            <div class="stats">
-              <span class="stats-number">
-                15.98
-              </span>
-              <span class="stats-unit">cm</span>
-              &nbsp
-              <span class="stats-number">
-                1.3
-              </span>
-              <span class="stats-unit">min</span>
-            </div>
+  </head>
+  <body>
+    <div class="posts">
+      <div class="post">
+        <a href="/" class="post-end-link">⟵ Back</a>
+        <a
+          class="stats post-end-link"
+          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Chaining_comparison_operators.md
+"
+          >View Raw</a
+        >
+        <div class="separator"></div>
+        <div class="date">
+          25/08 — 2020
+          <div class="stats">
+            <span class="stats-number"> 15.98 </span>
+            <span class="stats-unit">cm</span>
+            &nbsp
+            <span class="stats-number"> 1.3 </span>
+            <span class="stats-unit">min</span>
           </div>
-          <h1>
-            Chaining comparison operators
-          </h1>
-          <div class="post-text">
-            <p>I recently came across this lesser known feature in Python and started to play around with it.</p>
-<p>Being able to chain comparison operators is a rarity among most modern programming languages, which is a shame considering how elegant and intuitive it turns out to be.</p>
-<p>Here are some examples:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a, b, c <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span></span>
+        </div>
+        <h1>Chaining comparison operators</h1>
+        <div class="post-text">
+          <p>
+            I recently came across this lesser known feature in Python and
+            started to play around with it.
+          </p>
+          <p>
+            Being able to chain comparison operators is a rarity among most
+            modern programming languages, which is a shame considering how
+            elegant and intuitive it turns out to be.
+          </p>
+          <p>Here are some examples:</p>
+          <div class="sourceCode" id="cb1">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a, b, c <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">&lt;</span> b <span class="op">&lt;</span> c)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre></div>
-<p>The code above is equivalent to:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>a, b, c <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre>
+          </div>
+          <p>The code above is equivalent to:</p>
+          <div class="sourceCode" id="cb2">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>a, b, c <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">&lt;</span> b <span class="kw">and</span> b <span class="op">&lt;</span> c) </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre></div>
-<p>And something a bit more complex:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>a, b, c, d, e, f, g <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre>
+          </div>
+          <p>And something a bit more complex:</p>
+          <div class="sourceCode" id="cb3">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>a, b, c, d, e, f, g <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>flag <span class="op">=</span> a <span class="op">&lt;=</span> b <span class="op">&gt;</span> f <span class="op">&lt;</span> c <span class="op">&gt;</span> d <span class="kw">is</span> <span class="kw">not</span> f <span class="kw">is</span> g</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(flag)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre></div>
-<p>That is all equivalent to:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a, b, c, d, e, f, g <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre>
+          </div>
+          <p>That is all equivalent to:</p>
+          <div class="sourceCode" id="cb4">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a, b, c, d, e, f, g <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>flag <span class="op">=</span> a <span class="op">&lt;=</span> b <span class="kw">and</span> b <span class="op">&gt;</span> f <span class="kw">and</span> f <span class="op">&lt;</span> c <span class="kw">and</span> c <span class="op">&gt;</span> d <span class="kw">and</span> d <span class="kw">is</span> <span class="kw">not</span> f <span class="kw">and</span> f <span class="kw">is</span> g</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(flag)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre></div>
-<p>You can see how tedious things might get. Python continues to amaze me with how beautiful and concise it can be.</p>
-
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre>
           </div>
-          
-    <div class="intro">
-      Hi.
-    <div class="hot-links">
-      <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
-      <a href="https://www.buymeacoffee.com/terror" class="donate-button" target="_blank">Donate</a>
-    </div>
-    <p>I'm Liam.</p>
-    <p>
-      I am a Computer Science Student at John Abbott College currently interning as a Software Engineer at Matrox.
-      When I'm not doing coursework, I enjoy bodybuilding, reading and programming.
-    </p>
-    <p>Send me a message by email at liam@scalzulli.com or discord at liam#0005</p>
-  </div>
-  
-          <a href="/" class="post-end-link">⟵ Back</a>
-          <a class="stats post-end-link" href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Chaining_comparison_operators.md
-">View Raw</a>
+          <p>
+            You can see how tedious things might get. Python continues to amaze
+            me with how beautiful and concise it can be.
+          </p>
         </div>
+
+        <div class="intro">
+          Hi.
+          <div class="hot-links">
+            <a href="https://liam.rs/index.xml" class="feed-button"
+              >Subscribe</a
+            >
+            <a
+              href="https://www.buymeacoffee.com/terror"
+              class="donate-button"
+              target="_blank"
+              >Donate</a
+            >
+          </div>
+          <p>I'm Liam.</p>
+          <p>
+            I am a Computer Science Student at John Abbott College currently
+            interning as a Software Engineer at Matrox. When I'm not doing
+            coursework, I enjoy bodybuilding, reading and programming.
+          </p>
+          <p>
+            Send me a message by email at liam@scalzulli.com or discord at
+            liam#0005
+          </p>
+        </div>
+
+        <a href="/" class="post-end-link">⟵ Back</a>
+        <a
+          class="stats post-end-link"
+          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Chaining_comparison_operators.md
+"
+          >View Raw</a
+        >
       </div>
-    </body>
+    </div>
+  </body>
 </html>

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+git ls-tree -r --name-only HEAD | while read -r filename; do
+  if [[ $filename == posts/* ]]; then
+    date="$(git log -1 --format="%as" -- "$filename")"
+    touch -a -m -t "${date//-/}0000.00" "$filename"
+  fi
+done
