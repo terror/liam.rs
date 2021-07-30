@@ -23,3 +23,8 @@ publish name dir='posts':
 
 fmt:
 	prettier --write .
+
+dev-deps:
+	brew install just prettier
+	cargo install typos-cli
+	curl https://raw.githubusercontent.com/jirutka/esh/master/esh > /usr/local/bin/esh
