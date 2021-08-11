@@ -91,7 +91,7 @@ EOF
 logo() {
     cat << EOF
     <div>
-    <img src="https://files.catbox.moe/s77mzm.jpeg" width="100" height="100">
+    <img src="https://files.catbox.moe/r5iujn.jpeg" width="100" height="100">
     <h4 class="subheading">liam's musings</h4>
     </div>
 EOF
@@ -105,11 +105,12 @@ posts=$(ls -t ./posts)
 rm -rf "./docs/posts/"
 mkdir -p docs/posts
 
-reviews=$(ls -t ./reviews)
-rm -rf "./docs/reviews/"
-mkdir -p docs/reviews
+# reviews=$(ls -t ./reviews)
+# rm -rf "./docs/reviews/"
+# mkdir -p docs/reviews
 
-cat << EOF | tee ./docs/posts/index.html ./docs/reviews/index.html ./docs/index.html > /dev/null
+# cat << EOF | tee ./docs/posts/index.html ./docs/reviews/index.html ./docs/index.html > /dev/null
+cat << EOF | tee ./docs/posts/index.html ./docs/index.html > /dev/null
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -147,7 +148,8 @@ cat << EOF >> ./docs/index.html
   $(recent_link "Posts")
 EOF
 
-paths=("Posts" "Reviews")
+# paths=("Posts" "Reviews")
+paths=("Posts")
 for p in "${paths[@]}"; do
   cat << EOF | tee -a ./docs/"${p,,}"/index.html > /dev/null
   <body>
@@ -210,52 +212,52 @@ echo "$(more_link posts)" >> ./docs/index.html
 # │ Reviews                                                                ─╬─│┼
 # ╚────────────────────────────────────────────────────────────────────────────│
 
-echo "$(recent_link "Reviews")" >> ./docs/index.html
+# echo "$(recent_link "Reviews")" >> ./docs/index.html
 
-echo -ne "
-  <h1>Reviews</h1>
-  <div class=\"separator\"></div>
-  <table>
-    " >> ./docs/reviews/index.html
+# echo -ne "
+#   <h1>Reviews</h1>
+#   <div class=\"separator\"></div>
+#   <table>
+#     " >> ./docs/reviews/index.html
 
-for f in $reviews; do
-  file="./reviews/$f"
-  id="${file##*/}"
+# for f in $reviews; do
+#   file="./reviews/$f"
+#   id="${file##*/}"
 
-  stats=$(wc "$file")
-  words="$(echo "$stats" | awk '{ print $2 }')"
-  lines="$(echo "$stats" | awk '{ print $1 }')"
-  r_time="$(read_time "$words")"
-  height="$(height "$lines")"
-  review_title=$(title_wrapper "$id")
+#   stats=$(wc "$file")
+#   words="$(echo "$stats" | awk '{ print $2 }')"
+#   lines="$(echo "$stats" | awk '{ print $1 }')"
+#   r_time="$(read_time "$words")"
+#   height="$(height "$lines")"
+#   review_title=$(title_wrapper "$id")
 
-  echo "[~] $review_title"
+#   echo "[~] $review_title"
 
-  review_date=$(date -r "$file" "+%d/%m — %Y")
-  review_link=$(link_wrapper "${id%.*}" "$review_title" "$review_date" "$r_time" "reviews")
+#   review_date=$(date -r "$file" "+%d/%m — %Y")
+#   review_link=$(link_wrapper "${id%.*}" "$review_title" "$review_date" "$r_time" "reviews")
 
-  echo -ne "$review_link" >> ./docs/reviews/index.html
+#   echo -ne "$review_link" >> ./docs/reviews/index.html
 
-  if [[ $INDEX_REVIEW_COUNT -lt $INDEX_REVIEW_LIMIT ]]; then
-    echo -ne "$review_link" >> docs/index.html
-  fi
+#   if [[ $INDEX_REVIEW_COUNT -lt $INDEX_REVIEW_LIMIT ]]; then
+#     echo -ne "$review_link" >> docs/index.html
+#   fi
 
-  ((INDEX_REVIEW_COUNT+=1))
+#   ((INDEX_REVIEW_COUNT+=1))
 
-  id="${id%.*}"
-  mkdir -p "docs/reviews/$id"
-  esh -s /bin/bash \
-    -o "docs/reviews/$id/index.html" \
-    "./templates/post.esh" \
-    file="$file" \
-    date="$review_date" \
-    title="$review_title" \
-    read_time="$r_time" \
-    height="$height" \
-    intro="$(intro)"
-done
+#   id="${id%.*}"
+#   mkdir -p "docs/reviews/$id"
+#   esh -s /bin/bash \
+#     -o "docs/reviews/$id/index.html" \
+#     "./templates/post.esh" \
+#     file="$file" \
+#     date="$review_date" \
+#     title="$review_title" \
+#     read_time="$r_time" \
+#     height="$height" \
+#     intro="$(intro)"
+# done
 
-echo "$(more_link reviews)" >> ./docs/index.html
+# echo "$(more_link reviews)" >> ./docs/index.html
 
 # ───────────────────────────────────────────────────────────────────────────│─╗
 # │ RSS                                                                    ─╬─│┼
@@ -270,7 +272,8 @@ esh -s /bin/bash \
 # │ Footer                                                                 ─╬─│┼
 # ╚────────────────────────────────────────────────────────────────────────────│
 
-cat << EOF | tee -a ./docs/posts/index.html ./docs/reviews/index.html ./docs/index.html > /dev/null
+# cat << EOF | tee -a ./docs/posts/index.html ./docs/reviews/index.html ./docs/index.html > /dev/null
+cat << EOF | tee -a ./docs/posts/index.html ./docs/index.html > /dev/null
   </table>
   <div class="separator"></div>
   <div class="footer">
