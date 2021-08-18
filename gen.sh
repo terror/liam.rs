@@ -60,7 +60,7 @@ intro() {
       I am a Computer Science Student at John Abbott College currently interning as a Software Engineer at Matrox.
       When I'm not doing coursework, I enjoy bodybuilding, reading and programming.
     </p>
-    <p>Send me a message by email at liam@scalzulli.com or discord at liam#0005</p>
+    <p>Send me a message by email at liam@scalzulli.com or via matrix @worse:matrix.org</p>
   </div>
   "
 }
@@ -91,7 +91,7 @@ EOF
 logo() {
     cat << EOF
     <div>
-    <img src="https://files.catbox.moe/r5iujn.jpeg" width="100" height="100">
+    <img src="https://files.catbox.moe/phuuef.jpeg" width="100" height="100">
     <h4 class="subheading">liam's musings</h4>
     </div>
 EOF
