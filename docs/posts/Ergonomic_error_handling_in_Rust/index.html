@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-151954055-3"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'UA-151954055-3');
+    </script>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/syntax.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1" />
+    <meta content="#ffffff" name="theme-color" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta property="og:title" content="Ergonomic error handling in Rust" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="programming, software, books" />
+    <meta property="og:url" content="https://liam.rs" />
+    <link rel="icon" type="image/x-icon" href="/favicon.png" />
+    <title>Ergonomic error handling in Rust · liam.rs</title>
+  </head>
+  <body>
+    <div class="posts">
+      <div class="post">
+        <a href="/" class="post-end-link">⟵ Back</a>
+        <a
+          class="stats post-end-link"
+          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Ergonomic_error_handling_in_Rust.md
+"
+          >View Raw</a
+        >
+        <div class="separator"></div>
+        <div class="date">
+          21/08 — 2021
+          <div class="stats">
+            <span class="stats-number"> 108.68 </span>
+            <span class="stats-unit">cm</span>
+            &nbsp
+            <span class="stats-number"> 7.5 </span>
+            <span class="stats-unit">min</span>
+          </div>
+        </div>
+        <h1>Ergonomic error handling in Rust</h1>
+        <div class="post-text">
+          <p>
+            There are many ways you can handle errors in Rust programs: panic at
+            every fallible situation, propagate foreign errors up the call
+            stack, craft your own error type.
+          </p>
+          <p>
+            I’ve recently fallen into a comfortable pattern when dealing with
+            errors in Rust and believe it serves great for small or large
+            projects.
+          </p>
+          <p>
+            This post will walk through a few different ways to handle errors
+            and then ultimately introduce the
+            <a href="https://github.com/shepmaster/snafu"><code>snafu</code></a>
+            library as a clean and ergonomic solution to the elusive task of
+            dealing with erroneous behaviour.
+          </p>
+          <h3 id="contents">Contents</h3>
+          <!--ts-->
+          <ul>
+            <li><a href="#panic-at-the-disco">Panic! at the disco</a></li>
+            <li>
+              <a href="#recoverable-errors-with-resultt-e"
+                >Recoverable errors with Result&lt;T, E&gt;</a
+              >
+            </li>
+            <li>
+              <a href="#crafting-custom-error-types"
+                >Crafting custom error types</a
+              >
+            </li>
+            <li>
+              <a href="#enter-snafu">Enter snafu</a>
+              <!--te-->
+            </li>
+          </ul>
+          <h3 id="panic-at-the-disco">Panic! at the disco</h3>
+          <p>
+            Let’s say we have some arbitrary text file on disk that we want to
+            read from, and depending on the content of the file, we want to
+            write back some bytes to it. Simple enough?
+          </p>
+          <div class="sourceCode" id="cb1">
+            <pre
+              class="sourceCode rust"
+            ><code class="sourceCode rust"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">fs::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> OpenOptions<span class="op">},</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">io::prelude::</span><span class="op">*</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PATH<span class="op">:</span> <span class="op">&amp;</span><span class="dt">str</span> <span class="op">=</span> <span class="st">&quot;file.txt&quot;</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> run() <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> content <span class="op">=</span> <span class="pp">fs::</span>read_to_string(PATH)<span class="op">.</span>unwrap()<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> <span class="kw">mut</span> file <span class="op">=</span> <span class="pp">OpenOptions::</span>new()</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>write(<span class="cn">true</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>append(<span class="cn">true</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>open(PATH)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>unwrap()<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> content<span class="op">.</span>trim() <span class="op">==</span> <span class="st">&quot;hello&quot;</span> <span class="op">{</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    file<span class="op">.</span>write_all(<span class="st">b&quot;world!&quot;</span>)<span class="op">.</span>unwrap()<span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Ok</span>(())</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  run()<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+          </div>
+          <p>This program can fail in a few different ways:</p>
+          <ul>
+            <li>The file doesn’t exist.</li>
+            <li>The contents of the file aren’t valid UTF-8.</li>
+            <li>
+              The call to
+              <a
+                href="https://doc.rust-lang.org/std/io/trait.Write.html#method.write_all"
+                ><code>write_all</code></a
+              >
+              gets interrupted.
+            </li>
+          </ul>
+          <p>
+            We are handling each of these instances with our calls to
+            <a
+              href="https://learning-rust.github.io/docs/e4.unwrap_and_expect.html"
+              ><code>unwrap</code></a
+            >
+            on the fallible function calls. However, instead of being able to
+            recover from an error if it occurs, the current thread
+            <a href="https://doc.rust-lang.org/std/macro.panic.html"
+              ><code>panics</code></a
+            >, which, if it is the main thread, terminates all threads and ends
+            the program with code <code>101</code>.
+          </p>
+          <h3 id="recoverable-errors-with-resultt-e">
+            Recoverable errors with Result&lt;T, E&gt;
+          </h3>
+          <p>
+            Instead of calls to <code>panic!</code> each time the program can
+            fail, we should be writing more robust code by giving our caller a
+            chance to recover from this behaviour.
+          </p>
+          <div class="sourceCode" id="cb2">
+            <pre
+              class="sourceCode rust"
+            ><code class="sourceCode rust"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">fs::</span>File<span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">io::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> <span class="pp">prelude::</span><span class="op">*},</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PATH<span class="op">:</span> <span class="op">&amp;</span><span class="dt">str</span> <span class="op">=</span> <span class="st">&quot;file.txt&quot;</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> run() <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>()<span class="op">,</span> <span class="pp">io::</span><span class="bu">Error</span><span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> content <span class="op">=</span> <span class="pp">fs::</span>read_to_string(PATH)<span class="op">?;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> <span class="kw">mut</span> file <span class="op">=</span> <span class="pp">OpenOptions::</span>new()</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>write(<span class="cn">true</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>append(<span class="cn">true</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>open(PATH)<span class="op">?;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> content<span class="op">.</span>trim() <span class="op">==</span> <span class="st">&quot;hello&quot;</span> <span class="op">{</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    file<span class="op">.</span>write_all(<span class="st">b&quot;world!&quot;</span>)<span class="op">?;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Ok</span>(())</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">match</span> run() <span class="op">{</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>(()) <span class="op">=&gt;</span> <span class="op">{},</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Err</span>(e) <span class="op">=&gt;</span> <span class="pp">eprintln!</span>(<span class="st">&quot;{}&quot;</span><span class="op">,</span> e)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+          </div>
+          <p>
+            The <code>Result</code> type is an <code>enum</code> which has an
+            <code>Ok</code> and an <code>Err</code> variant. The
+            <code>Ok</code> variant holds a generic value <code>T</code> that
+            gets returned in the case that no errors have occurred. The
+            <code>Err</code> variant holds a generic value <code>E</code>,
+            usually an error type, if an error has occurred.
+          </p>
+          <p>
+            The <code>?</code> operator only works when the function we’re
+            applying it to returns a <code>Result</code> in which whose
+            <code>Err</code> variant contains the error type we wish to
+            propagate. It is essentially a shorthand for the following code:
+          </p>
+          <div class="sourceCode" id="cb3">
+            <pre
+              class="sourceCode rust"
+            ><code class="sourceCode rust"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">match</span> result <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Ok</span>(v)  <span class="op">=&gt;</span> v<span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Err</span>(e) <span class="op">=&gt;</span> <span class="cn">Err</span>(e)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+          </div>
+          <p>
+            This implementation allows for our caller to recover from any
+            erroneous behaviour. However, we can only return one type of error
+            from our function. This prompts anyone who wishes to possibly return
+            more than one error type to create their own type that contains
+            multiple variants.
+          </p>
+          <h3 id="crafting-custom-error-types">Crafting custom error types</h3>
+          <p>
+            We can craft our own custom error type as a Rust
+            <a
+              href="https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html"
+              ><code>enum</code></a
+            >
+            and add multiple variants to it. We can then define a
+            <code>Result</code> type which we can use throughout our program
+            which contains our custom error type as the error to propagate.
+          </p>
+          <p>
+            In order to demonstrate the need for multiple error types, we’ll
+            extend the functionality of this tiny application to include a call
+            to some API endpoint that is written in the text file, using the
+            <a href="https://github.com/seanmonstar/reqwest"
+              ><code>reqwest</code></a
+            >
+            library.
+          </p>
+          <div class="sourceCode" id="cb4">
+            <pre
+              class="sourceCode rust"
+            ><code class="sourceCode rust"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">fmt::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> <span class="bu">Display</span><span class="op">},</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">fs::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> OpenOptions<span class="op">},</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">io::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> <span class="pp">prelude::</span><span class="op">*},</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">reqwest::</span>blocking<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> Result<span class="op">&lt;</span>T<span class="op">,</span> E <span class="op">=</span> <span class="bu">Error</span><span class="op">&gt;</span> <span class="op">=</span> <span class="pp">std::result::</span><span class="dt">Result</span><span class="op">&lt;</span>T<span class="op">,</span> E<span class="op">&gt;;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="at">#[</span>derive<span class="at">(</span><span class="bu">Debug</span><span class="at">)]</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> <span class="bu">Error</span> <span class="op">{</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  IoError(<span class="pp">io::</span><span class="bu">Error</span>)<span class="op">,</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  ApiError(<span class="pp">reqwest::</span><span class="bu">Error</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="kw">impl</span> <span class="bu">From</span><span class="op">&lt;</span><span class="pp">io::</span><span class="bu">Error</span><span class="op">&gt;</span> <span class="cf">for</span> <span class="bu">Error</span> <span class="op">{</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">fn</span> from(err<span class="op">:</span> <span class="pp">io::</span><span class="bu">Error</span>) <span class="op">-&gt;</span> <span class="bu">Error</span> <span class="op">{</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Error</span><span class="pp">::</span>IoError(err)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="kw">impl</span> <span class="bu">From</span><span class="op">&lt;</span><span class="pp">reqwest::</span><span class="bu">Error</span><span class="op">&gt;</span> <span class="cf">for</span> <span class="bu">Error</span> <span class="op">{</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">fn</span> from(err<span class="op">:</span> <span class="pp">reqwest::</span><span class="bu">Error</span>) <span class="op">-&gt;</span> <span class="bu">Error</span> <span class="op">{</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Error</span><span class="pp">::</span>ApiError(err)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="kw">impl</span> <span class="bu">Display</span> <span class="cf">for</span> <span class="bu">Error</span> <span class="op">{</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="kw">fn</span> fmt(<span class="op">&amp;</span><span class="kw">self</span><span class="op">,</span> f<span class="op">:</span> <span class="op">&amp;</span><span class="kw">mut</span> <span class="pp">fmt::</span>Formatter<span class="op">&lt;</span><span class="ot">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="pp">fmt::</span><span class="dt">Result</span> <span class="op">{</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">match</span> <span class="kw">self</span> <span class="op">{</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>      <span class="bu">Error</span><span class="pp">::</span>IoError(e) <span class="op">=&gt;</span> <span class="pp">write!</span>(f<span class="op">,</span> <span class="st">&quot;IO Error: {}&quot;</span><span class="op">,</span> e)<span class="op">,</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>      <span class="bu">Error</span><span class="pp">::</span>ApiError(e) <span class="op">=&gt;</span> <span class="pp">write!</span>(f<span class="op">,</span> <span class="st">&quot;Api Error: {}&quot;</span><span class="op">,</span> e)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PATH<span class="op">:</span> <span class="op">&amp;</span><span class="dt">str</span> <span class="op">=</span> <span class="st">&quot;file.txt&quot;</span><span class="op">;</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> run() <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> content <span class="op">=</span> <span class="pp">fs::</span>read_to_string(PATH)<span class="op">?;</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> <span class="kw">mut</span> file <span class="op">=</span> <span class="pp">OpenOptions::</span>new()</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>write(<span class="cn">true</span>)</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>append(<span class="cn">true</span>)</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>open(PATH)<span class="op">?;</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> response <span class="op">=</span> <span class="pp">blocking::</span>get(content<span class="op">.</span>trim())<span class="op">?;</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>  file<span class="op">.</span>write_all(</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    response</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span>text()<span class="op">?</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span>as_bytes()</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  )<span class="op">?;</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Ok</span>(())</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  <span class="cf">match</span> run() <span class="op">{</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>(()) <span class="op">=&gt;</span> <span class="op">{}</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Err</span>(e) <span class="op">=&gt;</span> <span class="pp">eprintln!</span>(<span class="st">&quot;{}&quot;</span><span class="op">,</span> e)<span class="op">,</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+          </div>
+          <p>
+            In order to apply our nice shorthand <code>?</code> operator, we
+            have the implement the
+            <a href="https://doc.rust-lang.org/std/convert/trait.From.html"
+              ><code>From</code></a
+            >
+            trait for each error type we wish to add to our custom
+            <code>enum</code>. In addition, in order for <code>main</code> to be
+            able to print out the error message, we must implement
+            <a href="https://doc.rust-lang.org/std/fmt/trait.Display.html"
+              ><code>Display</code></a
+            >
+            for our custom error type, matching on each variant.
+          </p>
+          <p>
+            This implementation solves the problem of dealing with multiple
+            error types in a given function. Having our own custom error type
+            also allows for other users of our application to deal with our
+            various custom error type variants using a similar approach.
+            However, as we shall see, we can avoid some of this tedium by
+            bringing in a third party.
+          </p>
+          <h3 id="enter-snafu">Enter snafu</h3>
+          <p>
+            The <code>snafu</code> library allows for the easy assignment of
+            foreign errors into domain-specific errors while also adding
+            contextual information. Whenever a foreign error type is
+            encountered, we can easily pin it to our own custom typing by adding
+            a <code>source</code> attribute.
+          </p>
+          <p>For instance:</p>
+          <div class="sourceCode" id="cb5">
+            <pre
+              class="sourceCode rust"
+            ><code class="sourceCode rust"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">fs::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> OpenOptions<span class="op">},</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">io::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> <span class="pp">prelude::</span><span class="op">*},</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">reqwest::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> blocking<span class="op">};</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">snafu::</span>Snafu<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> Result<span class="op">&lt;</span>T<span class="op">,</span> E <span class="op">=</span> <span class="bu">Error</span><span class="op">&gt;</span> <span class="op">=</span> <span class="pp">std::result::</span><span class="dt">Result</span><span class="op">&lt;</span>T<span class="op">,</span> E<span class="op">&gt;;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="at">#[</span>derive<span class="at">(</span><span class="bu">Debug</span><span class="op">,</span> Snafu<span class="at">)]</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> <span class="bu">Error</span> <span class="op">{</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">#[</span>snafu<span class="at">(</span>context<span class="at">(</span><span class="cn">false</span><span class="at">)</span><span class="op">,</span> display<span class="at">(</span><span class="st">&quot;IO Error: {}&quot;</span><span class="op">,</span> source<span class="at">))]</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  Io <span class="op">{</span> source<span class="op">:</span> <span class="pp">io::</span><span class="bu">Error</span> <span class="op">},</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">#[</span>snafu<span class="at">(</span>context<span class="at">(</span><span class="cn">false</span><span class="at">)</span><span class="op">,</span> display<span class="at">(</span><span class="st">&quot;Api Error: {}&quot;</span><span class="op">,</span> source<span class="at">))]</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  Api <span class="op">{</span> source<span class="op">:</span> <span class="pp">reqwest::</span><span class="bu">Error</span> <span class="op">},</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PATH<span class="op">:</span> <span class="op">&amp;</span><span class="dt">str</span> <span class="op">=</span> <span class="st">&quot;file.txt&quot;</span><span class="op">;</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> run() <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> content <span class="op">=</span> <span class="pp">fs::</span>read_to_string(PATH)<span class="op">?;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> <span class="kw">mut</span> file <span class="op">=</span> <span class="pp">OpenOptions::</span>new()</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>write(<span class="cn">true</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>append(<span class="cn">true</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>open(PATH)<span class="op">?;</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> response <span class="op">=</span> <span class="pp">blocking::</span>get(content<span class="op">.</span>trim())<span class="op">?;</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  file<span class="op">.</span>write_all(</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    response</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span>text()<span class="op">?</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span>as_bytes()</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  )<span class="op">?;</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Ok</span>(())</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  <span class="cf">match</span> run() <span class="op">{</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>(()) <span class="op">=&gt;</span> <span class="op">{}</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Err</span>(e) <span class="op">=&gt;</span> <span class="pp">eprintln!</span>(<span class="st">&quot;{}&quot;</span><span class="op">,</span> e)<span class="op">,</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+          </div>
+          <p>
+            The
+            <a
+              href="https://docs.rs/snafu/0.6.10/snafu/guide/the_macro/index.html"
+              ><code>Snafu</code></a
+            >
+            macro implements all the necessary traits in order to begin using
+            our custom error type in functions.
+          </p>
+          <p>
+            Crafting our type this way not only let’s us avoid implementing
+            traits ourselves but also gives us the added benefit of easily
+            adding in custom fields to our error types as contextual
+            information.
+          </p>
+          <p>
+            This tiny example doesn’t show all of the functionality the
+            <code>snafu</code> library has to offer, so I suggest you have a
+            look at the official
+            <a href="https://docs.rs/snafu/0.6.10/snafu/index.html"
+              >documentation</a
+            >.
+          </p>
+          <h3 id="fin">Fin</h3>
+          <p>
+            Quality Rust code should never panic when it doesn’t absolutely need
+            to, and knowing this you should make the best of the situation by
+            crafting your own error types that other people can use in their
+            applications. You can either make it tedious, by doing it by hand,
+            or by using the nifty <code>snafu</code> library to do the job.
+          </p>
+        </div>
+
+        <div class="intro">
+          Hi.
+          <div class="hot-links">
+            <a href="https://liam.rs/index.xml" class="feed-button"
+              >Subscribe</a
+            >
+            <a
+              href="https://www.buymeacoffee.com/terror"
+              class="donate-button"
+              target="_blank"
+              >Donate</a
+            >
+          </div>
+          <p>I'm Liam.</p>
+          <p>
+            I am a Computer Science Student at John Abbott College currently
+            interning as a Software Engineer at Matrox. When I'm not doing
+            coursework, I enjoy bodybuilding, reading and programming.
+          </p>
+          <p>
+            Send me a message by email at liam@scalzulli.com or via matrix
+            @worse:matrix.org
+          </p>
+        </div>
+
+        <a href="/" class="post-end-link">⟵ Back</a>
+        <a
+          class="stats post-end-link"
+          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Ergonomic_error_handling_in_Rust.md
+"
+          >View Raw</a
+        >
+      </div>
+    </div>
+  </body>
+</html>
