@@ -213,7 +213,7 @@
 &lt;h3 id="fin"&gt;Fin&lt;/h3&gt;
 &lt;p&gt;Quality Rust code should never panic when it doesn’t absolutely need to, and knowing this you should make the best of the situation by crafting your own error types that other people can use in their applications. You can either make it tedious, by doing it by hand, or by using the nifty &lt;code&gt;snafu&lt;/code&gt; library to do the job.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Ergonomic_error_handling_in_Rust/</link>
-<pubDate>Sun, 22 Aug 2021 02:43:00 +0000</pubDate>
+<pubDate>Sun, 22 Aug 2021 14:19:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Ergonomic_error_handling_in_Rust/</guid>
 </item>
 <item>

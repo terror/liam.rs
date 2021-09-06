@@ -57,8 +57,8 @@ intro() {
     </div>
     <p>I'm Liam.</p>
     <p>
-      I am a Computer Science Student at John Abbott College currently interning as a Software Engineer at Matrox.
-      When I'm not doing coursework, I enjoy bodybuilding, reading and programming.
+      I am a final year Computer Science Student at John Abbott College.
+      Currently learning about rust, crypto and compilers.
     </p>
     <p>Send me a message by email at liam@scalzulli.com or via matrix @worse:matrix.org</p>
   </div>
