@@ -89,11 +89,11 @@ EOF
 }
 
 logo() {
-    cat << EOF
-    <div>
-    <img src="https://files.catbox.moe/phuuef.jpeg" width="100" height="100">
-    <h4 class="subheading">liam's musings</h4>
-    </div>
+  cat << EOF
+  <div>
+  <img src="https://files.catbox.moe/phuuef.jpeg" width="100" height="100">
+  <h4 class="subheading">liam's musings</h4>
+  </div>
 EOF
 }
 
@@ -277,7 +277,7 @@ cat << EOF | tee -a ./docs/posts/index.html ./docs/index.html > /dev/null
   </table>
   <div class="separator"></div>
   <div class="footer">
-    <a href="https://www.goodreads.com/mail" target="_blank">Books</a> ·
+    <a href="https://www.goodreads.com/fear" target="_blank">Books</a> ·
     <a href="https://linkedin.com/in/liam-scalzulli" target="_blank">LinkedIn</a> ·
     <a href="https://github.com/terror" target="_blank">Github</a> ·
     <a href="mailto:liam@scalzulli.com">Mail</a> ·
