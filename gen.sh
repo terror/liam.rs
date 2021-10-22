@@ -91,7 +91,7 @@ EOF
 logo() {
   cat << EOF
   <div>
-  <img src="https://files.catbox.moe/phuuef.jpeg" width="100" height="100">
+  <img src="https://files.catbox.moe/mhls9k.jpeg" width="100" height="100">
   <h4 class="subheading">liam's musings</h4>
   </div>
 EOF
