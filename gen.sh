@@ -6,8 +6,6 @@
 
 INDEX_BLOG_LIMIT=3
 INDEX_BLOG_COUNT=0
-INDEX_REVIEW_LIMIT=3
-INDEX_REVIEW_COUNT=0
 
 title_wrapper() {
   echo "$1" | sed -E -e "s/\..+$//g"  -e "s/_(.)/ \1/g" -e "s/^(.)/\1/g"
@@ -26,14 +24,13 @@ link_wrapper() {
   # 2 - title
   # 3 - date
   # 4 - read time
-  # 5 - type
   echo -ne "
   <tr>
     <td class=\"table-post\">
       <div class=\"date\">
         $3
       </div>
-      <a href=\"/$5/$1\" class=\"post-link\">
+      <a href=\"/posts/$1\" class=\"post-link\">
         <span class=\"post-link\">$2</span>
       </a>
     </td>
@@ -105,11 +102,6 @@ posts=$(ls -t ./posts)
 rm -rf "./docs/posts/"
 mkdir -p docs/posts
 
-# reviews=$(ls -t ./reviews)
-# rm -rf "./docs/reviews/"
-# mkdir -p docs/reviews
-
-# cat << EOF | tee ./docs/posts/index.html ./docs/reviews/index.html ./docs/index.html > /dev/null
 cat << EOF | tee ./docs/posts/index.html ./docs/index.html > /dev/null
 <!DOCTYPE html>
 <html lang="en">
@@ -118,11 +110,11 @@ cat << EOF | tee ./docs/posts/index.html ./docs/index.html > /dev/null
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151954055-3"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag(){ dataLayer.push(arguments); }
   gtag('js', new Date());
   gtag('config', 'UA-151954055-3');
 </script>
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/css/style.css">
 <link rel="alternate" type="application/atom+xml" title="liam's musings" href="./index.xml">
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1">
@@ -148,7 +140,6 @@ cat << EOF >> ./docs/index.html
   $(recent_link "Posts")
 EOF
 
-# paths=("Posts" "Reviews")
 paths=("Posts")
 for p in "${paths[@]}"; do
   cat << EOF | tee -a ./docs/"${p,,}"/index.html > /dev/null
@@ -183,7 +174,7 @@ for f in $posts; do
   echo "[~] $post_title"
 
   post_date=$(date -r "$file" "+%d/%m — %Y")
-  post_link=$(link_wrapper "${id%.*}" "$post_title" "$post_date" "$r_time" "posts")
+  post_link=$(link_wrapper "${id%.*}" "$post_title" "$post_date" "$r_time")
 
   echo -ne "$post_link" >> ./docs/posts/index.html
 
@@ -209,57 +200,6 @@ done
 echo "$(more_link posts)" >> ./docs/index.html
 
 # ───────────────────────────────────────────────────────────────────────────│─╗
-# │ Reviews                                                                ─╬─│┼
-# ╚────────────────────────────────────────────────────────────────────────────│
-
-# echo "$(recent_link "Reviews")" >> ./docs/index.html
-
-# echo -ne "
-#   <h1>Reviews</h1>
-#   <div class=\"separator\"></div>
-#   <table>
-#     " >> ./docs/reviews/index.html
-
-# for f in $reviews; do
-#   file="./reviews/$f"
-#   id="${file##*/}"
-
-#   stats=$(wc "$file")
-#   words="$(echo "$stats" | awk '{ print $2 }')"
-#   lines="$(echo "$stats" | awk '{ print $1 }')"
-#   r_time="$(read_time "$words")"
-#   height="$(height "$lines")"
-#   review_title=$(title_wrapper "$id")
-
-#   echo "[~] $review_title"
-
-#   review_date=$(date -r "$file" "+%d/%m — %Y")
-#   review_link=$(link_wrapper "${id%.*}" "$review_title" "$review_date" "$r_time" "reviews")
-
-#   echo -ne "$review_link" >> ./docs/reviews/index.html
-
-#   if [[ $INDEX_REVIEW_COUNT -lt $INDEX_REVIEW_LIMIT ]]; then
-#     echo -ne "$review_link" >> docs/index.html
-#   fi
-
-#   ((INDEX_REVIEW_COUNT+=1))
-
-#   id="${id%.*}"
-#   mkdir -p "docs/reviews/$id"
-#   esh -s /bin/bash \
-#     -o "docs/reviews/$id/index.html" \
-#     "./templates/post.esh" \
-#     file="$file" \
-#     date="$review_date" \
-#     title="$review_title" \
-#     read_time="$r_time" \
-#     height="$height" \
-#     intro="$(intro)"
-# done
-
-# echo "$(more_link reviews)" >> ./docs/index.html
-
-# ───────────────────────────────────────────────────────────────────────────│─╗
 # │ RSS                                                                    ─╬─│┼
 # ╚────────────────────────────────────────────────────────────────────────────│
 
@@ -272,7 +212,6 @@ esh -s /bin/bash \
 # │ Footer                                                                 ─╬─│┼
 # ╚────────────────────────────────────────────────────────────────────────────│
 
-# cat << EOF | tee -a ./docs/posts/index.html ./docs/reviews/index.html ./docs/index.html > /dev/null
 cat << EOF | tee -a ./docs/posts/index.html ./docs/index.html > /dev/null
   </table>
   <div class="separator"></div>

@@ -12,11 +12,10 @@
         dataLayer.push(arguments);
       }
       gtag('js', new Date());
-
       gtag('config', 'UA-151954055-3');
     </script>
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="/syntax.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/syntax.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="initial-scale=1" />
     <meta content="#ffffff" name="theme-color" />
@@ -130,5 +129,13 @@ last = log -1 HEAD</code></pre>
         >
       </div>
     </div>
+    <!-- Wikipedia preview -->
+    <script src="/js/wikipedia-preview.production.js"></script>
+    <script type="text/javascript">
+      wikipediaPreview.init({
+        root: document.querySelector('.post-text'),
+        detectLinks: true,
+      });
+    </script>
   </body>
 </html>
