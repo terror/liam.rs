@@ -7,7 +7,7 @@
     <language>en-us</language>
     <copyright>Creative Commons BY-NC-SA 4.0</copyright>
     <item>
-<title>Ergonomic error handling in Rust</title>
+<title>Ergonomic-error-handling-in-Rust</title>
 <description>&lt;p&gt;There are many ways you can handle errors in Rust programs: panic at every fallible situation, propagate foreign errors up the call stack, craft your own error type.&lt;/p&gt;
 &lt;p&gt;I’ve recently fallen into a comfortable pattern when dealing with errors in Rust and believe it serves great for small or large projects.&lt;/p&gt;
 &lt;p&gt;This post will walk through a few different ways to handle errors and then ultimately introduce the &lt;a href="https://github.com/shepmaster/snafu"&gt;&lt;code&gt;snafu&lt;/code&gt;&lt;/a&gt; library as a clean and ergonomic solution to the elusive task of dealing with erroneous behaviour.&lt;/p&gt;
@@ -212,12 +212,12 @@
 &lt;p&gt;This tiny example doesn’t show all of the functionality the &lt;code&gt;snafu&lt;/code&gt; library has to offer, so I suggest you have a look at the official &lt;a href="https://docs.rs/snafu/0.6.10/snafu/index.html"&gt;documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id="fin"&gt;Fin&lt;/h3&gt;
 &lt;p&gt;Quality Rust code should never panic when it doesn’t absolutely need to, and knowing this you should make the best of the situation by crafting your own error types that other people can use in their applications. You can either make it tedious, by doing it by hand, or by using the nifty &lt;code&gt;snafu&lt;/code&gt; library to do the job.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Ergonomic_error_handling_in_Rust/</link>
+<link>https://liam.rs/posts/Ergonomic-error-handling-in-Rust/</link>
 <pubDate>Sun, 22 Aug 2021 14:19:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Ergonomic_error_handling_in_Rust/</guid>
+<guid>https://liam.rs/posts/Ergonomic-error-handling-in-Rust/</guid>
 </item>
 <item>
-<title>Higher order functions</title>
+<title>Higher-order-functions</title>
 <description>&lt;p&gt;The higher-order function is one of the many powerful and important concepts I have run into when dabbling in the world of functional programming.&lt;/p&gt;
 &lt;p&gt;Before diving into the details, it’s worth mentioning that in certain languages like Python or Javascript, functions are treated as first-class citizens. What does this mean? It means that functions can be stored in variables, passed around to functions or returned from functions, just as you would be able to do with a primitive or non-primitive data type.&lt;/p&gt;
 &lt;p&gt;Knowing this, a higher-order function is a function that either takes in a function as input or returns a function as output.&lt;/p&gt;
@@ -309,12 +309,12 @@
 &lt;h3 id="fin"&gt;Fin&lt;/h3&gt;
 &lt;p&gt;Being able to treat functions as first-class citizens in your programming language is a powerful idea to wrap your head around and a worth while design choice when composing large scale and complex applications.&lt;/p&gt;
 &lt;p&gt;All of the functions written for this post can be found here -&amp;gt; &lt;a href="https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e"&gt;https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e&lt;/a&gt;&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Higher_order_functions/</link>
+<link>https://liam.rs/posts/Higher-order-functions/</link>
 <pubDate>Tue, 08 Jun 2021 04:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Higher_order_functions/</guid>
+<guid>https://liam.rs/posts/Higher-order-functions/</guid>
 </item>
 <item>
-<title>Binary search for bugs</title>
+<title>Binary-search-for-bugs</title>
 <description>&lt;p&gt;I recently encountered a build failure in a dependency of a Rust crate I was trying to install which led me to be introduced to a git command called &lt;code&gt;bisect&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;From the official docs found over at &lt;a href="https://git-scm.com/docs/git-bisect"&gt;git-scm.com&lt;/a&gt;, the small description under the name heading reads:&lt;/p&gt;
 &lt;blockquote&gt;
@@ -329,12 +329,12 @@
 &lt;/ol&gt;
 &lt;p&gt;This will kick off the binary search and pick a new commit in which you can evaluate using &lt;code&gt;git bisect good&lt;/code&gt; or &lt;code&gt;git bisect bad&lt;/code&gt;, in between the two endpoints.&lt;/p&gt;
 &lt;p&gt;It is clear that using this method, over the linear scan approach, can save a tremendous amount of time in the quest for finding where a breaking change was introduced.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Binary_search_for_bugs/</link>
+<link>https://liam.rs/posts/Binary-search-for-bugs/</link>
 <pubDate>Mon, 15 Feb 2021 05:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Binary_search_for_bugs/</guid>
+<guid>https://liam.rs/posts/Binary-search-for-bugs/</guid>
 </item>
 <item>
-<title>How I read blogs</title>
+<title>How-I-read-blogs</title>
 <description>&lt;p&gt;I have recently gotten into the habit of reading more blogs, in particular, ones featured on &lt;a href="https://news.ycombinator.com/news"&gt;HackerNews&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Reading books, personally, has been a difficult habit to cultivate over time, which I mainly attribute to the periodic feelings of being “stuck” or bored on a certain set of books. Blogs, however, offer a condensed read making them efficient and often amusing sources of information.&lt;/p&gt;
 &lt;p&gt;My typical sourcing routine would usually just consist of scrolling through HackerNews, potentially seeing something that peaked my interest and reading it, or realizing I didn’t have the time and putting the url off in a &lt;code&gt;.txt&lt;/code&gt; file somewhere.&lt;/p&gt;
@@ -357,12 +357,12 @@
 &lt;li&gt;Read and archive those articles&lt;/li&gt;
 &lt;li&gt;Repeat&lt;/li&gt;
 &lt;/ol&gt;</description>
-<link>https://liam.rs/posts/How_I_read_blogs/</link>
+<link>https://liam.rs/posts/How-I-read-blogs/</link>
 <pubDate>Sun, 15 Nov 2020 05:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/How_I_read_blogs/</guid>
+<guid>https://liam.rs/posts/How-I-read-blogs/</guid>
 </item>
 <item>
-<title>Useful git aliases</title>
+<title>Useful-git-aliases</title>
 <description>&lt;p&gt;I really enjoy using &lt;code&gt;aliases&lt;/code&gt; for git commands because a) I’m lazy and b) it makes me feel more productive.&lt;/p&gt;
 &lt;p&gt;Some basic ones I use&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;alias ga=&amp;quot;git add&amp;quot;
@@ -388,12 +388,12 @@ last = log -1 HEAD&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;code&gt;lg&lt;/code&gt; shows commit history one line at a time&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;last&lt;/code&gt; shows information for the last commit&lt;/p&gt;
 &lt;p&gt;Whether they make me more productive or not, I just enjoy using them and see no reason not to.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Useful_git_aliases/</link>
+<link>https://liam.rs/posts/Useful-git-aliases/</link>
 <pubDate>Wed, 02 Sep 2020 04:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Useful_git_aliases/</guid>
+<guid>https://liam.rs/posts/Useful-git-aliases/</guid>
 </item>
 <item>
-<title>Chaining comparison operators</title>
+<title>Chaining-comparison-operators</title>
 <description>&lt;p&gt;I recently came across this lesser known feature in Python and started to play around with it.&lt;/p&gt;
 &lt;p&gt;Being able to chain comparison operators is a rarity among most modern programming languages, which is a shame considering how elegant and intuitive it turns out to be.&lt;/p&gt;
 &lt;p&gt;Here are some examples:&lt;/p&gt;
@@ -415,16 +415,9 @@ last = log -1 HEAD&lt;/code&gt;&lt;/pre&gt;
 &lt;span id="cb4-3"&gt;&lt;a href="#cb4-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(flag)&lt;/span&gt;
 &lt;span id="cb4-4"&gt;&lt;a href="#cb4-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# True&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;You can see how tedious things might get. Python continues to amaze me with how beautiful and concise it can be.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Chaining_comparison_operators/</link>
+<link>https://liam.rs/posts/Chaining-comparison-operators/</link>
 <pubDate>Tue, 25 Aug 2020 04:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Chaining_comparison_operators/</guid>
-</item>
-<item>
-<title>A few words</title>
-<description>&lt;p&gt;This blog exists primarily because I’d like to further develop my ability to write as well as take on interesting topics and share my thoughts or explain them concisely. After all, what better way is there to learn than to teach?&lt;/p&gt;</description>
-<link>https://liam.rs/posts/A_few_words/</link>
-<pubDate>Mon, 24 Aug 2020 04:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/A_few_words/</guid>
+<guid>https://liam.rs/posts/Chaining-comparison-operators/</guid>
 </item>
 
   </channel>

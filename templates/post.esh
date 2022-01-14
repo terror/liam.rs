@@ -7,7 +7,6 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="viewport" content="initial-scale=1" />
     <meta property="og:title" content="<%=$title%>" />
-    <meta property="og:description" content="programming, software, books" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://liam.rs" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">

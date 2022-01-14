@@ -1,9 +1,9 @@
+default:
+  just --list
+
 alias d := dev
 alias f := fmt
 alias g := gen
-
-default:
-  just --list
 
 all: gen fix-typos fmt
 

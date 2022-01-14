@@ -6,8 +6,7 @@
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="viewport" content="initial-scale=1" />
-    <meta property="og:title" content="Useful git aliases" />
-    <meta property="og:description" content="programming, software, books" />
+    <meta property="og:title" content="Binary search for bugs" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://liam.rs" />
     <link
@@ -30,7 +29,7 @@
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/syntax.css" />
-    <title>Useful git aliases · liam.rs</title>
+    <title>Binary search for bugs · liam.rs</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script
       async
@@ -51,66 +50,69 @@
         <a href="/" class="post-end-link">⟵ Back</a>
         <a
           class="stats post-end-link"
-          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Useful_git_aliases.md
+          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Binary-search-for-bugs.md
 "
           >View Raw</a
         >
         <div class="separator"></div>
         <div class="date">
-          02/09 — 2020
+          15/02 — 2021
           <div class="stats">
-            <span class="stats-number"> 16.78 </span>
+            <span class="stats-number"> 8.78 </span>
             <span class="stats-unit">cm</span>
             &nbsp
-            <span class="stats-number"> 1.3 </span>
+            <span class="stats-number"> 1.1 </span>
             <span class="stats-unit">min</span>
           </div>
         </div>
-        <h1>Useful git aliases</h1>
+        <h1>Binary search for bugs</h1>
         <div class="post-text">
           <p>
-            I really enjoy using <code>aliases</code> for git commands because
-            a) I’m lazy and b) it makes me feel more productive.
-          </p>
-          <p>Some basic ones I use</p>
-          <pre><code>alias ga=&quot;git add&quot;
-alias gc=&quot;git commit&quot;
-alias gd=&quot;git diff&quot;
-alias gch=&quot;git checkout&quot;
-alias gst=&quot;git status&quot;
-alias gp=&quot;git push -u origin master&quot;
-alias gpo=&quot;git push origin&quot;
-alias gb=&quot;git branch&quot;
-alias gcb=&quot;git checkout -b&quot;
-</code></pre>
-          <p>
-            These ones are set up in my <code>.bashrc</code> file so that I can
-            just execute them as is, i.e <code>gc</code> -&gt;
-            <code>git commit</code>.
+            I recently encountered a build failure in a dependency of a Rust
+            crate I was trying to install which led me to be introduced to a git
+            command called <code>bisect</code>.
           </p>
           <p>
-            Some more complex ones (except for fetch) in my
-            <code>.gitconfig</code> I enjoy:
+            From the official docs found over at
+            <a href="https://git-scm.com/docs/git-bisect">git-scm.com</a>, the
+            small description under the name heading reads:
           </p>
-          <pre><code>f = fetch
-fu = fetch upstream master
-track = branch --set-upstream-to=upstream/master master
-parent = &quot;!git show-branch | grep &#39;*&#39; | grep -v \&quot;$(git rev-parse --abbrev-ref HEAD)\&quot; | head -n1 | sed &#39;s/.*\\[\\(.*\\)\\].*/\\1/&#39; | sed &#39;s/[\\^~].*//&#39; #&quot;
-lg = log --oneline
-last = log -1 HEAD</code></pre>
+          <blockquote>
+            <p>Use binary search to find the commit that introduced a bug</p>
+          </blockquote>
           <p>
-            <code>fu</code> and <code>track</code> are useful for doing things
-            when I’m working on a forked repository
+            Sounds super cool right? Using this feature I was able to track down
+            the commit that introduced the bug in less than 6 steps.
+          </p>
+          <p>Here’s a general overview of how this command works:</p>
+          <ol type="1">
+            <li>
+              <p>
+                Run <code>git bisect start</code> to start the bisect session
+              </p>
+            </li>
+            <li>
+              <p>
+                Specify a bad commit (usually HEAD) using
+                <code>git bisect bad &lt;commit-id&gt;</code>
+              </p>
+            </li>
+            <li>
+              <p>
+                Specify a good commit using
+                <code>git bisect good &lt;commit-id&gt;</code>
+              </p>
+            </li>
+          </ol>
+          <p>
+            This will kick off the binary search and pick a new commit in which
+            you can evaluate using <code>git bisect good</code> or
+            <code>git bisect bad</code>, in between the two endpoints.
           </p>
           <p>
-            <code>parent</code> shows the parent branch of the current working
-            branch
-          </p>
-          <p><code>lg</code> shows commit history one line at a time</p>
-          <p><code>last</code> shows information for the last commit</p>
-          <p>
-            Whether they make me more productive or not, I just enjoy using them
-            and see no reason not to.
+            It is clear that using this method, over the linear scan approach,
+            can save a tremendous amount of time in the quest for finding where
+            a breaking change was introduced.
           </p>
         </div>
 
@@ -129,8 +131,9 @@ last = log -1 HEAD</code></pre>
           </div>
           <p>I'm Liam.</p>
           <p>
-            I am a final year Computer Science Student at John Abbott College.
-            Currently learning about rust, crypto and compilers.
+            I am a Computer Science student at John Abbott College currently
+            interning as a Software Engineer at Matrox. For fun, I write code in
+            Rust and Python, read books and lift weights.
           </p>
           <p>
             Send me a message by email at liam@scalzulli.com or via matrix
@@ -141,7 +144,7 @@ last = log -1 HEAD</code></pre>
         <a href="/" class="post-end-link">⟵ Back</a>
         <a
           class="stats post-end-link"
-          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Useful_git_aliases.md
+          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Binary-search-for-bugs.md
 "
           >View Raw</a
         >

@@ -8,7 +8,7 @@ INDEX_BLOG_LIMIT=3
 INDEX_BLOG_COUNT=0
 
 title_wrapper() {
-  echo "$1" | sed -E -e "s/\..+$//g"  -e "s/_(.)/ \1/g" -e "s/^(.)/\1/g"
+  echo "$1" | sed -E -e "s/\..+$//g"  -e "s/-(.)/ \1/g" -e "s/^(.)/\1/g"
 }
 
 read_time() {
@@ -54,8 +54,8 @@ intro() {
     </div>
     <p>I'm Liam.</p>
     <p>
-      I am a final year Computer Science Student at John Abbott College.
-      Currently learning about rust, crypto and compilers.
+      I am a Computer Science student at John Abbott College currently interning as a Software Engineer at Matrox.
+      For fun, I write code in Rust and Python, read books and lift weights.
     </p>
     <p>Send me a message by email at liam@scalzulli.com or via matrix @worse:matrix.org</p>
   </div>
