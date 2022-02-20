@@ -57,7 +57,7 @@ intro() {
       I am a Computer Science student at John Abbott College currently interning as a Software Engineer at Matrox.
       For fun, I write code in Rust and Python, read books and lift weights.
     </p>
-    <p>Send me a message by email at liam@scalzulli.com or via matrix @worse:matrix.org</p>
+    <p>Send me a message by email at liam@scalzulli.com or via matrix at worse:matrix.org</p>
   </div>
   "
 }
