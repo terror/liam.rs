@@ -7,6 +7,50 @@
     <language>en-us</language>
     <copyright>Creative Commons BY-NC-SA 4.0</copyright>
     <item>
+<title>From-bash-to-vim-and-back</title>
+<description>&lt;p&gt;I recently ran the following command to get my top 5 most used &lt;a
+href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)"&gt;Bash&lt;/a&gt;
+commands:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre
+class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;$&lt;/span&gt; history &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;awk&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;{print $2}&amp;#39;&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;sort&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;uniq&lt;/span&gt; &lt;span class="at"&gt;-c&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;sort&lt;/span&gt; &lt;span class="at"&gt;-nr&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;head&lt;/span&gt; &lt;span class="at"&gt;-5&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and here is what came up:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;20793 lt
+10124 lv
+9328 v
+8686 j
+7243 gst&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;These are, for the most part – ordinary, everyday commands:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;lt&lt;/code&gt;: alias for &lt;code&gt;tree -L 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;v&lt;/code&gt;: alias for &lt;code&gt;nvim&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;j&lt;/code&gt;: alias for &lt;code&gt;just&lt;/code&gt;, &lt;a
+href="https://github.com/casey/just"&gt;the fabulous command
+runner&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;gst&lt;/code&gt;: alias for &lt;code&gt;git status&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;What I assume isn’t so obvious is &lt;code&gt;lv&lt;/code&gt;, which stands for
+‘last vim’. &lt;code&gt;lv&lt;/code&gt; is an alias for the command
+&lt;code&gt;nvim -c "normal '0" -c bd1&lt;/code&gt;, which opens the last opened
+file at the last cursor position in a new Neovim buffer.&lt;/p&gt;
+&lt;p&gt;To break the command down a bit:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;nvim&lt;/code&gt;: the Neovim binary&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-c &amp;lt;cmd&amp;gt;&lt;/code&gt;: Execute &lt;code&gt;&amp;lt;cmd&amp;gt;&lt;/code&gt; after
+config and first file&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;normal '0&lt;/code&gt;: The last set cursor position and file&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bd1&lt;/code&gt;: Delete the first buffer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I use &lt;a
+href="https://en.wikipedia.org/wiki/Vim_(text_editor)#Neovim"&gt;Neovim&lt;/a&gt;
+alot, and sometimes I quit the editor to run some arbitrary Bash
+command. Without having to search for the previously opened file, I
+invoke &lt;code&gt;lv&lt;/code&gt;, which gets me back to where I was at.&lt;/p&gt;
+&lt;p&gt;From bash to vim and back, in a flash.&lt;/p&gt;</description>
+<link>https://liam.rs/posts/From-bash-to-vim-and-back/</link>
+<pubDate>Fri, 25 Feb 2022 19:21:00 +0000</pubDate>
+<guid>https://liam.rs/posts/From-bash-to-vim-and-back/</guid>
+</item>
+<item>
 <title>Ergonomic-error-handling-in-Rust</title>
 <description>&lt;p&gt;There are many ways you can handle errors in Rust programs: panic at
 every fallible situation, propagate foreign errors up the call stack,
