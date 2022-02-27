@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="viewport" content="initial-scale=1" />
+    <meta property="og:title" content="Scripting in markdown" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://liam.rs" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/syntax.css" />
+    <title>Scripting in markdown · liam.rs</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-151954055-3"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-151954055-3');
+    </script>
+  </head>
+  <body>
+    <div class="posts">
+      <div class="post">
+        <a href="/" class="post-end-link">Home</a>
+        <span>/</span>
+        <a href="/posts" class="post-end-link">Posts</a>
+        <span>/</span>
+        <a class="post-end-link">Scripting in markdown</a>
+        <a
+          class="stats post-end-link"
+          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Scripting-in-markdown.md
+"
+          >View Raw</a
+        >
+        <div class="separator"></div>
+        <div class="date">
+          27/02 — 2022
+          <div class="stats">
+            <span class="stats-number"> 56.74 </span>
+            <span class="stats-unit">cm</span>
+            &nbsp
+            <span class="stats-number"> 4.7 </span>
+            <span class="stats-unit">min</span>
+          </div>
+        </div>
+        <h1>Scripting in markdown</h1>
+        <div class="post-text">
+          <p>
+            I recently wrote yet another command-line utility in Rust called
+            <a href="https://github.com/terror/present"><code>present</code></a>
+            that lets you interpolate the standard output of arbitrary commands
+            that get interpreted by the shell into a markdown file and I thought
+            I’d share a bit about it here.
+          </p>
+          <hr />
+          <p>
+            The main problem I kept running into that pushed me to write this
+            tool was having to manually update the outputs of command line
+            utility help messages in my project README documents.
+          </p>
+          <p>
+            For instance, I wrote a command-line utility called
+            <a href="https://github.com/terror/vim-profiler"
+              ><code>vim-profiler</code></a
+            >
+            that lets you profile the startup-time for your installed vim
+            plugins and receive a nicely formatted output. In the README
+            document I have a usage section that includes the output of calling
+            <code>vp --help</code>. Each time I make a version change, update
+            the description, or update API – the result of calling
+            <code>vp --help</code> changes, which prompts me to update the
+            README.
+          </p>
+          <p>
+            Instead of invoking the binary with the <code>--help</code> flag,
+            piping the result to <code>pbcopy</code> and then manually pasting
+            the chunk into the appropriate section within the README myself, I
+            can now have <code>present</code> do that all for me.
+          </p>
+          <p>Here’s how that looks like:</p>
+          <ol type="1">
+            <li>
+              Include the command at the start of a fenced codeblock using the
+              <code>present</code> prefix
+            </li>
+          </ol>
+          <pre><code>## vim-profiler 🕒
+
+...
+
+### Usage
+
+```present cargo run -- --help
+```
+...</code></pre>
+          <ol start="2" type="1">
+            <li>Run <code>present</code> on the markdown file</li>
+          </ol>
+          <div class="sourceCode" id="cb2">
+            <pre
+              class="sourceCode bash"
+            ><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> present <span class="at">--in-place</span> <span class="at">--path</span> README.md</span></code></pre>
+          </div>
+          <ol start="3" type="1">
+            <li>View the modified document!</li>
+          </ol>
+          <pre><code>## vim-profiler 🕒
+
+...
+
+### Usage
+
+```cargo run -- --help
+vim-profiler 0.0.4
+A vim profiling tool.
+
+USAGE:
+    vp [FLAGS] [OPTIONS]
+
+FLAGS:
+    -h, --help       Prints help information
+    -r, --reverse    Display the plugin times in reverse order (fastest first)
+    -s, --sys        Show system plugins in the output
+    -V, --version    Prints version information
+    -v, --verbose    Add informative messages during program execution
+
+OPTIONS:
+    -c, --command   &lt;command&gt;      The command to run, e.g vim or neovim [default: vim]
+    -n, --count     &lt;count&gt;        The number of plugins to list in the output
+    -e, --export    &lt;path&gt;         Export the results to a CSV file
+    -f, --file      &lt;file&gt;         A file to open
+    -i, --iter      &lt;iter&gt;         The number of iterations
+    -p, --plot      &lt;path&gt;         Plot the data and save it to a SVG file
+    -x, --precision &lt;precision&gt;    Precision in the output
+```
+...</code></pre>
+          <p>
+            In practice, I’ll add the command in a justfile <code>all</code>
+            recipe that I invoke before I commit any changes, such as shown in
+            this
+            <a href="https://github.com/terror/present/blob/master/justfile"
+              >justfile</a
+            >.
+          </p>
+          <hr />
+          <p>
+            The project is still in its early stages of development, and there
+            most certainly exists a few non-trivial bugs to be found and fixed.
+          </p>
+          <p>Some things on the todo list, in no particular order, include:</p>
+          <ul>
+            <li>
+              <p>Improve diff output in interactive mode</p>
+              <p>
+                The tool uses the rust crate
+                <a href="https://github.com/mitsuhiko/similar"
+                  ><code>similar</code></a
+                >
+                to help with diff output in interactive mode, but it can be made
+                nicer by taking advantage of additional features the crate has
+                to offer.
+              </p>
+            </li>
+            <li>
+              <p>Support same-line command interpolation</p>
+              <p>
+                This isn’t that important, but it would be nice to support
+                having backticks remain on the same line and have the command
+                result get interpolated with the appropriate newlines. e.g
+              </p>
+              <pre><code>-&gt; ```echo foo```
+
+-&gt; ```echo foo
+   foo
+   ```</code></pre>
+            </li>
+            <li>
+              <p>Handle quotes as a single argument</p>
+              <p>
+                This would let you actually write inline bash scripts, e.g
+                <code>/bin/bash -c 'for i in *; do echo "$i"; done'</code>. As
+                of right now, the program just splits the entire command string
+                on whitespace, which the shell doesn’t like in certain
+                situations.
+              </p>
+              <p>
+                This however, for now, can be hacked around by simply including
+                the command in a justfile or makefile and invoking
+                <code>just &lt;name&gt;</code> or
+                <code>make &lt;name&gt;</code> within the markdown file.
+              </p>
+            </li>
+            <li>
+              <p>Get rid of <code>pulldown_cmark</code></p>
+              <p>
+                The project uses the crate
+                <a href="https://github.com/raphlinus/pulldown-cmark"
+                  ><code>pulldown_cmark</code></a
+                >
+                to get full codeblock ranges within the source, and then hackily
+                turns them into two separate ranges (start, end) which represent
+                the starting and ending range of a single codeblock. This could
+                probably be done better, perhaps without depending on a library
+                for that initial step.
+              </p>
+            </li>
+          </ul>
+          <hr />
+          <p>
+            Overall, I get what I need out of the program as it is. Whether or
+            not the aformentioned todo’s provide useful to someone else will
+            most likely dictate my motivation in getting them done.
+          </p>
+          <p>
+            Feel free to check out the code over on github
+            <a href="https://github.com/terror/present."
+              >https://github.com/terror/present</a
+            >
+            It is licensed under the highly permissive
+            <a href="https://en.wikipedia.org/wiki/Creative_Commons_license"
+              >CC0-1.0</a
+            >
+            license.
+          </p>
+        </div>
+
+        <div class="intro">
+          Hi.
+          <div class="hot-links">
+            <a href="https://liam.rs/index.xml" class="feed-button"
+              >Subscribe</a
+            >
+            <a
+              href="https://www.buymeacoffee.com/terror"
+              class="donate-button"
+              target="_blank"
+              >Donate</a
+            >
+          </div>
+          <p>I'm Liam.</p>
+          <p>
+            I am a Computer Science student at John Abbott College currently
+            interning as a Software Engineer at Matrox. For fun, I write code in
+            Rust and Python, read books and lift weights.
+          </p>
+          <p>
+            Send me a message by email at liam@scalzulli.com or via matrix at
+            worse:matrix.org
+          </p>
+        </div>
+
+        <a href="/" class="post-end-link">Home</a>
+        <span>/</span>
+        <a href="/posts" class="post-end-link">Posts</a>
+        <span>/</span>
+        <a class="post-end-link">Scripting in markdown</a>
+        <a
+          class="stats post-end-link"
+          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Scripting-in-markdown.md
+"
+          >View Raw</a
+        >
+      </div>
+    </div>
+    <!-- Wikipedia preview -->
+    <script src="/js/wikipedia-preview.production.js"></script>
+    <script type="text/javascript">
+      wikipediaPreview.init({
+        root: document.querySelector('.post-text'),
+        detectLinks: true,
+      });
+    </script>
+  </body>
+</html>

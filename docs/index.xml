@@ -7,6 +7,136 @@
     <language>en-us</language>
     <copyright>Creative Commons BY-NC-SA 4.0</copyright>
     <item>
+<title>Scripting-in-markdown</title>
+<description>&lt;p&gt;I recently wrote yet another command-line utility in Rust called &lt;a
+href="https://github.com/terror/present"&gt;&lt;code&gt;present&lt;/code&gt;&lt;/a&gt; that
+lets you interpolate the standard output of arbitrary commands that get
+interpreted by the shell into a markdown file and I thought I’d share a
+bit about it here.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;The main problem I kept running into that pushed me to write this
+tool was having to manually update the outputs of command line utility
+help messages in my project README documents.&lt;/p&gt;
+&lt;p&gt;For instance, I wrote a command-line utility called &lt;a
+href="https://github.com/terror/vim-profiler"&gt;&lt;code&gt;vim-profiler&lt;/code&gt;&lt;/a&gt;
+that lets you profile the startup-time for your installed vim plugins
+and receive a nicely formatted output. In the README document I have a
+usage section that includes the output of calling
+&lt;code&gt;vp --help&lt;/code&gt;. Each time I make a version change, update the
+description, or update API – the result of calling
+&lt;code&gt;vp --help&lt;/code&gt; changes, which prompts me to update the
+README.&lt;/p&gt;
+&lt;p&gt;Instead of invoking the binary with the &lt;code&gt;--help&lt;/code&gt; flag,
+piping the result to &lt;code&gt;pbcopy&lt;/code&gt; and then manually pasting the
+chunk into the appropriate section within the README myself, I can now
+have &lt;code&gt;present&lt;/code&gt; do that all for me.&lt;/p&gt;
+&lt;p&gt;Here’s how that looks like:&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Include the command at the start of a fenced codeblock using the
+&lt;code&gt;present&lt;/code&gt; prefix&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;## vim-profiler 🕒
+
+...
+
+### Usage
+
+```present cargo run -- --help
+```
+...&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start="2" type="1"&gt;
+&lt;li&gt;Run &lt;code&gt;present&lt;/code&gt; on the markdown file&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre
+class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb2-1"&gt;&lt;a href="#cb2-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;$&lt;/span&gt; present &lt;span class="at"&gt;--in-place&lt;/span&gt; &lt;span class="at"&gt;--path&lt;/span&gt; README.md&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol start="3" type="1"&gt;
+&lt;li&gt;View the modified document!&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;## vim-profiler 🕒
+
+...
+
+### Usage
+
+```cargo run -- --help
+vim-profiler 0.0.4
+A vim profiling tool.
+
+USAGE:
+    vp [FLAGS] [OPTIONS]
+
+FLAGS:
+    -h, --help       Prints help information
+    -r, --reverse    Display the plugin times in reverse order (fastest first)
+    -s, --sys        Show system plugins in the output
+    -V, --version    Prints version information
+    -v, --verbose    Add informative messages during program execution
+
+OPTIONS:
+    -c, --command   &amp;lt;command&amp;gt;      The command to run, e.g vim or neovim [default: vim]
+    -n, --count     &amp;lt;count&amp;gt;        The number of plugins to list in the output
+    -e, --export    &amp;lt;path&amp;gt;         Export the results to a CSV file
+    -f, --file      &amp;lt;file&amp;gt;         A file to open
+    -i, --iter      &amp;lt;iter&amp;gt;         The number of iterations
+    -p, --plot      &amp;lt;path&amp;gt;         Plot the data and save it to a SVG file
+    -x, --precision &amp;lt;precision&amp;gt;    Precision in the output
+```
+...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In practice, I’ll add the command in a justfile &lt;code&gt;all&lt;/code&gt;
+recipe that I invoke before I commit any changes, such as shown in this
+&lt;a
+href="https://github.com/terror/present/blob/master/justfile"&gt;justfile&lt;/a&gt;.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;The project is still in its early stages of development, and there
+most certainly exists a few non-trivial bugs to be found and fixed.&lt;/p&gt;
+&lt;p&gt;Some things on the todo list, in no particular order, include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Improve diff output in interactive mode&lt;/p&gt;
+&lt;p&gt;The tool uses the rust crate &lt;a
+href="https://github.com/mitsuhiko/similar"&gt;&lt;code&gt;similar&lt;/code&gt;&lt;/a&gt; to
+help with diff output in interactive mode, but it can be made nicer by
+taking advantage of additional features the crate has to offer.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Support same-line command interpolation&lt;/p&gt;
+&lt;p&gt;This isn’t that important, but it would be nice to support having
+backticks remain on the same line and have the command result get
+interpolated with the appropriate newlines. e.g&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-&amp;gt; ```echo foo```
+
+-&amp;gt; ```echo foo
+   foo
+   ```&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Handle quotes as a single argument&lt;/p&gt;
+&lt;p&gt;This would let you actually write inline bash scripts, e.g
+&lt;code&gt;/bin/bash -c 'for i in *; do echo "$i"; done'&lt;/code&gt;. As of right
+now, the program just splits the entire command string on whitespace,
+which the shell doesn’t like in certain situations.&lt;/p&gt;
+&lt;p&gt;This however, for now, can be hacked around by simply including the
+command in a justfile or makefile and invoking
+&lt;code&gt;just &amp;lt;name&amp;gt;&lt;/code&gt; or &lt;code&gt;make &amp;lt;name&amp;gt;&lt;/code&gt; within
+the markdown file.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Get rid of &lt;code&gt;pulldown_cmark&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;The project uses the crate &lt;a
+href="https://github.com/raphlinus/pulldown-cmark"&gt;&lt;code&gt;pulldown_cmark&lt;/code&gt;&lt;/a&gt;
+to get full codeblock ranges within the source, and then hackily turns
+them into two separate ranges (start, end) which represent the starting
+and ending range of a single codeblock. This could probably be done
+better, perhaps without depending on a library for that initial
+step.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;p&gt;Overall, I get what I need out of the program as it is. Whether or
+not the aformentioned todo’s provide useful to someone else will most
+likely dictate my motivation in getting them done.&lt;/p&gt;
+&lt;p&gt;Feel free to check out the code over on github &lt;a
+href="https://github.com/terror/present."&gt;https://github.com/terror/present&lt;/a&gt;
+It is licensed under the highly permissive &lt;a
+href="https://en.wikipedia.org/wiki/Creative_Commons_license"&gt;CC0-1.0&lt;/a&gt;
+license.&lt;/p&gt;</description>
+<link>https://liam.rs/posts/Scripting-in-markdown/</link>
+<pubDate>Sun, 27 Feb 2022 14:20:00 +0000</pubDate>
+<guid>https://liam.rs/posts/Scripting-in-markdown/</guid>
+</item>
+<item>
 <title>From-bash-to-vim-and-back</title>
 <description>&lt;p&gt;I recently ran the following command to get my top 5 most used &lt;a
 href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)"&gt;Bash&lt;/a&gt;
