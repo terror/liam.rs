@@ -62,7 +62,7 @@
         <div class="date">
           27/02 — 2022
           <div class="stats">
-            <span class="stats-number"> 56.74 </span>
+            <span class="stats-number"> 57.53 </span>
             <span class="stats-unit">cm</span>
             &nbsp
             <span class="stats-number"> 4.7 </span>
@@ -75,10 +75,10 @@
             I recently wrote yet another command-line utility in Rust called
             <a href="https://github.com/terror/present"><code>present</code></a>
             that lets you interpolate the standard output of arbitrary commands
-            that get interpreted by the shell into a markdown file and I thought
-            I’d share a bit about it here.
+            that get interpreted by the shell into a markdown file, and I
+            thought I’d share a bit about it here.
           </p>
-          <hr />
+          <h3 id="the-problem">The problem</h3>
           <p>
             The main problem I kept running into that pushed me to write this
             tool was having to manually update the outputs of command line
@@ -160,6 +160,7 @@ OPTIONS:
     -x, --precision &lt;precision&gt;    Precision in the output
 ```
 ...</code></pre>
+          <p><br /></p>
           <p>
             In practice, I’ll add the command in a justfile <code>all</code>
             recipe that I invoke before I commit any changes, such as shown in
@@ -168,7 +169,7 @@ OPTIONS:
               >justfile</a
             >.
           </p>
-          <hr />
+          <h3 id="moving-forward">Moving forward</h3>
           <p>
             The project is still in its early stages of development, and there
             most certainly exists a few non-trivial bugs to be found and fixed.
@@ -231,7 +232,7 @@ OPTIONS:
               </p>
             </li>
           </ul>
-          <hr />
+          <p><br /></p>
           <p>
             Overall, I get what I need out of the program as it is. Whether or
             not the aformentioned todo’s provide useful to someone else will
@@ -239,16 +240,16 @@ OPTIONS:
           </p>
           <p>
             Feel free to check out the code over on github
-            <a href="https://github.com/terror/present."
+            <a href="https://github.com/terror/present"
               >https://github.com/terror/present</a
-            >
-            It is licensed under the highly permissive
+            >. It is licensed under the highly permissive
             <a href="https://en.wikipedia.org/wiki/Creative_Commons_license"
               >CC0-1.0</a
             >
             license.
           </p>
         </div>
+        <br />
 
         <div class="intro">
           Hi.

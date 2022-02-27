@@ -11,9 +11,9 @@
 <description>&lt;p&gt;I recently wrote yet another command-line utility in Rust called &lt;a
 href="https://github.com/terror/present"&gt;&lt;code&gt;present&lt;/code&gt;&lt;/a&gt; that
 lets you interpolate the standard output of arbitrary commands that get
-interpreted by the shell into a markdown file and I thought I’d share a
+interpreted by the shell into a markdown file, and I thought I’d share a
 bit about it here.&lt;/p&gt;
-&lt;hr /&gt;
+&lt;h3 id="the-problem"&gt;The problem&lt;/h3&gt;
 &lt;p&gt;The main problem I kept running into that pushed me to write this
 tool was having to manually update the outputs of command line utility
 help messages in my project README documents.&lt;/p&gt;
@@ -82,11 +82,12 @@ OPTIONS:
     -x, --precision &amp;lt;precision&amp;gt;    Precision in the output
 ```
 ...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
 &lt;p&gt;In practice, I’ll add the command in a justfile &lt;code&gt;all&lt;/code&gt;
 recipe that I invoke before I commit any changes, such as shown in this
 &lt;a
 href="https://github.com/terror/present/blob/master/justfile"&gt;justfile&lt;/a&gt;.&lt;/p&gt;
-&lt;hr /&gt;
+&lt;h3 id="moving-forward"&gt;Moving forward&lt;/h3&gt;
 &lt;p&gt;The project is still in its early stages of development, and there
 most certainly exists a few non-trivial bugs to be found and fixed.&lt;/p&gt;
 &lt;p&gt;Some things on the todo list, in no particular order, include:&lt;/p&gt;
@@ -123,17 +124,17 @@ and ending range of a single codeblock. This could probably be done
 better, perhaps without depending on a library for that initial
 step.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;hr /&gt;
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
 &lt;p&gt;Overall, I get what I need out of the program as it is. Whether or
 not the aformentioned todo’s provide useful to someone else will most
 likely dictate my motivation in getting them done.&lt;/p&gt;
 &lt;p&gt;Feel free to check out the code over on github &lt;a
-href="https://github.com/terror/present."&gt;https://github.com/terror/present&lt;/a&gt;
+href="https://github.com/terror/present"&gt;https://github.com/terror/present&lt;/a&gt;.
 It is licensed under the highly permissive &lt;a
 href="https://en.wikipedia.org/wiki/Creative_Commons_license"&gt;CC0-1.0&lt;/a&gt;
 license.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Scripting-in-markdown/</link>
-<pubDate>Sun, 27 Feb 2022 14:20:00 +0000</pubDate>
+<pubDate>Sun, 27 Feb 2022 14:47:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Scripting-in-markdown/</guid>
 </item>
 <item>

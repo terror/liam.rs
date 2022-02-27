@@ -58,6 +58,7 @@
         <div class="post-text">
           <% pandoc --quiet -t html --highlight-style monochrome "$file" %>
         </div>
+        <br/>
         <%= "$intro" %>
         <a href="/" class="post-end-link">Home</a>
         <span>/</span>

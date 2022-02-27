@@ -1,9 +1,9 @@
 I recently wrote yet another command-line utility in Rust called
 [`present`](https://github.com/terror/present) that lets you interpolate the
 standard output of arbitrary commands that get interpreted by the shell into a
-markdown file and I thought I'd share a bit about it here.
+markdown file, and I thought I'd share a bit about it here.
 
----
+### The problem
 
 The main problem I kept running into that pushed me to write this tool was
 having to manually update the outputs of command line utility help messages in
@@ -79,11 +79,13 @@ OPTIONS:
 ...
 ````
 
+<br/>
+
 In practice, I'll add the command in a justfile `all` recipe that I invoke
 before I commit any changes, such as shown in this
 [justfile](https://github.com/terror/present/blob/master/justfile).
 
----
+### Moving forward
 
 The project is still in its early stages of development, and there most
 certainly exists a few non-trivial bugs to be found and fixed.
@@ -130,13 +132,13 @@ Some things on the todo list, in no particular order, include:
   a single codeblock. This could probably be done better, perhaps without depending
   on a library for that initial step.
 
----
+<br/>
 
 Overall, I get what I need out of the program as it is. Whether or not the
 aformentioned todo's provide useful to someone else will most likely dictate my
 motivation in getting them done.
 
 Feel free to check out the code over on github
-[https://github.com/terror/present](https://github.com/terror/present.) It is
+[https://github.com/terror/present](https://github.com/terror/present). It is
 licensed under the highly permissive
 [CC0-1.0](https://en.wikipedia.org/wiki/Creative_Commons_license) license.
