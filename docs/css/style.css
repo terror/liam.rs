@@ -32,7 +32,6 @@ div.hot-links {
   --light-black: #666666;
   --white: #ffffff;
   --dark-white: #eeeeee;
-
   --light-yellow: #f7b955;
   --dark-yellow: #f49b0b;
 }
@@ -56,6 +55,7 @@ div.hot-links {
 body {
   font-family: 'Inter', sans-serif;
 }
+
 @supports (font-variation-settings: normal) {
   body {
     font-family: 'Inter var', sans-serif;
@@ -82,12 +82,15 @@ html {
 h1 {
   font-size: 1.8rem;
 }
+
 h2 {
   font-size: 1.6rem;
 }
+
 h3 {
   font-size: 1.4rem;
 }
+
 h4 {
   font-size: 1.2rem;
 }
@@ -96,8 +99,9 @@ h1,
 h2,
 h3 {
   margin: 0;
-  margin-top: 3rem;
+  margin-top: 1.5rem;
 }
+
 h4,
 h5,
 h6 {
@@ -223,7 +227,7 @@ hr {
   padding-right: 0.6rem;
   border: 2px solid var(--dark-white);
   border-radius: 0.4rem;
-  margin: 1rem -1.3rem;
+  margin: 2rem -1.3rem;
   font-family: 'Inter', sans-serif;
 }
 
