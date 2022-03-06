@@ -3,16 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="HandheldFriendly" content="true" />
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="viewport" content="initial-scale=1" />
     <meta property="og:title" content="<%=$title%>" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://liam.rs" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/syntax.css" />
     <title><%=$title%> · liam.rs</title>
@@ -56,7 +70,7 @@
         </div>
         <h1><%=$title%></h1>
         <div class="post-text">
-          <% pandoc --quiet -t html --highlight-style monochrome "$file" %>
+          <% pandoc --mathjax --quiet -t html --highlight-style monochrome "$file" %>
         </div>
         <%= "$intro" %>
         <a href="/" class="post-end-link">Home</a>
@@ -71,13 +85,20 @@
         >
       </div>
     </div>
-  <!-- Wikipedia preview -->
-  <script src="/js/wikipedia-preview.production.js"></script>
-  <script type="text/javascript">
-    wikipediaPreview.init({
-      root: document.querySelector('.post-text'),
-      detectLinks: true
-    })
-  </script>
+    <!-- Wikipedia preview -->
+    <script src="/js/wikipedia-preview.production.js"></script>
+    <script type="text/javascript">
+      wikipediaPreview.init({
+        root: document.querySelector('.post-text'),
+        detectLinks: true,
+      });
+    </script>
+    <!-- MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
   </body>
 </html>
