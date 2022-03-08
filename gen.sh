@@ -88,7 +88,7 @@ EOF
 logo() {
   cat << EOF
   <div>
-  <img src="https://files.catbox.moe/l7vvuz.jpeg" width="100" height="100">
+  <img src="https://files.catbox.moe/zjuojf.jpeg" width="100" height="100">
   <h4 class="subheading">liam's musings</h4>
   </div>
 EOF
@@ -116,10 +116,11 @@ cat << EOF | tee ./docs/posts/index.html ./docs/index.html > /dev/null
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://liam.rs">
 <link rel="alternate" type="application/atom+xml" title="liam's musings" href="./index.xml">
-<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-<link rel="manifest" href="/favicon/site.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/>
+<link rel="manifest" href="/favicon/site.webmanifest"/>
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
 <link rel="stylesheet" href="/css/style.css">
 <title>liam.rs</title>
 <!-- Global site tag (gtag.js) - Google Analytics -->
