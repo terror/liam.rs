@@ -263,10 +263,6 @@ a:active {
   font-size: 0.9rem;
 }
 
-ul {
-  list-style: lower-greek inside none;
-}
-
 .stats {
   float: right;
   text-align: right;
