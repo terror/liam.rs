@@ -54,10 +54,9 @@ intro() {
     </div>
     <p>I'm Liam.</p>
     <p>
-      I am a Computer Science student at John Abbott College currently interning as a Software Engineer at Matrox.
-      For fun, I write code in Rust and Python, read books and lift weights.
+      I am an incoming honours math/compsci undergrad @ mcgill, programmer and rationalist.
     </p>
-    <p>Send me a message by email at liam@scalzulli.com or via matrix at worse:matrix.org</p>
+    <p>Send me a message by email: liam [at] scalzulli.com or matrix: worse:matrix.org</p>
   </div>
   "
 }
@@ -223,6 +222,7 @@ cat << EOF | tee -a ./docs/posts/index.html ./docs/index.html > /dev/null
   <div class="separator"></div>
   <div class="footer">
     <a href="https://www.goodreads.com/fear" target="_blank">Books</a> ·
+    <a href="https://notebook.liam.rs" target="_blank">Notes</a> ·
     <a href="https://linkedin.com/in/liam-scalzulli" target="_blank">LinkedIn</a> ·
     <a href="https://github.com/terror" target="_blank">Github</a> ·
     <a href="mailto:liam@scalzulli.com">Mail</a> ·
