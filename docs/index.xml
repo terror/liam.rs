@@ -7,6 +7,173 @@
     <language>en-us</language>
     <copyright>Creative Commons BY-NC-SA 4.0</copyright>
     <item>
+<title>Powerful-`just`-features</title>
+<description>&lt;p&gt;&lt;a href="https://github.com/casey/just"&gt;&lt;code&gt;just&lt;/code&gt;&lt;/a&gt; is a
+command runner written in Rust. Commands, or &lt;em&gt;recipes&lt;/em&gt; in
+&lt;code&gt;just&lt;/code&gt; lingo, are populated in a file called ‘justfile’, and
+are expressed in a make-like syntax.&lt;/p&gt;
+&lt;p&gt;I’ve been using &lt;code&gt;just&lt;/code&gt; as my de-facto command runner for
+all of my projects, big or small, and find it extremely useful to have a
+file in the projects root that contains every command needed to interact
+with the project.&lt;/p&gt;
+&lt;p&gt;There are quite a few features baked into this program that make it
+unique from similar projects, which I find nice to have when crafting
+software. This post simply documents the few I use most often.&lt;/p&gt;
+&lt;h3 id="contents"&gt;Contents&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#aliases"&gt;Aliases&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#fuzzy-searching-recipes"&gt;Fuzzy searching recipes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#recipes-in-arbitrary-languages"&gt;Recipes in arbitrary
+languages&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#taking-advantage-of-the-default-recipe"&gt;Taking advantage
+of the default recipe&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#recipe-dependencies"&gt;Recipe dependencies&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#format-your-justfile"&gt;Format your justfile&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#documenting-recipes"&gt;Documenting recipes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="aliases"&gt;Aliases&lt;/h3&gt;
+&lt;p&gt;Recipes can have aliases, or alternative names which refer to the
+original recipe that can be used with &lt;code&gt;just&lt;/code&gt; to invoke the
+original recipe.&lt;/p&gt;
+&lt;p&gt;For instance, if you have a recipe called &lt;code&gt;run&lt;/code&gt;, you can
+alias it to &lt;code&gt;r&lt;/code&gt; like so:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;alias r := run
+
+run:
+  cargo run&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;and invoke it with &lt;code&gt;just r&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Somewhat related side note: consider aliasing the &lt;code&gt;just&lt;/code&gt;
+command to &lt;code&gt;j&lt;/code&gt;, it’ll save you some typing if you frequently
+execute commands with &lt;code&gt;just&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id="fuzzy-searching-recipes"&gt;Fuzzy searching recipes&lt;/h3&gt;
+&lt;p&gt;One feature I discovered recently is &lt;code&gt;just --choose&lt;/code&gt;,
+which lets you fuzzy search through recipes defined in your justfile.
+You can also specify a chooser by passing it into
+&lt;code&gt;just --chooser&lt;/code&gt;, else it will default to using &lt;a
+href="https://github.com/junegunn/fzf"&gt;&lt;code&gt;fzf&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;There is work planned to support recipe previews and command line
+arguments for recipes that take them when using the default chooser.&lt;/p&gt;
+&lt;p&gt;However, with the help of &lt;code&gt;just --summary&lt;/code&gt;,
+&lt;code&gt;just --show&lt;/code&gt; and a bit of &lt;a
+href="https://en.wikipedia.org/wiki/Python_(programming_language)"&gt;Python&lt;/a&gt;,
+here’s how you can get to look:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN"&gt;&lt;img
+src="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN.svg"
+alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="recipes-in-arbitrary-languages"&gt;Recipes in arbitrary
+languages&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;just&lt;/code&gt; recipes can be expressed in another language by
+adding a shebang at the top of the recipe, as they get executed as
+scripts by the shell.&lt;/p&gt;
+&lt;p&gt;For instance, we can write a small script in Python that lists the
+contents of the current directory, and put it in a recipe:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre
+class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb2-1"&gt;&lt;a href="#cb2-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;ls:&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a href="#cb2-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="co"&gt;#!/usr/bin/env python3&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a href="#cb2-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="im"&gt;import&lt;/span&gt; os&lt;/span&gt;
+&lt;span id="cb2-4"&gt;&lt;a href="#cb2-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="op"&gt;*&lt;/span&gt;os.listdir())&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="taking-advantage-of-the-default-recipe"&gt;Taking advantage of the
+default recipe&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;just&lt;/code&gt; allows you to specify a &lt;code&gt;default&lt;/code&gt; recipe
+that gets executed when invoking &lt;code&gt;just&lt;/code&gt; without any arguments
+in a directory that contains a justfile (or a sub-directory in which a
+parent directory contains a justfile).&lt;/p&gt;
+&lt;p&gt;For instance:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;default:
+  just --list&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I usually use this feature to list out all recipes that are available
+in the justfile however this could be used for anything that merits
+being quickly invoked with a single command.&lt;/p&gt;
+&lt;h3 id="recipe-dependencies"&gt;Recipe dependencies&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;just&lt;/code&gt; recipes can contain ‘dependencies’, or other
+recipes that should be ran &lt;em&gt;before&lt;/em&gt; a given recipe.&lt;/p&gt;
+&lt;p&gt;For example, let’s say you have a ‘build’ recipe and want to run
+tests – specified in a ‘test’ recipe – each time before executing the
+contents of the recipe, you can do so by making ‘test’ a dependency of
+‘build’, like so:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;default:
+  just --list
+
+build: test # this is a dependency
+  cargo build
+
+test:
+  cargo test&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This also comes in handy when you want to run multiple recipes in
+sequence, &lt;code&gt;just&lt;/code&gt; allows for a very expressive syntax via
+dependencies:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;default:
+  just --list
+
+all: build test fmt
+
+build:
+  cargo build
+
+test:
+  cargo test&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id="format-your-justfile"&gt;Format your justfile&lt;/h3&gt;
+&lt;p&gt;As of recently, &lt;code&gt;just&lt;/code&gt; supports justfile formatting via
+the &lt;code&gt;--fmt&lt;/code&gt; command.&lt;/p&gt;
+&lt;p&gt;It currently requires the &lt;code&gt;--unstable&lt;/code&gt; flag, like so:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb6"&gt;&lt;pre
+class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb6-1"&gt;&lt;a href="#cb6-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;$&lt;/span&gt; just &lt;span class="at"&gt;--fmt&lt;/span&gt; &lt;span class="at"&gt;--unstable&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Invoking the command above can turn a justfile that looks like
+this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;default:
+    just --list
+
+build:
+        cargo build
+
+test:
+    cargo test
+
+clippy:
+            cargo clippy --all-targets --all-features&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;into this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;default:
+  just --list
+
+build:
+  cargo build
+
+test:
+  cargo test
+
+clippy:
+  cargo clippy --all-targets --all-features&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This can be useful if you have many people working on your project
+and recipes get added or modified in your projects justfile on the
+regular.&lt;/p&gt;
+&lt;h3 id="documenting-recipes"&gt;Documenting recipes&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;just&lt;/code&gt; allows for comments above recipes that get appeared
+when invoking &lt;code&gt;just --list&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For example, here is a sample justfile with a &lt;code&gt;run&lt;/code&gt; recipe
+that contains a comment above it:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Run the project
+run:
+  just run&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;invoking &lt;code&gt;just --list&lt;/code&gt; will yield the following
+output:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Available recipes:
+    run # Run the project&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is extremely useful for documenting obscure commands, especially
+when working in teams where people come and go on a project
+frequently.&lt;/p&gt;
+&lt;h3 id="fin"&gt;Fin&lt;/h3&gt;
+&lt;p&gt;I personally think any project could benefit greatly by having a
+single source of truth in regards to project specific commands, and
+&lt;code&gt;just&lt;/code&gt; provides a simple way to set that up.&lt;/p&gt;
+&lt;p&gt;Have a look over at the &lt;a
+href="https://github.com/casey/just"&gt;official readme&lt;/a&gt; document on
+GitHub for more information and further elaboration on the features
+mentioned here.&lt;/p&gt;</description>
+<link>https://liam.rs/posts/Powerful-`just`-features/</link>
+<pubDate>Tue, 12 Apr 2022 02:41:00 +0000</pubDate>
+<guid>https://liam.rs/posts/Powerful-`just`-features/</guid>
+</item>
+<item>
 <title>Scripting-in-markdown</title>
 <description>&lt;p&gt;I recently wrote yet another command-line utility in Rust called &lt;a
 href="https://github.com/terror/present"&gt;&lt;code&gt;present&lt;/code&gt;&lt;/a&gt; that
