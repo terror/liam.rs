@@ -60,12 +60,12 @@
         >
         <div class="separator"></div>
         <div class="date">
-          11/04 — 2022
+          12/04 — 2022
           <div class="stats">
-            <span class="stats-number"> 80.71 </span>
+            <span class="stats-number"> 81.92 </span>
             <span class="stats-unit">cm</span>
             &nbsp
-            <span class="stats-number"> 5.2 </span>
+            <span class="stats-number"> 5.4 </span>
             <span class="stats-unit">min</span>
           </div>
         </div>
@@ -228,7 +228,10 @@ build:
   cargo build
 
 test:
-  cargo test</code></pre>
+  cargo test
+
+fmt:
+  cargo +nightly fmt</code></pre>
           <h3 id="format-your-justfile">Format your justfile</h3>
           <p>
             As of recently, <code>just</code> supports justfile formatting via
@@ -284,7 +287,7 @@ clippy:
           </p>
           <pre><code># Run the project
 run:
-  just run</code></pre>
+  cargo run</code></pre>
           <p>
             invoking <code>just --list</code> will yield the following output:
           </p>

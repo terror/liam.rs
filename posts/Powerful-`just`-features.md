@@ -121,6 +121,9 @@ build:
 
 test:
   cargo test
+
+fmt:
+  cargo +nightly fmt
 ```
 
 ### Format your justfile
@@ -178,7 +181,7 @@ comment above it:
 ```
 # Run the project
 run:
-  just run
+  cargo run
 ```
 
 invoking `just --list` will yield the following output:

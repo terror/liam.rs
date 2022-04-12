@@ -111,7 +111,10 @@ build:
   cargo build
 
 test:
-  cargo test&lt;/code&gt;&lt;/pre&gt;
+  cargo test
+
+fmt:
+  cargo +nightly fmt&lt;/code&gt;&lt;/pre&gt;
 &lt;h3 id="format-your-justfile"&gt;Format your justfile&lt;/h3&gt;
 &lt;p&gt;As of recently, &lt;code&gt;just&lt;/code&gt; supports justfile formatting via
 the &lt;code&gt;--fmt&lt;/code&gt; command.&lt;/p&gt;
@@ -153,7 +156,7 @@ when invoking &lt;code&gt;just --list&lt;/code&gt;.&lt;/p&gt;
 that contains a comment above it:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# Run the project
 run:
-  just run&lt;/code&gt;&lt;/pre&gt;
+  cargo run&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;invoking &lt;code&gt;just --list&lt;/code&gt; will yield the following
 output:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Available recipes:
@@ -170,7 +173,7 @@ href="https://github.com/casey/just"&gt;official readme&lt;/a&gt; document on
 GitHub for more information and further elaboration on the features
 mentioned here.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Powerful-`just`-features/</link>
-<pubDate>Tue, 12 Apr 2022 03:03:00 +0000</pubDate>
+<pubDate>Tue, 12 Apr 2022 18:35:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Powerful-`just`-features/</guid>
 </item>
 <item>
