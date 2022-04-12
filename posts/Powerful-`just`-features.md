@@ -2,7 +2,7 @@
 Commands, or _recipes_ in `just` lingo, are populated in a file called 'justfile',
 and are expressed in a make-like syntax.
 
-I've been using `just` as my de-facto command runner for all of my projects,
+I've been using `just` as my command runner for all of my projects,
 big or small, and find it extremely useful to have a file in the projects root
 that contains every command needed to interact with the project.
 

@@ -12,10 +12,10 @@
 command runner written in Rust. Commands, or &lt;em&gt;recipes&lt;/em&gt; in
 &lt;code&gt;just&lt;/code&gt; lingo, are populated in a file called ‘justfile’, and
 are expressed in a make-like syntax.&lt;/p&gt;
-&lt;p&gt;I’ve been using &lt;code&gt;just&lt;/code&gt; as my de-facto command runner for
-all of my projects, big or small, and find it extremely useful to have a
-file in the projects root that contains every command needed to interact
-with the project.&lt;/p&gt;
+&lt;p&gt;I’ve been using &lt;code&gt;just&lt;/code&gt; as my command runner for all of my
+projects, big or small, and find it extremely useful to have a file in
+the projects root that contains every command needed to interact with
+the project.&lt;/p&gt;
 &lt;p&gt;There are quite a few features baked into this program that make it
 unique from similar projects, which I find nice to have when crafting
 software. This post simply documents the few I use most often.&lt;/p&gt;
@@ -170,7 +170,7 @@ href="https://github.com/casey/just"&gt;official readme&lt;/a&gt; document on
 GitHub for more information and further elaboration on the features
 mentioned here.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Powerful-`just`-features/</link>
-<pubDate>Tue, 12 Apr 2022 02:41:00 +0000</pubDate>
+<pubDate>Tue, 12 Apr 2022 03:03:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Powerful-`just`-features/</guid>
 </item>
 <item>
