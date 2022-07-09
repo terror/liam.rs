@@ -1,7 +1,0 @@
-#!/bin/bash
-
-date="$1"
-
-formatted="${date//-/}0000.00"
-
-touch -a -m -t "$formatted" "$2"

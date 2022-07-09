@@ -8,4 +8,6 @@ which rg
   --color always \
   --ignore-case \
   --glob !bin/forbid \
+  --glob !docs \
+  --glob !posts \
   'fixme|todo|xxx'

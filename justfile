@@ -8,7 +8,9 @@ alias g := gen
 all: gen fix-typos fmt
 
 gen:
+  ./bin/last-modified
   ./gen.sh
+  ./bin/forbid
 
 dev:
   open -a 'Google Chrome' ./docs/index.html

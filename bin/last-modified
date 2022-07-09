@@ -1,8 +1,21 @@
 #!/bin/bash
 
-git ls-tree -r --name-only HEAD | while read -r filename; do
-  if [[ $filename == posts/* ]]; then
-    date="$(git log -1 --format="%as" -- "$filename")"
-    touch -a -m -t "${date//-/}0000.00" "$filename"
-  fi
-done
+date() {
+  formatted="${1//-/}0000.00"
+  touch -a -m -t "$formatted" posts/"$2".md
+}
+
+main() {
+  date "2020-08-25" "Chaining-comparison-operators"
+  date "2020-09-02" "Useful-git-aliases"
+  date "2020-11-15" "How-I-read-blogs"
+  date "2021-02-15" "Binary-search-for-bugs"
+  date "2021-06-08" "Higher-order-functions"
+  date "2021-08-22" "Ergonomic-error-handling-in-Rust"
+  date "2022-02-25" "From-bash-to-vim-and-back"
+  date "2022-02-27" "Scripting-in-markdown"
+  date "2022-04-12" "Powerful-\`just\`-features"
+  date "2022-07-09" "Incremental-select-with-treesitter"
+}
+
+main
