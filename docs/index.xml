@@ -7,6 +7,71 @@
     <language>en-us</language>
     <copyright>Creative Commons BY-NC-SA 4.0</copyright>
     <item>
+<title>Incremental-select-with-treesitter</title>
+<description>&lt;p&gt;&lt;a href="https://github.com/tree-sitter/tree-sitter"&gt;treesitter&lt;/a&gt;
+is a tool that can build a concrete syntax tree for a source file and
+incrementally update the tree as the file is modified.&lt;/p&gt;
+&lt;p&gt;Recently, I’ve been experimenting more and more with treesitter’s &lt;a
+href="https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries"&gt;query
+DSL&lt;/a&gt; and an abstraction layer in the form of a &lt;a
+href="https://github.com/nvim-treesitter/nvim-treesitter"&gt;neovim
+plugin&lt;/a&gt;, and found a configuration option to be particularly useful
+when editing code: &lt;em&gt;incremental selection&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;When you write a treesitter parser, you must write a grammar that
+treesitter can read, which it then uses to generate the parser. This
+grammar specifies the named syntax nodes in the tree and how they relate
+to other nodes.&lt;/p&gt;
+&lt;p&gt;For instance, if we head over to the &lt;a
+href="https://tree-sitter.github.io/tree-sitter/playground"&gt;syntax tree
+playground&lt;/a&gt; and parse rust source code that looks like this:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre
+class="sourceCode rust"&gt;&lt;code class="sourceCode rust"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;fn&lt;/span&gt; main() &lt;span class="op"&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a href="#cb1-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="pp"&gt;println!&lt;/span&gt;(&lt;span class="st"&gt;&amp;quot;Hello, world!&amp;quot;&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a href="#cb1-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="op"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;we get the following syntax tree output:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;source_file [0, 0] - [3, 0]
+  function_item [0, 0] - [2, 1]
+    name: identifier [0, 3] - [0, 7]
+    parameters: parameters [0, 7] - [0, 9]
+    body: block [0, 10] - [2, 1]
+      macro_invocation [1, 2] - [1, 27]
+        macro: identifier [1, 2] - [1, 9]
+        token_tree [1, 10] - [1, 27]
+          string_literal [1, 11] - [1, 26]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The neovim plugin written as an abstraction layer for treesitter
+usage within neovim is able to parse your source file as you type. That
+is, it’s able to compute a syntax tree that resembles the one shown
+above, on the fly.&lt;/p&gt;
+&lt;p&gt;As you hover over a certain part of a file, it is able to detect
+which node you’re currently at in the tree.&lt;/p&gt;
+&lt;p&gt;The plugin includes a configuration option which allows for the
+setting of keybindings for initializing a node selection and
+incrementing a selected node range – configured like so:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre
+class="sourceCode lua"&gt;&lt;code class="sourceCode lua"&gt;&lt;span id="cb3-1"&gt;&lt;a href="#cb3-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;incremental_selection &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="op"&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a href="#cb3-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  enable &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="kw"&gt;true&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a href="#cb3-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  keymaps &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="op"&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a href="#cb3-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    init_selection &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;&amp;quot;&amp;lt;cr&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-5"&gt;&lt;a href="#cb3-5" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    node_incremental &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;&amp;quot;grn&amp;quot;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-6"&gt;&lt;a href="#cb3-6" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    scope_incremental &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;&amp;quot;grc&amp;quot;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-7"&gt;&lt;a href="#cb3-7" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    node_decremental &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;&amp;quot;grm&amp;quot;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-8"&gt;&lt;a href="#cb3-8" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="op"&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-9"&gt;&lt;a href="#cb3-9" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="op"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Incremental selection has improved the rapidity in which I can yank
+or replace blocks of text in treesitter parsed source files, as
+expanding a node selection with a keybinding is super fast and usually
+results in the exact block of text I want to modify.&lt;/p&gt;
+&lt;p&gt;Here’s a quick demo of it in action:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://asciinema.org/a/507405"&gt;&lt;img
+src="https://asciinema.org/a/507405.svg" alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A reference of my full neovim configuration can be found on github,
+in my &lt;a href="https://github.com/terror/dotfiles"&gt;dotfiles&lt;/a&gt; repo. Be
+sure to check it out!&lt;/p&gt;</description>
+<link>https://liam.rs/posts/Incremental-select-with-treesitter/</link>
+<pubDate>Sat, 09 Jul 2022 17:02:00 +0000</pubDate>
+<guid>https://liam.rs/posts/Incremental-select-with-treesitter/</guid>
+</item>
+<item>
 <title>Powerful-`just`-features</title>
 <description>&lt;p&gt;&lt;a href="https://github.com/casey/just"&gt;&lt;code&gt;just&lt;/code&gt;&lt;/a&gt; is a
 command runner written in Rust. Commands, or &lt;em&gt;recipes&lt;/em&gt; in
@@ -173,7 +238,7 @@ href="https://github.com/casey/just"&gt;official readme&lt;/a&gt; document on
 GitHub for more information and further elaboration on the features
 mentioned here.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Powerful-`just`-features/</link>
-<pubDate>Tue, 12 Apr 2022 18:35:00 +0000</pubDate>
+<pubDate>Tue, 12 Apr 2022 04:00:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Powerful-`just`-features/</guid>
 </item>
 <item>
@@ -311,7 +376,7 @@ It is licensed under the highly permissive &lt;a
 href="https://en.wikipedia.org/wiki/Creative_Commons_license"&gt;CC0-1.0&lt;/a&gt;
 license.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Scripting-in-markdown/</link>
-<pubDate>Mon, 28 Feb 2022 02:25:00 +0000</pubDate>
+<pubDate>Sun, 27 Feb 2022 05:00:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Scripting-in-markdown/</guid>
 </item>
 <item>
@@ -355,7 +420,7 @@ command. Without having to search for the previously opened file, I
 invoke &lt;code&gt;lv&lt;/code&gt;, which gets me back to where I was at.&lt;/p&gt;
 &lt;p&gt;From bash to vim and back, in a flash.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/From-bash-to-vim-and-back/</link>
-<pubDate>Fri, 25 Feb 2022 19:21:00 +0000</pubDate>
+<pubDate>Fri, 25 Feb 2022 05:00:00 +0000</pubDate>
 <guid>https://liam.rs/posts/From-bash-to-vim-and-back/</guid>
 </item>
 <item>
@@ -640,7 +705,7 @@ crafting your own error types that other people can use in their
 applications. You can either make it tedious, by doing it by hand, or by
 using the nifty &lt;code&gt;snafu&lt;/code&gt; library to do the job.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Ergonomic-error-handling-in-Rust/</link>
-<pubDate>Sun, 22 Aug 2021 14:19:00 +0000</pubDate>
+<pubDate>Sun, 22 Aug 2021 04:00:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Ergonomic-error-handling-in-Rust/</guid>
 </item>
 <item>
