@@ -54,7 +54,8 @@ intro() {
     </div>
     <p>I'm Liam.</p>
     <p>
-      I am an incoming honours math/compsci undergrad @ mcgill, programmer and rationalist.
+      I am compsci undergrad with a minor in mathematics @ mcgill university, programmer and
+      rationalist. For fun I enjoy writing open-source projects, reading, and lifting weights.
     </p>
     <p>Send me a message by email: liam [at] scalzulli.com or matrix: worse:matrix.org</p>
   </div>
@@ -87,7 +88,7 @@ EOF
 logo() {
   cat << EOF
   <div>
-  <img class='avatar' src="https://files.catbox.moe/zjuojf.jpeg" width="100" height="100">
+  <img class='avatar' src="https://files.catbox.moe/2ldb2v.jpeg" width="100" height="100">
   <h4 class="subheading">liam's musings</h4>
   </div>
 EOF
