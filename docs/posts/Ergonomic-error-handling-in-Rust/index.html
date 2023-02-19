@@ -62,7 +62,7 @@
         <div class="date">
           22/08 — 2021
           <div class="stats">
-            <span class="stats-number"> 108.68 </span>
+            <span class="stats-number"> 108.69 </span>
             <span class="stats-unit">cm</span>
             &nbsp
             <span class="stats-number"> 7.5 </span>
@@ -71,52 +71,33 @@
         </div>
         <h1>Ergonomic error handling in Rust</h1>
         <div class="post-text">
-          <p>
-            There are many ways you can handle errors in Rust programs: panic at
-            every fallible situation, propagate foreign errors up the call
-            stack, craft your own error type.
-          </p>
-          <p>
-            I’ve recently fallen into a comfortable pattern when dealing with
-            errors in Rust and believe it serves great for small or large
-            projects.
-          </p>
-          <p>
-            This post will walk through a few different ways to handle errors
-            and then ultimately introduce the
-            <a href="https://github.com/shepmaster/snafu"><code>snafu</code></a>
-            library as a clean and ergonomic solution to the elusive task of
-            dealing with erroneous behaviour.
-          </p>
-          <h3 id="contents">Contents</h3>
-          <!--ts-->
-          <ul>
-            <li><a href="#panic-at-the-disco">Panic! at the disco</a></li>
-            <li>
-              <a href="#recoverable-errors-with-resultt-e"
-                >Recoverable errors with Result&lt;T, E&gt;</a
-              >
-            </li>
-            <li>
-              <a href="#crafting-custom-error-types"
-                >Crafting custom error types</a
-              >
-            </li>
-            <li>
-              <a href="#enter-snafu">Enter snafu</a>
-              <!--te-->
-            </li>
-          </ul>
-          <h3 id="panic-at-the-disco">Panic! at the disco</h3>
-          <p>
-            Let’s say we have some arbitrary text file on disk that we want to
-            read from, and depending on the content of the file, we want to
-            write back some bytes to it. Simple enough?
-          </p>
-          <div class="sourceCode" id="cb1">
-            <pre
-              class="sourceCode rust"
-            ><code class="sourceCode rust"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
+          <p>There are many ways you can handle errors in Rust programs: panic at
+every fallible situation, propagate foreign errors up the call stack,
+craft your own error type.</p>
+<p>I’ve recently fallen into a comfortable pattern when dealing with
+errors in Rust and believe it serves great for small or large
+projects.</p>
+<p>This post will walk through a few different ways to handle errors and
+then ultimately introduce the <a
+href="https://github.com/shepmaster/snafu"><code>snafu</code></a>
+library as a clean and ergonomic solution to the elusive task of dealing
+with erroneous behaviour.</p>
+<h3 id="contents">Contents</h3>
+<!--ts-->
+<ul>
+<li><a href="#panic-at-the-disco">Panic! at the disco</a></li>
+<li><a href="#recoverable-errors-with-resultt-e">Recoverable errors with
+Result&lt;T, E&gt;</a></li>
+<li><a href="#crafting-custom-error-types">Crafting custom error
+types</a></li>
+<li><a href="#enter-snafu">Enter snafu</a> <!--te--></li>
+</ul>
+<h3 id="panic-at-the-disco">Panic! at the disco</h3>
+<p>Let’s say we have some arbitrary text file on disk that we want to
+read from, and depending on the content of the file, we want to write
+back some bytes to it. Simple enough?</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">fs::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> OpenOptions<span class="op">},</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">io::prelude::</span><span class="op">*</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
@@ -141,46 +122,29 @@
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> main() <span class="op">{</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  run()<span class="op">;</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
-          </div>
-          <p>This program can fail in a few different ways:</p>
-          <ul>
-            <li>The file doesn’t exist.</li>
-            <li>The contents of the file aren’t valid UTF-8.</li>
-            <li>
-              The call to
-              <a
-                href="https://doc.rust-lang.org/std/io/trait.Write.html#method.write_all"
-                ><code>write_all</code></a
-              >
-              gets interrupted.
-            </li>
-          </ul>
-          <p>
-            We are handling each of these instances with our calls to
-            <a
-              href="https://learning-rust.github.io/docs/e4.unwrap_and_expect.html"
-              ><code>unwrap</code></a
-            >
-            on the fallible function calls. However, instead of being able to
-            recover from an error if it occurs, the current thread
-            <a href="https://doc.rust-lang.org/std/macro.panic.html"
-              ><code>panics</code></a
-            >, which, if it is the main thread, terminates all threads and ends
-            the program with code <code>101</code>.
-          </p>
-          <h3 id="recoverable-errors-with-resultt-e">
-            Recoverable errors with Result&lt;T, E&gt;
-          </h3>
-          <p>
-            Instead of calls to <code>panic!</code> each time the program can
-            fail, we should be writing more robust code by giving our caller a
-            chance to recover from this behaviour.
-          </p>
-          <div class="sourceCode" id="cb2">
-            <pre
-              class="sourceCode rust"
-            ><code class="sourceCode rust"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>This program can fail in a few different ways:</p>
+<ul>
+<li>The file doesn’t exist.</li>
+<li>The contents of the file aren’t valid UTF-8.</li>
+<li>The call to <a
+href="https://doc.rust-lang.org/std/io/trait.Write.html#method.write_all"><code>write_all</code></a>
+gets interrupted.</li>
+</ul>
+<p>We are handling each of these instances with our calls to <a
+href="https://learning-rust.github.io/docs/e4.unwrap_and_expect.html"><code>unwrap</code></a>
+on the fallible function calls. However, instead of being able to
+recover from an error if it occurs, the current thread <a
+href="https://doc.rust-lang.org/std/macro.panic.html"><code>panics</code></a>,
+which, if it is the main thread, terminates all threads and ends the
+program with code <code>101</code>.</p>
+<h3 id="recoverable-errors-with-resultt-e">Recoverable errors with
+Result&lt;T, E&gt;</h3>
+<p>Instead of calls to <code>panic!</code> each time the program can
+fail, we should be writing more robust code by giving our caller a
+chance to recover from this behaviour.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">fs::</span>File<span class="op">,</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">io::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> <span class="pp">prelude::</span><span class="op">*},</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
@@ -207,61 +171,40 @@
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>(()) <span class="op">=&gt;</span> <span class="op">{},</span></span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Err</span>(e) <span class="op">=&gt;</span> <span class="pp">eprintln!</span>(<span class="st">&quot;{}&quot;</span><span class="op">,</span> e)</span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
-          </div>
-          <p>
-            The <code>Result</code> type is an <code>enum</code> which has an
-            <code>Ok</code> and an <code>Err</code> variant. The
-            <code>Ok</code> variant holds a generic value <code>T</code> that
-            gets returned in the case that no errors have occurred. The
-            <code>Err</code> variant holds a generic value <code>E</code>,
-            usually an error type, if an error has occurred.
-          </p>
-          <p>
-            The <code>?</code> operator only works when the function we’re
-            applying it to returns a <code>Result</code> in which whose
-            <code>Err</code> variant contains the error type we wish to
-            propagate. It is essentially a shorthand for the following code:
-          </p>
-          <div class="sourceCode" id="cb3">
-            <pre
-              class="sourceCode rust"
-            ><code class="sourceCode rust"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">match</span> result <span class="op">{</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>The <code>Result</code> type is an <code>enum</code> which has an
+<code>Ok</code> and an <code>Err</code> variant. The <code>Ok</code>
+variant holds a generic value <code>T</code> that gets returned in the
+case that no errors have occurred. The <code>Err</code> variant holds a
+generic value <code>E</code>, usually an error type, if an error has
+occurred.</p>
+<p>The <code>?</code> operator only works when the function we’re
+applying it to returns a <code>Result</code> in which whose
+<code>Err</code> variant contains the error type we wish to propagate.
+It is essentially a shorthand for the following code:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">match</span> result <span class="op">{</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Ok</span>(v)  <span class="op">=&gt;</span> v<span class="op">,</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Err</span>(e) <span class="op">=&gt;</span> <span class="cn">Err</span>(e)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
-          </div>
-          <p>
-            This implementation allows for our caller to recover from any
-            erroneous behaviour. However, we can only return one type of error
-            from our function. This prompts anyone who wishes to possibly return
-            more than one error type to create their own type that contains
-            multiple variants.
-          </p>
-          <h3 id="crafting-custom-error-types">Crafting custom error types</h3>
-          <p>
-            We can craft our own custom error type as a Rust
-            <a
-              href="https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html"
-              ><code>enum</code></a
-            >
-            and add multiple variants to it. We can then define a
-            <code>Result</code> type which we can use throughout our program
-            which contains our custom error type as the error to propagate.
-          </p>
-          <p>
-            In order to demonstrate the need for multiple error types, we’ll
-            extend the functionality of this tiny application to include a call
-            to some API endpoint that is written in the text file, using the
-            <a href="https://github.com/seanmonstar/reqwest"
-              ><code>reqwest</code></a
-            >
-            library.
-          </p>
-          <div class="sourceCode" id="cb4">
-            <pre
-              class="sourceCode rust"
-            ><code class="sourceCode rust"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>This implementation allows for our caller to recover from any
+erroneous behaviour. However, we can only return one type of error from
+our function. This prompts anyone who wishes to possibly return more
+than one error type to create their own type that contains multiple
+variants.</p>
+<h3 id="crafting-custom-error-types">Crafting custom error types</h3>
+<p>We can craft our own custom error type as a Rust <a
+href="https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html"><code>enum</code></a>
+and add multiple variants to it. We can then define a
+<code>Result</code> type which we can use throughout our program which
+contains our custom error type as the error to propagate.</p>
+<p>In order to demonstrate the need for multiple error types, we’ll
+extend the functionality of this tiny application to include a call to
+some API endpoint that is written in the text file, using the <a
+href="https://github.com/seanmonstar/reqwest"><code>reqwest</code></a>
+library.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">fmt::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> <span class="bu">Display</span><span class="op">},</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">fs::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> OpenOptions<span class="op">},</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">io::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> <span class="pp">prelude::</span><span class="op">*},</span></span>
@@ -323,43 +266,29 @@
 <span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>(()) <span class="op">=&gt;</span> <span class="op">{}</span></span>
 <span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Err</span>(e) <span class="op">=&gt;</span> <span class="pp">eprintln!</span>(<span class="st">&quot;{}&quot;</span><span class="op">,</span> e)<span class="op">,</span></span>
 <span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
-          </div>
-          <p>
-            In order to apply our nice shorthand <code>?</code> operator, we
-            have the implement the
-            <a href="https://doc.rust-lang.org/std/convert/trait.From.html"
-              ><code>From</code></a
-            >
-            trait for each error type we wish to add to our custom
-            <code>enum</code>. In addition, in order for <code>main</code> to be
-            able to print out the error message, we must implement
-            <a href="https://doc.rust-lang.org/std/fmt/trait.Display.html"
-              ><code>Display</code></a
-            >
-            for our custom error type, matching on each variant.
-          </p>
-          <p>
-            This implementation solves the problem of dealing with multiple
-            error types in a given function. Having our own custom error type
-            also allows for other users of our application to deal with our
-            various custom error type variants using a similar approach.
-            However, as we shall see, we can avoid some of this tedium by
-            bringing in a third party.
-          </p>
-          <h3 id="enter-snafu">Enter snafu</h3>
-          <p>
-            The <code>snafu</code> library allows for the easy assignment of
-            foreign errors into domain-specific errors while also adding
-            contextual information. Whenever a foreign error type is
-            encountered, we can easily pin it to our own custom typing by adding
-            a <code>source</code> attribute.
-          </p>
-          <p>For instance:</p>
-          <div class="sourceCode" id="cb5">
-            <pre
-              class="sourceCode rust"
-            ><code class="sourceCode rust"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>In order to apply our nice shorthand <code>?</code> operator, we have
+the implement the <a
+href="https://doc.rust-lang.org/std/convert/trait.From.html"><code>From</code></a>
+trait for each error type we wish to add to our custom
+<code>enum</code>. In addition, in order for <code>main</code> to be
+able to print out the error message, we must implement <a
+href="https://doc.rust-lang.org/std/fmt/trait.Display.html"><code>Display</code></a>
+for our custom error type, matching on each variant.</p>
+<p>This implementation solves the problem of dealing with multiple error
+types in a given function. Having our own custom error type also allows
+for other users of our application to deal with our various custom error
+type variants using a similar approach. However, as we shall see, we can
+avoid some of this tedium by bringing in a third party.</p>
+<h3 id="enter-snafu">Enter snafu</h3>
+<p>The <code>snafu</code> library allows for the easy assignment of
+foreign errors into domain-specific errors while also adding contextual
+information. Whenever a foreign error type is encountered, we can easily
+pin it to our own custom typing by adding a <code>source</code>
+attribute.</p>
+<p>For instance:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="pp">std::</span><span class="op">{</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">fs::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> OpenOptions<span class="op">},</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">io::</span><span class="op">{</span><span class="kw">self</span><span class="op">,</span> <span class="pp">prelude::</span><span class="op">*},</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
@@ -403,66 +332,41 @@
 <span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>(()) <span class="op">=&gt;</span> <span class="op">{}</span></span>
 <span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Err</span>(e) <span class="op">=&gt;</span> <span class="pp">eprintln!</span>(<span class="st">&quot;{}&quot;</span><span class="op">,</span> e)<span class="op">,</span></span>
 <span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
-          </div>
-          <p>
-            The
-            <a
-              href="https://docs.rs/snafu/0.6.10/snafu/guide/the_macro/index.html"
-              ><code>Snafu</code></a
-            >
-            macro implements all the necessary traits in order to begin using
-            our custom error type in functions.
-          </p>
-          <p>
-            Crafting our type this way not only let’s us avoid implementing
-            traits ourselves but also gives us the added benefit of easily
-            adding in custom fields to our error types as contextual
-            information.
-          </p>
-          <p>
-            This tiny example doesn’t show all of the functionality the
-            <code>snafu</code> library has to offer, so I suggest you have a
-            look at the official
-            <a href="https://docs.rs/snafu/0.6.10/snafu/index.html"
-              >documentation</a
-            >.
-          </p>
-          <h3 id="fin">Fin</h3>
-          <p>
-            Quality Rust code should never panic when it doesn’t absolutely need
-            to, and knowing this you should make the best of the situation by
-            crafting your own error types that other people can use in their
-            applications. You can either make it tedious, by doing it by hand,
-            or by using the nifty <code>snafu</code> library to do the job.
-          </p>
-        </div>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>The <a
+href="https://docs.rs/snafu/0.6.10/snafu/guide/the_macro/index.html"><code>Snafu</code></a>
+macro implements all the necessary traits in order to begin using our
+custom error type in functions.</p>
+<p>Crafting our type this way not only let’s us avoid implementing
+traits ourselves but also gives us the added benefit of easily adding in
+custom fields to our error types as contextual information.</p>
+<p>This tiny example doesn’t show all of the functionality the
+<code>snafu</code> library has to offer, so I suggest you have a look at
+the official <a
+href="https://docs.rs/snafu/0.6.10/snafu/index.html">documentation</a>.</p>
+<h3 id="fin">Fin</h3>
+<p>Quality Rust code should never panic when it doesn’t absolutely need
+to, and knowing this you should make the best of the situation by
+crafting your own error types that other people can use in their
+applications. You can either make it tedious, by doing it by hand, or by
+using the nifty <code>snafu</code> library to do the job.</p>
 
-        <div class="intro">
-          Hi.
-          <div class="hot-links">
-            <a href="https://liam.rs/index.xml" class="feed-button"
-              >Subscribe</a
-            >
-            <a
-              href="https://www.buymeacoffee.com/terror"
-              class="donate-button"
-              target="_blank"
-              >Donate</a
-            >
-          </div>
-          <p>I'm Liam.</p>
-          <p>
-            I am compsci undergrad with a minor in mathematics @ mcgill
-            university, programmer and rationalist. For fun I enjoy working on
-            open-source projects, reading, and lifting weights.
-          </p>
-          <p>
-            Send me a message by email: liam [at] scalzulli.com or matrix:
-            worse:matrix.org
-          </p>
         </div>
-
+        
+    <div class="intro">
+      Hi.
+    <div class="hot-links">
+      <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
+      <a href="https://www.buymeacoffee.com/terror" class="donate-button" target="_blank">Donate</a>
+    </div>
+    <p>I'm Liam.</p>
+    <p>
+      I am compsci undergrad with a minor in mathematics @ mcgill university, rust enjoyer and
+      (neo)vim enthusiast. For fun I enjoy working on open-source projects, reading, and lifting weights.
+    </p>
+    <p>Send me a message by email: liam [at] scalzulli.com or matrix: worse:matrix.org</p>
+  </div>
+  
         <a href="/" class="post-end-link">Home</a>
         <span>/</span>
         <a href="/posts" class="post-end-link">Posts</a>

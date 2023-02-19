@@ -71,105 +71,71 @@
         </div>
         <h1>How I read blogs</h1>
         <div class="post-text">
-          <p>
-            I have recently gotten into the habit of reading more blogs, in
-            particular, ones featured on
-            <a href="https://news.ycombinator.com/news">HackerNews</a>.
-          </p>
-          <p>
-            Reading books, personally, has been a difficult habit to cultivate
-            over time, which I mainly attribute to the periodic feelings of
-            being “stuck” or bored on a certain set of books. Blogs, however,
-            offer a condensed read making them efficient and often amusing
-            sources of information.
-          </p>
-          <p>
-            My typical sourcing routine would usually just consist of scrolling
-            through HackerNews, potentially seeing something that peaked my
-            interest and reading it, or realizing I didn’t have the time and
-            putting the url off in a <code>.txt</code> file somewhere.
-          </p>
-          <p>
-            Realizing the severe lack of efficiency present in this routine, I
-            thought about how to make it better. First, by asking the question:
-            what were the things I didn’t like?
-          </p>
-          <ol type="1">
-            <li>Having to scroll through articles myself</li>
-            <li>Reading on mobile or desktop</li>
-            <li>
-              Having no effortless <code>like</code> or
-              <code>archive</code> feature
-            </li>
-          </ol>
-          <p>
-            To address these problems I chose to try out
-            <a href="https://www.instapaper.com/"><code>Instapaper</code></a>
-            and build a simple tool called
-            <a href="https://github.com/terror/hackerpaper"
-              ><code>hackerpaper</code></a
-            >.
-          </p>
-          <p>
-            Instapaper has a feature that let’s you send articles to your
-            Kindle, which makes reading blogs much more comfortable. Moreover,
-            the built in <code>like</code> and <code>archive</code> features
-            carryover to the Kindle as well, making it a seamless process of
-            <code>read</code> -&gt; <code>archive or like</code> -&gt;
-            <code>repeat</code>.
-          </p>
-          <p>
-            To solve the issue of having to scroll through articles myself and
-            add them to Instapaper, as mentioned above, I built
-            <code>hackerpaper</code>. This tool sends HackerNews articles to
-            Instapaper with certain filters such as type, subdomains or a
-            specific article id.
-          </p>
-          <p>
-            I run a <code>cron job</code> that sends the articles to Instapaper
-            at 5:00AM and have Instapaper send those articles to my Kindle at
-            7:00AM.
-          </p>
-          <p>The script is as simple as:</p>
-          <div class="sourceCode" id="cb1">
-            <pre
-              class="sourceCode bash"
-            ><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ~/path/to/python3 ~/path/to/hackerpaper <span class="at">-a</span> <span class="op">&lt;</span>email<span class="op">&gt;</span> <span class="op">&lt;</span>password<span class="op">&gt;</span> -t topstories</span></code></pre>
-          </div>
-          <p>To recap the routine:</p>
-          <ol type="1">
-            <li>Have <code>hackerpaper</code> send articles to Instapaper</li>
-            <li>Have <code>Instapaper</code> send those articles to Kindle</li>
-            <li>Read and archive those articles</li>
-            <li>Repeat</li>
-          </ol>
-        </div>
+          <p>I have recently gotten into the habit of reading more blogs, in
+particular, ones featured on <a
+href="https://news.ycombinator.com/news">HackerNews</a>.</p>
+<p>Reading books, personally, has been a difficult habit to cultivate
+over time, which I mainly attribute to the periodic feelings of being
+“stuck” or bored on a certain set of books. Blogs, however, offer a
+condensed read making them efficient and often amusing sources of
+information.</p>
+<p>My typical sourcing routine would usually just consist of scrolling
+through HackerNews, potentially seeing something that peaked my interest
+and reading it, or realizing I didn’t have the time and putting the url
+off in a <code>.txt</code> file somewhere.</p>
+<p>Realizing the severe lack of efficiency present in this routine, I
+thought about how to make it better. First, by asking the question: what
+were the things I didn’t like?</p>
+<ol type="1">
+<li>Having to scroll through articles myself</li>
+<li>Reading on mobile or desktop</li>
+<li>Having no effortless <code>like</code> or <code>archive</code>
+feature</li>
+</ol>
+<p>To address these problems I chose to try out <a
+href="https://www.instapaper.com/"><code>Instapaper</code></a> and build
+a simple tool called <a
+href="https://github.com/terror/hackerpaper"><code>hackerpaper</code></a>.</p>
+<p>Instapaper has a feature that let’s you send articles to your Kindle,
+which makes reading blogs much more comfortable. Moreover, the built in
+<code>like</code> and <code>archive</code> features carryover to the
+Kindle as well, making it a seamless process of <code>read</code> -&gt;
+<code>archive or like</code> -&gt; <code>repeat</code>.</p>
+<p>To solve the issue of having to scroll through articles myself and
+add them to Instapaper, as mentioned above, I built
+<code>hackerpaper</code>. This tool sends HackerNews articles to
+Instapaper with certain filters such as type, subdomains or a specific
+article id.</p>
+<p>I run a <code>cron job</code> that sends the articles to Instapaper
+at 5:00AM and have Instapaper send those articles to my Kindle at
+7:00AM.</p>
+<p>The script is as simple as:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ~/path/to/python3 ~/path/to/hackerpaper <span class="at">-a</span> <span class="op">&lt;</span>email<span class="op">&gt;</span> <span class="op">&lt;</span>password<span class="op">&gt;</span> -t topstories</span></code></pre></div>
+<p>To recap the routine:</p>
+<ol type="1">
+<li>Have <code>hackerpaper</code> send articles to Instapaper</li>
+<li>Have <code>Instapaper</code> send those articles to Kindle</li>
+<li>Read and archive those articles</li>
+<li>Repeat</li>
+</ol>
 
-        <div class="intro">
-          Hi.
-          <div class="hot-links">
-            <a href="https://liam.rs/index.xml" class="feed-button"
-              >Subscribe</a
-            >
-            <a
-              href="https://www.buymeacoffee.com/terror"
-              class="donate-button"
-              target="_blank"
-              >Donate</a
-            >
-          </div>
-          <p>I'm Liam.</p>
-          <p>
-            I am compsci undergrad with a minor in mathematics @ mcgill
-            university, programmer and rationalist. For fun I enjoy working on
-            open-source projects, reading, and lifting weights.
-          </p>
-          <p>
-            Send me a message by email: liam [at] scalzulli.com or matrix:
-            worse:matrix.org
-          </p>
         </div>
-
+        
+    <div class="intro">
+      Hi.
+    <div class="hot-links">
+      <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
+      <a href="https://www.buymeacoffee.com/terror" class="donate-button" target="_blank">Donate</a>
+    </div>
+    <p>I'm Liam.</p>
+    <p>
+      I am compsci undergrad with a minor in mathematics @ mcgill university, rust enjoyer and
+      (neo)vim enthusiast. For fun I enjoy working on open-source projects, reading, and lifting weights.
+    </p>
+    <p>Send me a message by email: liam [at] scalzulli.com or matrix: worse:matrix.org</p>
+  </div>
+  
         <a href="/" class="post-end-link">Home</a>
         <span>/</span>
         <a href="/posts" class="post-end-link">Posts</a>

@@ -54,8 +54,8 @@ intro() {
     </div>
     <p>I'm Liam.</p>
     <p>
-      I am compsci undergrad with a minor in mathematics @ mcgill university, programmer and
-      rationalist. For fun I enjoy working on open-source projects, reading, and lifting weights.
+      I am compsci undergrad with a minor in mathematics @ mcgill university, rust enjoyer and
+      (neo)vim enthusiast. For fun I enjoy working on open-source projects, reading, and lifting weights.
     </p>
     <p>Send me a message by email: liam [at] scalzulli.com or matrix: worse:matrix.org</p>
   </div>

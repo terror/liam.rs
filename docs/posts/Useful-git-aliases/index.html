@@ -71,12 +71,10 @@
         </div>
         <h1>Useful git aliases</h1>
         <div class="post-text">
-          <p>
-            I really enjoy using <code>aliases</code> for git commands because
-            a) I’m lazy and b) it makes me feel more productive.
-          </p>
-          <p>Some basic ones I use</p>
-          <pre><code>alias ga=&quot;git add&quot;
+          <p>I really enjoy using <code>aliases</code> for git commands because a)
+I’m lazy and b) it makes me feel more productive.</p>
+<p>Some basic ones I use</p>
+<pre><code>alias ga=&quot;git add&quot;
 alias gc=&quot;git commit&quot;
 alias gd=&quot;git diff&quot;
 alias gch=&quot;git checkout&quot;
@@ -86,62 +84,42 @@ alias gpo=&quot;git push origin&quot;
 alias gb=&quot;git branch&quot;
 alias gcb=&quot;git checkout -b&quot;
 </code></pre>
-          <p>
-            These ones are set up in my <code>.bashrc</code> file so that I can
-            just execute them as is, i.e <code>gc</code> -&gt;
-            <code>git commit</code>.
-          </p>
-          <p>
-            Some more complex ones (except for fetch) in my
-            <code>.gitconfig</code> I enjoy:
-          </p>
-          <pre><code>f = fetch
+<p>These ones are set up in my <code>.bashrc</code> file so that I can
+just execute them as is, i.e <code>gc</code> -&gt;
+<code>git commit</code>.</p>
+<p>Some more complex ones (except for fetch) in my
+<code>.gitconfig</code> I enjoy:</p>
+<pre><code>f = fetch
 fu = fetch upstream master
 track = branch --set-upstream-to=upstream/master master
 parent = &quot;!git show-branch | grep &#39;*&#39; | grep -v \&quot;$(git rev-parse --abbrev-ref HEAD)\&quot; | head -n1 | sed &#39;s/.*\\[\\(.*\\)\\].*/\\1/&#39; | sed &#39;s/[\\^~].*//&#39; #&quot;
 lg = log --oneline
 last = log -1 HEAD</code></pre>
-          <p>
-            <code>fu</code> and <code>track</code> are useful for doing things
-            when I’m working on a forked repository
-          </p>
-          <p>
-            <code>parent</code> shows the parent branch of the current working
-            branch
-          </p>
-          <p><code>lg</code> shows commit history one line at a time</p>
-          <p><code>last</code> shows information for the last commit</p>
-          <p>
-            Whether they make me more productive or not, I just enjoy using them
-            and see no reason not to.
-          </p>
-        </div>
+<p><code>fu</code> and <code>track</code> are useful for doing things
+when I’m working on a forked repository</p>
+<p><code>parent</code> shows the parent branch of the current working
+branch</p>
+<p><code>lg</code> shows commit history one line at a time</p>
+<p><code>last</code> shows information for the last commit</p>
+<p>Whether they make me more productive or not, I just enjoy using them
+and see no reason not to.</p>
 
-        <div class="intro">
-          Hi.
-          <div class="hot-links">
-            <a href="https://liam.rs/index.xml" class="feed-button"
-              >Subscribe</a
-            >
-            <a
-              href="https://www.buymeacoffee.com/terror"
-              class="donate-button"
-              target="_blank"
-              >Donate</a
-            >
-          </div>
-          <p>I'm Liam.</p>
-          <p>
-            I am compsci undergrad with a minor in mathematics @ mcgill
-            university, programmer and rationalist. For fun I enjoy working on
-            open-source projects, reading, and lifting weights.
-          </p>
-          <p>
-            Send me a message by email: liam [at] scalzulli.com or matrix:
-            worse:matrix.org
-          </p>
         </div>
-
+        
+    <div class="intro">
+      Hi.
+    <div class="hot-links">
+      <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
+      <a href="https://www.buymeacoffee.com/terror" class="donate-button" target="_blank">Donate</a>
+    </div>
+    <p>I'm Liam.</p>
+    <p>
+      I am compsci undergrad with a minor in mathematics @ mcgill university, rust enjoyer and
+      (neo)vim enthusiast. For fun I enjoy working on open-source projects, reading, and lifting weights.
+    </p>
+    <p>Send me a message by email: liam [at] scalzulli.com or matrix: worse:matrix.org</p>
+  </div>
+  
         <a href="/" class="post-end-link">Home</a>
         <span>/</span>
         <a href="/posts" class="post-end-link">Posts</a>

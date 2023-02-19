@@ -1,3 +1,5 @@
+export ESH_AWK := '/usr/local/bin/gawk'
+
 default:
   just --list
 

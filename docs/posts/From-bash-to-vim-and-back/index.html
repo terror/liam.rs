@@ -62,98 +62,70 @@
         <div class="date">
           25/02 — 2022
           <div class="stats">
-            <span class="stats-number"> 16.37 </span>
+            <span class="stats-number"> 16.38 </span>
             <span class="stats-unit">cm</span>
             &nbsp
-            <span class="stats-number"> 1.3 </span>
+            <span class="stats-number"> 1.4 </span>
             <span class="stats-unit">min</span>
           </div>
         </div>
         <h1>From bash to vim and back</h1>
         <div class="post-text">
-          <p>
-            I recently ran the following command to get my top 5 most used
-            <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bash</a>
-            commands:
-          </p>
-          <div class="sourceCode" id="cb1">
-            <pre
-              class="sourceCode bash"
-            ><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> history <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-nr</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-5</span></span></code></pre>
-          </div>
-          <p>and here is what came up:</p>
-          <pre><code>20793 lt
+          <p>I recently ran the following command to get my top 5 most used <a
+href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bash</a>
+commands:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> history <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-nr</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-5</span></span></code></pre></div>
+<p>and here is what came up:</p>
+<pre><code>20793 lt
 10124 lv
 9328 v
 8686 j
 7243 gst</code></pre>
-          <p>These are, for the most part – ordinary, everyday commands:</p>
-          <ul>
-            <li><code>lt</code>: alias for <code>tree -L 1</code></li>
-            <li><code>v</code>: alias for <code>nvim</code></li>
-            <li>
-              <code>j</code>: alias for <code>just</code>,
-              <a href="https://github.com/casey/just"
-                >the fabulous command runner</a
-              >
-            </li>
-            <li><code>gst</code>: alias for <code>git status</code></li>
-          </ul>
-          <p>
-            What I assume isn’t so obvious is <code>lv</code>, which stands for
-            ‘last vim’. <code>lv</code> is an alias for the command
-            <code>nvim -c "normal '0" -c bd1</code>, which opens the last opened
-            file at the last cursor position in a new Neovim buffer.
-          </p>
-          <p>To break the command down a bit:</p>
-          <ul>
-            <li><code>nvim</code>: the Neovim binary</li>
-            <li>
-              <code>-c &lt;cmd&gt;</code>: Execute
-              <code>&lt;cmd&gt;</code> after config and first file
-            </li>
-            <li>
-              <code>normal '0</code>: The last set cursor position and file
-            </li>
-            <li><code>bd1</code>: Delete the first buffer</li>
-          </ul>
-          <p>
-            I use
-            <a href="https://en.wikipedia.org/wiki/Vim_(text_editor)#Neovim"
-              >Neovim</a
-            >
-            alot, and sometimes I quit the editor to run some arbitrary Bash
-            command. Without having to search for the previously opened file, I
-            invoke <code>lv</code>, which gets me back to where I was at.
-          </p>
-          <p>From bash to vim and back, in a flash.</p>
-        </div>
+<p>These are, for the most part – ordinary, everyday commands:</p>
+<ul>
+<li><code>lt</code>: alias for <code>tree -L 1</code></li>
+<li><code>v</code>: alias for <code>nvim</code></li>
+<li><code>j</code>: alias for <code>just</code>, <a
+href="https://github.com/casey/just">the fabulous command
+runner</a></li>
+<li><code>gst</code>: alias for <code>git status</code></li>
+</ul>
+<p>What I assume isn’t so obvious is <code>lv</code>, which stands for
+‘last vim’. <code>lv</code> is an alias for the command
+<code>nvim -c "normal '0" -c bd1</code>, which opens the last opened
+file at the last cursor position in a new Neovim buffer.</p>
+<p>To break the command down a bit:</p>
+<ul>
+<li><code>nvim</code>: the Neovim binary</li>
+<li><code>-c &lt;cmd&gt;</code>: Execute <code>&lt;cmd&gt;</code> after
+config and first file</li>
+<li><code>normal '0</code>: The last set cursor position and file</li>
+<li><code>bd1</code>: Delete the first buffer</li>
+</ul>
+<p>I use <a
+href="https://en.wikipedia.org/wiki/Vim_(text_editor)#Neovim">Neovim</a>
+alot, and sometimes I quit the editor to run some arbitrary Bash
+command. Without having to search for the previously opened file, I
+invoke <code>lv</code>, which gets me back to where I was at.</p>
+<p>From bash to vim and back, in a flash.</p>
 
-        <div class="intro">
-          Hi.
-          <div class="hot-links">
-            <a href="https://liam.rs/index.xml" class="feed-button"
-              >Subscribe</a
-            >
-            <a
-              href="https://www.buymeacoffee.com/terror"
-              class="donate-button"
-              target="_blank"
-              >Donate</a
-            >
-          </div>
-          <p>I'm Liam.</p>
-          <p>
-            I am compsci undergrad with a minor in mathematics @ mcgill
-            university, programmer and rationalist. For fun I enjoy working on
-            open-source projects, reading, and lifting weights.
-          </p>
-          <p>
-            Send me a message by email: liam [at] scalzulli.com or matrix:
-            worse:matrix.org
-          </p>
         </div>
-
+        
+    <div class="intro">
+      Hi.
+    <div class="hot-links">
+      <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
+      <a href="https://www.buymeacoffee.com/terror" class="donate-button" target="_blank">Donate</a>
+    </div>
+    <p>I'm Liam.</p>
+    <p>
+      I am compsci undergrad with a minor in mathematics @ mcgill university, rust enjoyer and
+      (neo)vim enthusiast. For fun I enjoy working on open-source projects, reading, and lifting weights.
+    </p>
+    <p>Send me a message by email: liam [at] scalzulli.com or matrix: worse:matrix.org</p>
+  </div>
+  
         <a href="/" class="post-end-link">Home</a>
         <span>/</span>
         <a href="/posts" class="post-end-link">Posts</a>

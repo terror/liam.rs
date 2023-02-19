@@ -65,53 +65,41 @@
             <span class="stats-number"> 56.74 </span>
             <span class="stats-unit">cm</span>
             &nbsp
-            <span class="stats-number"> 4.7 </span>
+            <span class="stats-number"> 4.8 </span>
             <span class="stats-unit">min</span>
           </div>
         </div>
         <h1>Scripting in markdown</h1>
         <div class="post-text">
-          <p>
-            I recently wrote yet another command-line utility in Rust called
-            <a href="https://github.com/terror/present"><code>present</code></a>
-            that lets you interpolate the standard output of arbitrary commands
-            that get interpreted by the shell into a markdown file, and I
-            thought I’d share a bit about it here.
-          </p>
-          <h3 id="problem">Problem</h3>
-          <p>
-            The main problem I kept running into that pushed me to write this
-            tool was having to <em>manually</em> update the outputs of command
-            line utility help messages in my project readme documents.
-          </p>
-          <p>
-            For instance, I wrote a command-line utility called
-            <a href="https://github.com/terror/vim-profiler"
-              ><code>vim-profiler</code></a
-            >
-            that lets you profile the startup-time for your installed vim
-            plugins and receive a nicely formatted output. In the readme
-            document I have a usage section that includes the output of calling
-            <code>vp --help</code>. Each time I make a version change, update
-            the description, or update the API – the result of calling
-            <code>vp --help</code> changes, which prompts me to update the
-            readme.
-          </p>
-          <h3 id="solution">Solution</h3>
-          <p>
-            Instead of invoking the binary with the <code>--help</code> flag,
-            piping the result to <code>pbcopy</code> and then manually pasting
-            the chunk into the appropriate section within the readme myself, I
-            can now have <code>present</code> do all of that for me.
-          </p>
-          <p>Here’s how that looks like:</p>
-          <ol type="1">
-            <li>
-              Include the command at the start of a fenced codeblock using the
-              <code>present</code> prefix
-            </li>
-          </ol>
-          <pre><code>## vim-profiler 🕒
+          <p>I recently wrote yet another command-line utility in Rust called <a
+href="https://github.com/terror/present"><code>present</code></a> that
+lets you interpolate the standard output of arbitrary commands that get
+interpreted by the shell into a markdown file, and I thought I’d share a
+bit about it here.</p>
+<h3 id="problem">Problem</h3>
+<p>The main problem I kept running into that pushed me to write this
+tool was having to <em>manually</em> update the outputs of command line
+utility help messages in my project readme documents.</p>
+<p>For instance, I wrote a command-line utility called <a
+href="https://github.com/terror/vim-profiler"><code>vim-profiler</code></a>
+that lets you profile the startup-time for your installed vim plugins
+and receive a nicely formatted output. In the readme document I have a
+usage section that includes the output of calling
+<code>vp --help</code>. Each time I make a version change, update the
+description, or update the API – the result of calling
+<code>vp --help</code> changes, which prompts me to update the
+readme.</p>
+<h3 id="solution">Solution</h3>
+<p>Instead of invoking the binary with the <code>--help</code> flag,
+piping the result to <code>pbcopy</code> and then manually pasting the
+chunk into the appropriate section within the readme myself, I can now
+have <code>present</code> do all of that for me.</p>
+<p>Here’s how that looks like:</p>
+<ol type="1">
+<li>Include the command at the start of a fenced codeblock using the
+<code>present</code> prefix</li>
+</ol>
+<pre><code>## vim-profiler 🕒
 
 ...
 
@@ -120,18 +108,15 @@
 ```present cargo run -- --help
 ```
 ...</code></pre>
-          <ol start="2" type="1">
-            <li>Run <code>present</code> on the markdown file</li>
-          </ol>
-          <div class="sourceCode" id="cb2">
-            <pre
-              class="sourceCode bash"
-            ><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> present <span class="at">--in-place</span> <span class="at">--path</span> readme.md</span></code></pre>
-          </div>
-          <ol start="3" type="1">
-            <li>View the modified document!</li>
-          </ol>
-          <pre><code>## vim-profiler 🕒
+<ol start="2" type="1">
+<li>Run <code>present</code> on the markdown file</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> present <span class="at">--in-place</span> <span class="at">--path</span> readme.md</span></code></pre></div>
+<ol start="3" type="1">
+<li>View the modified document!</li>
+</ol>
+<pre><code>## vim-profiler 🕒
 
 ...
 
@@ -161,117 +146,80 @@ OPTIONS:
     -x, --precision &lt;precision&gt;    Precision in the output
 ```
 ...</code></pre>
-          <p>
-            In practice, I’ll add the command in a justfile <code>all</code>
-            recipe that I invoke before I commit any changes, such as shown in
-            this
-            <a href="https://github.com/terror/present/blob/master/justfile"
-              >justfile</a
-            >.
-          </p>
-          <h3 id="moving-forward">Moving forward</h3>
-          <p>
-            The project is still in its early stages of development, and there
-            most certainly exists a few non-trivial bugs to be found and fixed.
-          </p>
-          <p>Some things on the todo list, in no particular order, include:</p>
-          <blockquote>
-            <p>Improve diff output in interactive mode</p>
-          </blockquote>
-          <p>
-            The project uses the
-            <a href="https://github.com/mitsuhiko/similar"
-              ><code>similar</code></a
-            >
-            crate to help with diff output in interactive mode, but it can be
-            made nicer by taking advantage of additional features the crate has
-            to offer.
-          </p>
-          <blockquote>
-            <p>Support same-line command interpolation</p>
-          </blockquote>
-          <p>
-            This isn’t that important, but it would be nice to support having
-            backticks remain on the same line and have the command result get
-            interpolated with the appropriate newlines. e.g
-          </p>
-          <pre><code>-&gt; ```echo foo```
+<p>In practice, I’ll add the command in a justfile <code>all</code>
+recipe that I invoke before I commit any changes, such as shown in this
+<a
+href="https://github.com/terror/present/blob/master/justfile">justfile</a>.</p>
+<h3 id="moving-forward">Moving forward</h3>
+<p>The project is still in its early stages of development, and there
+most certainly exists a few non-trivial bugs to be found and fixed.</p>
+<p>Some things on the todo list, in no particular order, include:</p>
+<blockquote>
+<p>Improve diff output in interactive mode</p>
+</blockquote>
+<p>The project uses the <a
+href="https://github.com/mitsuhiko/similar"><code>similar</code></a>
+crate to help with diff output in interactive mode, but it can be made
+nicer by taking advantage of additional features the crate has to
+offer.</p>
+<blockquote>
+<p>Support same-line command interpolation</p>
+</blockquote>
+<p>This isn’t that important, but it would be nice to support having
+backticks remain on the same line and have the command result get
+interpolated with the appropriate newlines. e.g</p>
+<pre><code>-&gt; ```echo foo```
 
 -&gt; ```echo foo
    foo
    ```</code></pre>
-          <blockquote>
-            <p>Handle quotes as a single argument</p>
-          </blockquote>
-          <p>
-            This would let you actually write inline bash scripts, e.g
-            <code>/bin/bash -c 'for i in *; do echo "$i"; done'</code>. As of
-            right now, the program just splits the entire command string on
-            whitespace, which the shell doesn’t like in certain situations.
-          </p>
-          <p>
-            This however, for now, can be hacked around by simply including the
-            script in a justfile or makefile and invoking
-            <code>just &lt;name&gt;</code> or
-            <code>make &lt;name&gt;</code> within the markdown file.
-          </p>
-          <blockquote>
-            <p>Get rid of <code>pulldown_cmark</code></p>
-          </blockquote>
-          <p>
-            The project uses the
-            <a href="https://github.com/raphlinus/pulldown-cmark"
-              ><code>pulldown_cmark</code></a
-            >
-            crate to get full codeblock ranges within the source, and then
-            hackily turns them into two separate ranges (start, end) which
-            represent the starting and ending range of a single codeblock. This
-            could probably be done better, perhaps without depending on a
-            library for that initial step.
-          </p>
-          <p>
-            Overall, I get what I need out of the program as it is. Whether or
-            not the aformentioned todo’s provide useful to someone else will
-            most likely have a non-trivial amount of impact on my motiviation
-            for getting them done.
-          </p>
-          <p>
-            Feel free to check out the code over on github
-            <a href="https://github.com/terror/present"
-              >https://github.com/terror/present</a
-            >. It is licensed under the highly permissive
-            <a href="https://en.wikipedia.org/wiki/Creative_Commons_license"
-              >CC0-1.0</a
-            >
-            license.
-          </p>
-        </div>
+<blockquote>
+<p>Handle quotes as a single argument</p>
+</blockquote>
+<p>This would let you actually write inline bash scripts, e.g
+<code>/bin/bash -c 'for i in *; do echo "$i"; done'</code>. As of right
+now, the program just splits the entire command string on whitespace,
+which the shell doesn’t like in certain situations.</p>
+<p>This however, for now, can be hacked around by simply including the
+script in a justfile or makefile and invoking
+<code>just &lt;name&gt;</code> or <code>make &lt;name&gt;</code> within
+the markdown file.</p>
+<blockquote>
+<p>Get rid of <code>pulldown_cmark</code></p>
+</blockquote>
+<p>The project uses the <a
+href="https://github.com/raphlinus/pulldown-cmark"><code>pulldown_cmark</code></a>
+crate to get full codeblock ranges within the source, and then hackily
+turns them into two separate ranges (start, end) which represent the
+starting and ending range of a single codeblock. This could probably be
+done better, perhaps without depending on a library for that initial
+step.</p>
+<p>Overall, I get what I need out of the program as it is. Whether or
+not the aformentioned todo’s provide useful to someone else will most
+likely have a non-trivial amount of impact on my motiviation for getting
+them done.</p>
+<p>Feel free to check out the code over on github <a
+href="https://github.com/terror/present">https://github.com/terror/present</a>.
+It is licensed under the highly permissive <a
+href="https://en.wikipedia.org/wiki/Creative_Commons_license">CC0-1.0</a>
+license.</p>
 
-        <div class="intro">
-          Hi.
-          <div class="hot-links">
-            <a href="https://liam.rs/index.xml" class="feed-button"
-              >Subscribe</a
-            >
-            <a
-              href="https://www.buymeacoffee.com/terror"
-              class="donate-button"
-              target="_blank"
-              >Donate</a
-            >
-          </div>
-          <p>I'm Liam.</p>
-          <p>
-            I am compsci undergrad with a minor in mathematics @ mcgill
-            university, programmer and rationalist. For fun I enjoy working on
-            open-source projects, reading, and lifting weights.
-          </p>
-          <p>
-            Send me a message by email: liam [at] scalzulli.com or matrix:
-            worse:matrix.org
-          </p>
         </div>
-
+        
+    <div class="intro">
+      Hi.
+    <div class="hot-links">
+      <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
+      <a href="https://www.buymeacoffee.com/terror" class="donate-button" target="_blank">Donate</a>
+    </div>
+    <p>I'm Liam.</p>
+    <p>
+      I am compsci undergrad with a minor in mathematics @ mcgill university, rust enjoyer and
+      (neo)vim enthusiast. For fun I enjoy working on open-source projects, reading, and lifting weights.
+    </p>
+    <p>Send me a message by email: liam [at] scalzulli.com or matrix: worse:matrix.org</p>
+  </div>
+  
         <a href="/" class="post-end-link">Home</a>
         <span>/</span>
         <a href="/posts" class="post-end-link">Posts</a>
