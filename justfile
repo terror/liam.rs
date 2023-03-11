@@ -1,4 +1,4 @@
-export ESH_AWK := '/usr/local/bin/gawk'
+export ESH_AWK := '/opt/homebrew/bin/gawk'
 
 default:
   just --list
