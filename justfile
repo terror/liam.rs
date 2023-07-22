@@ -11,16 +11,18 @@ all: gen fix-typos fmt
 
 gen:
   ./bin/last-modified
-  ./gen.sh
+  ./bin/generate-index
+  ./bin/generate-projects
   ./bin/forbid
 
 dev:
-  open -a 'Google Chrome' ./docs/index.html
+  python3 -m http.server 8000 --directory ./docs
 
 fix-typos:
   typos --write-changes
 
 fmt:
+  yapf --in-place --recursive . && isort .
   prettier --write .
 
 dev-deps:

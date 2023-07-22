@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "liam-rs"
+version = "0.0.0"
+description = "Scripts for https://liam.rs/"
+authors = ["Liam <liam@scalzulli.com>"]
+license = "CC0-1.0"
+readme = "README.md"
+packages = [{include = "liam"}]
+
+[tool.poetry.dependencies]
+markdown = "^3.4.3"
+python = "^3.11"
+python-frontmatter = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.12.0"
+yapf = "^0.40.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

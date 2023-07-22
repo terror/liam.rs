@@ -1,6 +1,24 @@
 @import url('https://rsms.me/inter/inter.css');
 @import url(https://cdn.jsdelivr.net/gh/tonsky/FiraCode@3/distr/fira_code.css);
 
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--dark-white);
+  border-radius: 20px;
+  border: transparent;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 3px;
+}
+
 div.hot-links {
   float: right;
   padding: 0.3rem 0rem;
@@ -59,7 +77,12 @@ body {
 @supports (font-variation-settings: normal) {
   body {
     font-family: 'Inter var', sans-serif;
-    font-feature-settings: 'ss01' 1, 'kern' 1, 'liga' 1, 'cv05' 1, 'tnum' 1;
+    font-feature-settings:
+      'ss01' 1,
+      'kern' 1,
+      'liga' 1,
+      'cv05' 1,
+      'tnum' 1;
   }
 }
 
@@ -310,4 +333,16 @@ a:active {
   color: var(--light-black);
   text-shadow: none;
   font-size: 0.8rem;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 768px) {
+  .grid-container {
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
 }

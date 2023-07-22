@@ -9,5 +9,6 @@ which rg
   --ignore-case \
   --glob !bin/forbid \
   --glob !docs \
+  --glob !poetry.lock \
   --glob !posts \
   'fixme|todo|xxx'
