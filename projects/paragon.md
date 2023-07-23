@@ -9,9 +9,9 @@ image: paragon.png
 
 **paragon** provides a simple way to benchmark arbitrary Python code.
 
-It can be used either as a CLI or a Library and has support for rendering
-statistics, progress bars, and allowing users to export results to various
-different file formats.
+It can be invoked directly from the command-line or called from within Python,
+and has support for rendering statistics, progress bars, and allowing users to
+export results to various file formats.
 
 Links: [GitHub](https://github.com/terror/paragon),
 [PyPI](https://pypi.org/project/paragon/)

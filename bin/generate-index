@@ -222,7 +222,6 @@ cat << EOF | tee -a ./docs/posts/index.html ./docs/index.html > /dev/null
   </table>
   <div class="separator"></div>
   <div class="footer">
-    <a href="https://www.goodreads.com/fear" target="_blank">Books</a> ·
     <a href="/projects">Projects</a> ·
     <a href="https://stream.liam.rs" target="_blank">Stream</a> ·
     <a href="https://linkedin.com/in/liam-scalzulli" target="_blank">LinkedIn</a> ·

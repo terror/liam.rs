@@ -49,16 +49,19 @@
           Memorize your passphrases with ease.
         </em>
         <div>
-          <p><strong>mem1p</strong> is a tool that let's you memorize new or existing passphrases easily.</p>
-<p>It leverages <a href="https://github.com/mlc-ai/web-llm">Web-LLM</a> and
-<a href="https://github.com/mlc-ai/web-stable-diffusion">Stable Diffusion</a> running on
-chromes recently shipped
-<a href="https://developer.chrome.com/blog/webgpu-release/">WebGPU</a> to generate
-memorable sentences and images that help you better contextualize your
-passphrase.</p>
-<p>This project was built during an internal hackathon with a few colleagues at
-<a href="https://1password.com/">1Password</a> during my Summer 2023 internship.</p>
+          <p><strong>mem1p</strong> is a tool that let’s you memorize new or
+existing passphrases easily.</p>
+<p>It leverages <a href="https://github.com/mlc-ai/web-llm">Web-LLM</a>
+and <a href="https://github.com/mlc-ai/web-stable-diffusion">Stable
+Diffusion</a> running on chromes recently shipped <a
+href="https://developer.chrome.com/blog/webgpu-release/">WebGPU</a> to
+generate memorable sentences and images that help you better
+contextualize your passphrase.</p>
+<p>This project was built during an internal hackathon with a few
+colleagues at <a href="https://1password.com/">1Password</a> during my
+Summer 2023 internship.</p>
 <p>Links: <a href="https://mem1p.fly.dev/">Website</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -78,16 +81,18 @@ passphrase.</p>
           Bulk rename files with your favorite editor.
         </em>
         <div>
-          <p><strong>edmv</strong> provides a quick way to rename a bunch of files using any editor of
-your choosing.</p>
-<p>It works by letting you provide valid paths on disk, having them opened up and
-editable in a temporary file on separate lines, and then performing any rename
-operations for modified lines upon exit.</p>
-<p>The tool behaves as if you were running <code>mv</code>, and has a few
-<a href="https://github.com/terror/edmv/blob/master/tests/integration.rs">integration tests</a>
-that might be useful to check out as documentation.</p>
-<p>Links: <a href="https://github.com/terror/edmv">GitHub</a>,
-<a href="https://crates.io/crates/edmv">Crates.io</a></p>
+          <p><strong>edmv</strong> provides a quick way to rename a bunch of files
+using any editor of your choosing.</p>
+<p>It works by letting you provide valid paths on disk, having them
+opened up and editable in a temporary file on separate lines, and then
+performing any rename operations for modified lines upon exit.</p>
+<p>The tool behaves as if you were running <code>mv</code>, and has a
+few <a
+href="https://github.com/terror/edmv/blob/master/tests/integration.rs">integration
+tests</a> that might be useful to check out as documentation.</p>
+<p>Links: <a href="https://github.com/terror/edmv">GitHub</a>, <a
+href="https://crates.io/crates/edmv">Crates.io</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -107,15 +112,18 @@ that might be useful to check out as documentation.</p>
           Query PDFs in natural language from the command-line.
         </em>
         <div>
-          <p><strong>pdfathom</strong> is a command-line utility that lets you query PDF documents with
-natural language.</p>
-<p>It lets you easily spawn a conversational repl environment with PDF documents on
-disk or in the cloud - building an in-memory question-answering agent with
-<a href="https://platform.openai.com/docs/guides/embeddings">OpenAI embeddings</a> and
-<a href="https://python.langchain.com/docs/get_started/introduction.html">LangChain</a> as
-the orchestrator.</p>
-<p>Links: <a href="http://github.com/terror/pdfathom">GitHub</a>,
-<a href="https://pypi.org/project/pdfathom/">PyPI</a></p>
+          <p><strong>pdfathom</strong> is a command-line utility that lets you
+query PDF documents with natural language.</p>
+<p>It lets you easily spawn a conversational repl environment with PDF
+documents on disk or in the cloud - building an in-memory
+question-answering agent with <a
+href="https://platform.openai.com/docs/guides/embeddings">OpenAI
+embeddings</a> and <a
+href="https://python.langchain.com/docs/get_started/introduction.html">LangChain</a>
+as the orchestrator.</p>
+<p>Links: <a href="http://github.com/terror/pdfathom">GitHub</a>, <a
+href="https://pypi.org/project/pdfathom/">PyPI</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -135,19 +143,55 @@ the orchestrator.</p>
           A heatmap-like visualization for text-based content.
         </em>
         <div>
-          <p>This project was an experiment to see what it would be like to introduce
-similarity-based highlighting to text interfaces.</p>
-<p>It works by chunking the input text into sentence vectors using
-<a href="https://github.com/explosion/spaCy">Spacy</a> and then ranking them based on their
-cosine similarity to other sentence vectors within the same body of text -
-giving them a score that falls within a range which can easily be mapped to a
-color.</p>
-<p>Links: <a href="https://github.com/terror/textmap">GitHub</a>,
-<a href="https://textmap.up.railway.app/">Website</a></p>
+          <p>This project was an experiment to see what it would be like to
+introduce similarity-based highlighting to text interfaces.</p>
+<p>It works by chunking the input text into sentence vectors using <a
+href="https://github.com/explosion/spaCy">Spacy</a> and then ranking
+them based on their cosine similarity to other sentence vectors within
+the same body of text - giving them a score that falls within a range
+which can easily be mapped to a color.</p>
+<p>Links: <a href="https://github.com/terror/textmap">GitHub</a>, <a
+href="https://textmap.up.railway.app/">Website</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
         <img src='/images/textmap.png'>
+      </td>
+    </tr>
+    
+    <tr class="grid-container">
+      <td>
+        <div style="margin-bottom: 1em">
+          <strong>stream</strong> March 2023
+        </div>
+        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">React</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">TypeScript</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">MongoDB</span>
+        </div>
+        <em>
+          A stream of thoughts.
+        </em>
+        <div>
+          <p>I wrote <strong>stream</strong> as a way to post short snippets of
+text to a feed that isn’t crowded by noise and ads (cough Twitter).</p>
+<p>It offers a few other niceties:</p>
+<ul>
+<li>Authentication with GitHub</li>
+<li>Post creation form with live markdown preview</li>
+<li>Custom markdown renderer with syntax highlighting</li>
+<li>Fast full-text search through the entire feed</li>
+<li>Tag support with exact tag search - simply prefix queries with
+<code>#</code></li>
+</ul>
+<p>And it’s easily self-hostable with <a
+href="https://github.com/terror/stream/blob/master/Dockerfile">docker</a>.</p>
+<p>Links: <a href="https://github.com/terror/stream">GitHub</a>, <a
+href="https://stream.liam.rs/">Website</a></p>
+
+        </div>
+      </td>
+      <td style="display: flex; align-items: center">
+        <img src='/images/stream.png'>
       </td>
     </tr>
     
@@ -163,12 +207,14 @@ color.</p>
           A course search and review platform for McGill University.
         </em>
         <div>
-          <p>A few friends and I decided to build this after noticing there was no real
-McGill-focused course discoverability and review site out there.</p>
+          <p>A few friends and I decided to build this after noticing there was no
+real McGill-focused course discoverability and review site out
+there.</p>
 <p>We support fast course/instructor search and exploration, alongside
 functionality for creating and interacting with course reviews.</p>
 <p>Links: <a href="https://github.com/terror/mcgill.courses">GitHub</a>,
 <a href="https://mcgill.courses">Website</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -185,16 +231,20 @@ functionality for creating and interacting with course reviews.</p>
           <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Python</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Neovim</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">GPT</span>
         </div>
         <em>
-          Query ChatGPT in Neovim
+          Query ChatGPT in Neovim.
         </em>
         <div>
-          <p>This project is a simple wrapper around the
-<a href="https://openai.com/blog/chatgpt">ChatGPT</a> API to allow for fast queries within
-the <a href="https://neovim.io/">Neovim</a> text editor.</p>
-<p>I wrote this soon after an
-<a href="https://github.com/acheong08/ChatGPT">unofficial API wrapper</a> came out for
-ChatGPT mostly as a way to explore writing Neovim plugins in Python.</p>
-<p>Links: <a href="https://github.com/terror/chatgpt.nvim">GitHub</a></p>
+          <p>This project is a simple wrapper around the <a
+href="https://openai.com/blog/chatgpt">ChatGPT</a> API to allow for fast
+queries within the <a href="https://neovim.io/">Neovim</a> text
+editor.</p>
+<p>I wrote this soon after an <a
+href="https://github.com/acheong08/ChatGPT">unofficial API wrapper</a>
+came out for ChatGPT mostly as a way to explore writing Neovim plugins
+in Python.</p>
+<p>Links: <a
+href="https://github.com/terror/chatgpt.nvim">GitHub</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -214,14 +264,18 @@ ChatGPT mostly as a way to explore writing Neovim plugins in Python.</p>
           A low-latency full-text search engine for McGill's course catalog.
         </em>
         <div>
-          <p><strong>mcgill.wtf</strong> is a fast full-text search of McGill's entire course catalog with
-a server implemented in Rust and an intuitive front-end built using React.</p>
-<p>I was inspired to build this after seeing <a href="https://classes.wtf/">classes.wtf</a>, a
-super fast course search engine for Harvard's course catalog implemented by
-<a href="https://www.ekzhang.com/">Eric Zhang</a> - in addition to noticing a need for this
-considering McGill's lack of full-text course search infrastructure.</p>
-<p>Links: <a href="https://github.com/terror/mcgill.wtf">GitHub</a>,
-<a href="https://mcgill.wtf/">Website</a></p>
+          <p><strong>mcgill.wtf</strong> is a fast full-text search of McGill’s
+entire course catalog with a server implemented in Rust and an intuitive
+front-end built using React.</p>
+<p>I was inspired to build this after seeing <a
+href="https://classes.wtf/">classes.wtf</a>, a super fast course search
+engine for Harvard’s course catalog implemented by <a
+href="https://www.ekzhang.com/">Eric Zhang</a> - in addition to noticing
+a need for this considering McGill’s lack of full-text course search
+infrastructure.</p>
+<p>Links: <a href="https://github.com/terror/mcgill.wtf">GitHub</a>, <a
+href="https://mcgill.wtf/">Website</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -241,13 +295,15 @@ considering McGill's lack of full-text course search infrastructure.</p>
           Render art with commands.
         </em>
         <div>
-          <p><strong>fx</strong> is a simple command-based language for producing art based on OpenGL
-texture input/output chaining.</p>
-<p>This was a side experiment done before implementing GPU acceleration for
-<a href="https://github.com/casey/degenerate">degenerate</a>, mostly as a way to fledge out
-the chaining technique with
-<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a> textures.</p>
+          <p><strong>fx</strong> is a simple command-based language for producing
+art based on texture input/output chaining.</p>
+<p>This was a side experiment done before implementing GPU acceleration
+for <a href="https://github.com/casey/degenerate">degenerate</a>, mostly
+as a way to fledge out the chaining technique with <a
+href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a>
+textures.</p>
 <p>Links: <a href="https://github.com/terror/fx">GitHub</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -264,20 +320,23 @@ the chaining technique with
           <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Markdown</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">CLI</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Tools</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Productivity</span>
         </div>
         <em>
-          A script interpolation engine for markdown documents
+          A script interpolation engine for markdown documents.
         </em>
         <div>
-          <p><strong>present</strong> is a tool that lets you interpolate the standard output of arbitrary
-scripts that get interpreted by the shell into your markdown documents.</p>
-<p>It provides a nice way to automatically update sections of your markdown
-documents that might be the standard output of a command, such as command-line
-utility help outputs or benchmarks.</p>
-<p>The main feature enables users to append a suffix to the initial tag of markdown
-code-blocks using the format <code>present &lt;command&gt;</code>. After executing the present
-binary on the document, the <code>&lt;command&gt;</code> will subsequently be run, and the
-resulting standard output will be interpolated within the same code-block.</p>
-<p>Links: <a href="https://github.com/terror/present">GitHub</a>,
-<a href="https://crates.io/crates/present">Crates.io</a></p>
+          <p><strong>present</strong> is a tool that lets you interpolate the
+standard output of arbitrary scripts that get interpreted by the shell
+into your markdown documents.</p>
+<p>It offers a nice way to automatically update sections of your
+markdown documents that might be the standard output of a command, such
+as command-line utility help outputs or benchmarks.</p>
+<p>Simply add a suffix to the initial tag of markdown code-blocks using
+the format <code>present &lt;command&gt;</code>. When you execute the
+present binary on your document, it will run the specified
+<code>&lt;command&gt;</code>, and insert the resulting standard output
+within the same code-block.</p>
+<p>Links: <a href="https://github.com/terror/present">GitHub</a>, <a
+href="https://crates.io/crates/present">Crates.io</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -297,17 +356,20 @@ resulting standard output will be interpolated within the same code-block.</p>
           Rare and exotic sats.
         </em>
         <div>
-          <p>I was an early contributor to <strong>ord</strong>, the index, block explorer, and
-command-line wallet for
-<a href="https://github.com/ordinals/ord/blob/master/bip.mediawiki">ordinals</a> - the
-brain-child of <a href="https://rodarmor.com/">Casey Rodarmor</a>.</p>
+          <p>I was an early contributor to <strong>ord</strong>, the index, block
+explorer, and command-line wallet for <a
+href="https://github.com/ordinals/ord/blob/master/bip.mediawiki">ordinals</a>
+- the brain-child of <a href="https://rodarmor.com/">Casey
+Rodarmor</a>.</p>
 <p>Ordinals are a numbering scheme for satoshis that allows tracking and
 transferring individual sats.</p>
-<p>The work I did on <strong>ord</strong> was primarily focused on the block explorer and
-building out an initial wallet prototype to facilitate ordinal-aware
-transactions.</p>
-<p>Links: <a href="https://github.com/ordinals/ord">GitHub</a>,
-<a href="https://docs.ordinals.com/">Manual</a>, <a href="https://ordinals.com/">Website</a></p>
+<p>The work I did on <strong>ord</strong> was primarily focused on the
+block explorer and building out an initial wallet prototype to
+facilitate ordinal-aware transactions.</p>
+<p>Links: <a href="https://github.com/ordinals/ord">GitHub</a>, <a
+href="https://docs.ordinals.com/">Manual</a>, <a
+href="https://ordinals.com/">Website</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -327,23 +389,77 @@ transactions.</p>
           A generative art computer.
         </em>
         <div>
-          <p><strong>degenerate</strong> is a programmable generative art engine that runs in the browser
-that can be programmed with Rust or JavaScript.</p>
-<p><strong>degenerate</strong> operates as a chain of image filters. The output of each filter
-is used as the input of the next filter. <strong>degenerate</strong> programs configure the
-state of the current image filter and call <code>render()</code> to apply it.</p>
-<p>Programs that are written in JavaScript are sent to a Web Worker for execution.
-The program then sends back a series of <code>Filter</code> objects from the worker, which
-are used to configure the renderer that runs in the main thread. The renderer
-renders to a full-page <code>&lt;canvas&gt;</code> element using
-<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a>.</p>
-<p>Links: <a href="https://github.com/casey/degenerate">GitHub</a>,
-<a href="https://degenerate.computer/man/introduction.html">Manual</a>,
-<a href="https://degenerate.computer/">Website</a></p>
+          <p><strong>degenerate</strong> is a programmable generative art engine
+that runs in the browser that can be programmed with Rust or
+JavaScript.</p>
+<p>Internally, it operates as a chain of image filters. The output of
+each filter is used as the input of the next filter. Programs configure
+the state of the current image filter and call <code>render()</code> to
+apply it.</p>
+<p>Programs that are written in JavaScript are sent to a Web Worker for
+execution. The program then sends back a series of <code>Filter</code>
+objects from the worker, which are used to configure the renderer that
+runs in the main thread. The renderer renders to a full-page
+<code>&lt;canvas&gt;</code> element using <a
+href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a>.</p>
+<p>I worked on this primarily in collaboration with <a
+href="https://rodarmor.com/">Casey Rodarmor</a>.</p>
+<p>Links: <a href="https://github.com/casey/degenerate">GitHub</a>, <a
+href="https://degenerate.computer/man/introduction.html">Manual</a>, <a
+href="https://degenerate.computer/">Website</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
         <img src='/images/degenerate.png'>
+      </td>
+    </tr>
+    
+    <tr class="grid-container">
+      <td>
+        <div style="margin-bottom: 1em">
+          <strong>tetris</strong> November 2021
+        </div>
+        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">JavaScript</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Canvas</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Games</span>
+        </div>
+        <em>
+          A tetris clone written in vanilla JavaScript.
+        </em>
+        <div>
+          <p>This was my first foray into ‘real’ game programming, among other
+things the project includes:</p>
+<ul>
+<li><a href="https://github.com/terror/tetris/tree/master/src/states">A
+state machine</a></li>
+<li><a
+href="https://github.com/terror/tetris/blob/master/lib/SpriteManager.js">Dynamic
+sprite loading</a></li>
+<li><a
+href="https://github.com/terror/tetris/blob/master/lib/Sounds.js">Sounds</a></li>
+<li><a
+href="https://github.com/terror/tetris/blob/master/src/states/EnterHighScoreState.js">High-score
+management</a></li>
+<li><a
+href="https://github.com/terror/tetris/blob/master/lib/StateManager.js">Saved
+states</a></li>
+<li><a
+href="https://github.com/terror/tetris/blob/master/src/states/LevelTransitionState.js">Game
+progression with levels</a></li>
+</ul>
+<p>I wrote this as a final project for a <a
+href="https://jac-cs-game-programming-fall22.github.io/Notes/#/">game
+programming course</a> I took at <a
+href="https://johnabbott.qc.ca/">John Abbott College</a> taught by <a
+href="https://github.com/VikramSinghMTL">Vikram Singh</a> in my 5th
+semester.</p>
+<p>Links: <a href="https://github.com/terror/tetris">GitHub</a>, <a
+href="https://terror.github.io/tetris/">Website</a></p>
+
+        </div>
+      </td>
+      <td style="display: flex; align-items: center">
+        <img src='/images/tetris.png'>
       </td>
     </tr>
     
@@ -359,12 +475,15 @@ renders to a full-page <code>&lt;canvas&gt;</code> element using
           A vim plugin profiler and data plotter.
         </em>
         <div>
-          <p><strong>vim-profiler</strong> is a light wrapper around the <code>(n)vim --startuptime</code> command
-that helps you visualize the bottlenecks in your (neo)vim startup time.</p>
-<p>It operates by simply parsing the output of <code>(n)vim --startuptime</code> and giving
-options to view, export, or plot its parsed representation.</p>
+          <p><strong>vim-profiler</strong> is a light wrapper around the
+<code>(n)vim --startuptime</code> command that helps you visualize the
+bottlenecks in your (neo)vim startup time.</p>
+<p>It operates by simply parsing the output of
+<code>(n)vim --startuptime</code> and giving options to view, export, or
+plot its parsed representation.</p>
 <p>Links: <a href="https://github.com/terror/vim-profiler">GitHub</a>,
 <a href="https://crates.io/crates/vim-profiler">Crates.io</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -384,12 +503,14 @@ options to view, export, or plot its parsed representation.</p>
           A lightweight command-line benchmarking utility for Python code.
         </em>
         <div>
-          <p><strong>paragon</strong> provides a simple way to benchmark arbitrary Python code.</p>
-<p>It can be used either as a CLI or a Library and has support for rendering
-statistics, progress bars, and allowing users to export results to various
-different file formats.</p>
-<p>Links: <a href="https://github.com/terror/paragon">GitHub</a>,
-<a href="https://pypi.org/project/paragon/">PyPI</a></p>
+          <p><strong>paragon</strong> provides a simple way to benchmark arbitrary
+Python code.</p>
+<p>It can be invoked directly from the command-line or called from
+within Python, and has support for rendering statistics, progress bars,
+and allowing users to export results to various file formats.</p>
+<p>Links: <a href="https://github.com/terror/paragon">GitHub</a>, <a
+href="https://pypi.org/project/paragon/">PyPI</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -409,13 +530,15 @@ different file formats.</p>
           A note-taking tool based on the famous Zettelkasten method.
         </em>
         <div>
-          <p><strong>zk</strong> is a note-taking tool based on the famous
-<a href="https://zettelkasten.de/posts/overview/">Zettelkasten</a> method with support for
-fuzzy searching, tags, and link exploration.</p>
-<p>Fuzzy search is powered by <a href="https://github.com/lotabout/skim">skim</a> with custom
-keybindings for recursive note exploration based on their links.</p>
-<p>Links: <a href="https://github.com/terror/zk">GitHub</a>,
-<a href="https://crates.io/crates/zkt">Crates.io</a></p>
+          <p><strong>zk</strong> is a note-taking tool based on the famous <a
+href="https://zettelkasten.de/posts/overview/">Zettelkasten</a> method
+with support for fuzzy searching, tags, and link exploration.</p>
+<p>Fuzzy search is powered by <a
+href="https://github.com/lotabout/skim">skim</a> with custom keybindings
+for recursive note exploration based on their links.</p>
+<p>Links: <a href="https://github.com/terror/zk">GitHub</a>, <a
+href="https://crates.io/crates/zkt">Crates.io</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -435,10 +558,13 @@ keybindings for recursive note exploration based on their links.</p>
           View live cryptocurrency prices without leaving (neo)vim.
         </em>
         <div>
-          <p><strong>vim-crypto</strong> is a simple Neovim plugin for querying information about current
-cryptocurrency prices, populating a buffer with a nicely formatted table.</p>
-<p>I grab all up-to-date price information from <a href="https://messari.io/">messari</a>.</p>
+          <p><strong>vim-crypto</strong> is a simple Neovim plugin for querying
+information about current cryptocurrency prices, populating a buffer
+with a nicely formatted table.</p>
+<p>I grab all up-to-date price information from <a
+href="https://messari.io/">messari</a>.</p>
 <p>Links: <a href="https://github.com/terror/vim-crypto">GitHub</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -458,16 +584,17 @@ cryptocurrency prices, populating a buffer with a nicely formatted table.</p>
           A fully featured competitive programming workspace in the cloud.
         </em>
         <div>
-          <p><strong>solve</strong> is an interface for spinning up competitive programming workspaces
-quickly.</p>
-<p>It allows for users to solve problems on various contest platforms, testing and
-submitting code directly from a single environment - in addition to letting you
-save these environments for later.</p>
-<p>Code execution against sample test cases is handled by
-<a href="https://judge0.com/">judge0</a> cloud.</p>
-<p>Links: <a href="https://github.com/terror/solve">GitHub</a>,
-<a href="https://www.youtube.com/watch?v=C8pcr6RcZ6U">Demo</a>,
-<a href="https://solve-web.herokuapp.com/">Website</a></p>
+          <p><strong>solve</strong> is an interface for spinning up competitive
+programming workspaces quickly.</p>
+<p>It allows for users to solve problems on various contest platforms,
+testing and submitting code directly from a single environment - in
+addition to letting you save these environments for later.</p>
+<p>Code execution against sample test cases is handled by <a
+href="https://judge0.com/">judge0</a> cloud.</p>
+<p>Links: <a href="https://github.com/terror/solve">GitHub</a>, <a
+href="https://www.youtube.com/watch?v=C8pcr6RcZ6U">Demo</a>, <a
+href="https://solve-web.herokuapp.com/">Website</a></p>
+
         </div>
       </td>
       <td style="display: flex; align-items: center">
@@ -475,10 +602,37 @@ save these environments for later.</p>
       </td>
     </tr>
     
+    <tr class="grid-container">
+      <td>
+        <div style="margin-bottom: 1em">
+          <strong>breakout</strong> December 2020
+        </div>
+        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">TypeScript</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Canvas</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Games</span>
+        </div>
+        <em>
+          A simple Atari Breakout clone written in pure TypeScript.
+        </em>
+        <div>
+          <p><strong>breakout</strong> is a simple clone of the popular arcade
+video game developed and published by Atari - Breakout.</p>
+<p>It’s a rudimentary clone that simply keeps track of a score and live
+count, with some basic sound effects to go along with the gameplay.</p>
+<p>I wrote this as a final project for a basic web programming course I
+took at <a href="https://johnabbott.qc.ca/">John Abbott College</a>
+taught by Helen Katalifos in my 3rd semester.</p>
+<p>Links: <a href="https://github.com/terror/breakout">GitHub</a></p>
+
+        </div>
+      </td>
+      <td style="display: flex; align-items: center">
+        <img src='/images/breakout.png'>
+      </td>
+    </tr>
+    
 </table>
 <div class="separator"></div>
 <div class="footer">
-  <a href="https://www.goodreads.com/fear" target="_blank">Books</a> ·
   <a href="/projects">Projects</a> ·
   <a href="https://stream.liam.rs" target="_blank">Stream</a> ·
   <a href="https://linkedin.com/in/liam-scalzulli" target="_blank"

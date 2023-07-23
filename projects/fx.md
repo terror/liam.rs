@@ -7,8 +7,8 @@ lead: Render art with commands.
 image: fx.png
 ---
 
-**fx** is a simple command-based language for producing art based on OpenGL
-texture input/output chaining.
+**fx** is a simple command-based language for producing art based on texture
+input/output chaining.
 
 This was a side experiment done before implementing GPU acceleration for
 [degenerate](https://github.com/casey/degenerate), mostly as a way to fledge out

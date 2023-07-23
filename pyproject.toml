@@ -8,7 +8,6 @@ readme = "README.md"
 packages = [{include = "liam"}]
 
 [tool.poetry.dependencies]
-markdown = "^3.4.3"
 python = "^3.11"
 python-frontmatter = "^1.0.0"
 

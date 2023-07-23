@@ -3,7 +3,7 @@ title: chatgpt.nvim
 date: 2022-12-04
 repo: terror/chatgpt.nvim
 topics: ['Python', 'Neovim', 'GPT']
-lead: Query ChatGPT in Neovim
+lead: Query ChatGPT in Neovim.
 image: chatgpt.nvim.png
 ---
 
