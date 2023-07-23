@@ -14,7 +14,8 @@ It offers a few other niceties:
 
 - Authentication with GitHub
 - Post creation form with live markdown preview
-- Custom markdown renderer with syntax highlighting
+- Custom markdown renderer with syntax highlighting and math typesetting with
+  KaTeX
 - Fast full-text search through the entire feed
 - Tag support with exact tag search - simply prefix queries with `#`
 
