@@ -171,7 +171,6 @@ pre:not(.sourceCode),
 div.sourceCode {
   overflow: auto !important;
   padding: 1.3rem;
-  margin: 1rem -1.3rem !important;
   border: 2px solid var(--dark-white);
   border-radius: 0.4rem;
 }
