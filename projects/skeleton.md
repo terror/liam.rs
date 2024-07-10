@@ -1,7 +1,7 @@
 ---
-title: edmv
+title: skeleton
 date: 2023-05-12
-repo: terror/edmv
+repo: terror/skeleton
 topics: ['Rust', 'CLI', 'Tools', 'Productivity']
 lead: A project scaffolding utility
 image: skeleton.png
