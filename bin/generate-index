@@ -94,6 +94,7 @@ logo() {
   <div>
   <img class='avatar' src="https://files.catbox.moe/2ldb2v.jpeg" width="100" height="100">
   <h4 class="subheading">liam's musings</h4>
+  <h4 class="subheading">:･✧:･.☽･✧:･.</h4>
   </div>
 EOF
 }
