@@ -9,14 +9,14 @@ alias g := gen
 
 all: gen fix-typos fmt
 
-gen:
-  ./bin/last-modified
-  ./bin/generate-index
-  ./bin/generate-projects
-  ./bin/forbid
-
 dev:
   python3 -m http.server 8000 --directory ./docs
+
+dev-deps:
+  brew install just prettier
+  cargo install typos-cli
+  cargo install --path crates/watcher
+  curl https://raw.githubusercontent.com/jirutka/esh/master/esh > /usr/local/bin/esh
 
 fix-typos:
   typos --write-changes
@@ -25,7 +25,13 @@ fmt:
   yapf --in-place --recursive . && isort .
   prettier --write .
 
-dev-deps:
-  brew install just prettier
-  cargo install typos-cli
-  curl https://raw.githubusercontent.com/jirutka/esh/master/esh > /usr/local/bin/esh
+gen:
+  ./bin/last-modified
+  ./bin/generate-index
+  ./bin/generate-projects
+  ./bin/forbid
+
+watch:
+  ./bin/kill-server
+  python3 -m http.server 8000 --directory ./docs &
+  watcher ./posts ./bin/regenerate-post

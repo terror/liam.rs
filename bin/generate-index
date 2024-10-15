@@ -1,8 +1,6 @@
 #! /usr/bin/env bash
 
-# ───────────────────────────────────────────────────────────────────────────│─╗
-# │ Utilities                                                              ─╬─│┼
-# ╚────────────────────────────────────────────────────────────────────────────│
+export ESH_AWK="/opt/homebrew/bin/gawk"
 
 INDEX_BLOG_LIMIT=3
 INDEX_BLOG_COUNT=0
@@ -83,7 +81,7 @@ EOF
 breadcrumbs() {
   # 1 - path
   cat << EOF
-  <a href="/" class="post-end-link">Home</a>
+    <a href="/" class="post-end-link">Home</a>
   <span>/</span>
   <a class="post-end-link">$1</a>
 EOF
@@ -99,15 +97,49 @@ logo() {
 EOF
 }
 
-# ───────────────────────────────────────────────────────────────────────────│─╗
-# │ Meta & Intro                                                           ─╬─│┼
-# ╚────────────────────────────────────────────────────────────────────────────│
+if [ "$1" = "--single" ]; then
+  if [ -z "$2" ]; then
+    echo "error: Please provide the post filename."
+    exit 1
+  fi
 
-posts=$(ls -t ./posts)
-rm -rf "./docs/posts/"
-mkdir -p docs/posts
+  post_file="./posts/$2"
 
-cat << EOF | tee ./docs/posts/index.html ./docs/index.html > /dev/null
+  if [ ! -f "$post_file" ]; then
+    echo "error: Post file not found: $post_file"
+    exit 1
+  fi
+
+  id=$(basename "$post_file" .md)
+  post_title=$(title_wrapper "$id")
+  stats=$(wc "$post_file")
+  words=$(echo "$stats" | awk '{ print $2 }')
+  lines=$(echo "$stats" | awk '{ print $1 }')
+  r_time=$(read_time "$words")
+  height=$(height "$lines")
+  post_date=$(date -r "$post_file" "+%d/%m — %Y")
+
+  echo "[~] $post_title"
+
+  mkdir -p "docs/posts/$id"
+
+  esh -s /bin/bash \
+    -o "docs/posts/$id/index.html" \
+    "./templates/post.esh" \
+    file="$post_file" \
+    date="$post_date" \
+    title="$post_title" \
+    read_time="$r_time" \
+    height="$height" \
+    intro="$(intro)"
+
+  echo "[+] Successfully regenerated $post_title"
+else
+  posts=$(ls -t ./posts)
+  rm -rf "./docs/posts/"
+  mkdir -p docs/posts
+
+  cat << EOF | tee ./docs/posts/index.html ./docs/index.html > /dev/null
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -139,9 +171,9 @@ cat << EOF | tee ./docs/posts/index.html ./docs/index.html > /dev/null
 </head>
 EOF
 
-echo "[+] INDEX"
+  echo "[+] INDEX"
 
-cat << EOF >> ./docs/index.html
+  cat << EOF >> ./docs/index.html
   <body>
   $(logo)
   <div class="posts">
@@ -151,19 +183,15 @@ cat << EOF >> ./docs/index.html
   $(recent_link "Posts")
 EOF
 
-paths=("Posts")
-for p in "${paths[@]}"; do
-  cat << EOF | tee -a ./docs/"${p,,}"/index.html > /dev/null
+  paths=("Posts")
+  for p in "${paths[@]}"; do
+    cat << EOF | tee -a ./docs/"${p,,}"/index.html > /dev/null
   <body>
     <div class="posts">
     <div class="post">
-    $(breadcrumbs "$p")
+  $(breadcrumbs "$p")
 EOF
-done
-
-# ───────────────────────────────────────────────────────────────────────────│─╗
-# │ Posts                                                                  ─╬─│┼
-# ╚────────────────────────────────────────────────────────────────────────────│
+  done
 
 echo -ne "
   <h1>Posts</h1>
@@ -171,59 +199,54 @@ echo -ne "
   <table>
     " >> ./docs/posts/index.html
 
-for f in $posts; do
-  file="./posts/$f"
-  id="${file##*/}"
+  for f in $posts; do
+    file="./posts/$f"
+    id="${file##*/}"
 
-  stats=$(wc "$file")
-  words="$(echo "$stats" | awk '{ print $2 }')"
-  lines="$(echo "$stats" | awk '{ print $1 }')"
-  r_time="$(read_time "$words")"
-  height="$(height "$lines")"
-  post_title=$(title_wrapper "$id")
+    stats=$(wc "$file")
+    words="$(echo "$stats" | awk '{ print $2 }')"
+    lines="$(echo "$stats" | awk '{ print $1 }')"
+    r_time="$(read_time "$words")"
+    height="$(height "$lines")"
+    post_title=$(title_wrapper "$id")
 
-  echo "[~] $post_title"
+    echo "[~] $post_title"
 
-  post_date=$(date -r "$file" "+%d/%m — %Y")
-  post_link=$(link_wrapper "${id%.*}" "$post_title" "$post_date" "$r_time")
+    post_date=$(date -r "$file" "+%d/%m — %Y")
+    post_link=$(link_wrapper "${id%.*}" "$post_title" "$post_date" "$r_time")
 
-  echo -ne "$post_link" >> ./docs/posts/index.html
+    echo -ne "$post_link" >> ./docs/posts/index.html
 
-  if [[ $INDEX_BLOG_COUNT -lt $INDEX_BLOG_LIMIT ]]; then
-    echo -ne "$post_link" >> docs/index.html
-  fi
+    if [[ $INDEX_BLOG_COUNT -lt $INDEX_BLOG_LIMIT ]]; then
+      echo -ne "$post_link" >> docs/index.html
+    fi
 
-  ((INDEX_BLOG_COUNT+=1))
+    ((INDEX_BLOG_COUNT+=1))
 
-  id="${id%.*}"
-  mkdir -p "docs/posts/$id"
+    id="${id%.*}"
+
+    mkdir -p "docs/posts/$id"
+
+    esh -s /bin/bash \
+      -o "docs/posts/$id/index.html" \
+      "./templates/post.esh" \
+      file="$file" \
+      date="$post_date" \
+      title="$post_title" \
+      read_time="$r_time" \
+      height="$height" \
+      intro="$(intro)"
+  done
+
+  echo "$(more_link posts)" >> ./docs/index.html
+
+  echo "generating RSS feeds ..."
+
   esh -s /bin/bash \
-    -o "docs/posts/$id/index.html" \
-    "./templates/post.esh" \
-    file="$file" \
-    date="$post_date" \
-    title="$post_title" \
-    read_time="$r_time" \
-    height="$height" \
-    intro="$(intro)"
-done
+    -o "./docs/index.xml" \
+    "./templates/rss.esh"
 
-echo "$(more_link posts)" >> ./docs/index.html
-
-# ───────────────────────────────────────────────────────────────────────────│─╗
-# │ RSS                                                                    ─╬─│┼
-# ╚────────────────────────────────────────────────────────────────────────────│
-
-echo "generating RSS feeds ..."
-esh -s /bin/bash \
-  -o "./docs/index.xml" \
-  "./templates/rss.esh"
-
-# ───────────────────────────────────────────────────────────────────────────│─╗
-# │ Footer                                                                 ─╬─│┼
-# ╚────────────────────────────────────────────────────────────────────────────│
-
-cat << EOF | tee -a ./docs/posts/index.html ./docs/index.html > /dev/null
+  cat << EOF | tee -a ./docs/posts/index.html ./docs/index.html > /dev/null
   </table>
   <div class="separator"></div>
   <div class="footer">
@@ -241,3 +264,4 @@ cat << EOF | tee -a ./docs/posts/index.html ./docs/index.html > /dev/null
 </body>
 </html>
 EOF
+fi

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+./bin/generate-index --single "$(basename "$1")"
