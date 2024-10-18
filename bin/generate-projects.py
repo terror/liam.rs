@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 import subprocess as sp
 import typing as t
@@ -9,7 +7,7 @@ from glob import glob
 
 import frontmatter
 
-HEADER = '''
+HEADER = """
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -47,9 +45,9 @@ HEADER = '''
     <h1>Projects</h1>
     <div class="separator"></div>
     <table>
-'''
+"""
 
-FOOTER = '''
+FOOTER = """
 </table>
 <div class="separator"></div>
 <div class="footer">
@@ -71,7 +69,8 @@ FOOTER = '''
 </div>
 </body>
 </html>
-'''
+"""
+
 
 @dataclass
 class Project:
@@ -83,27 +82,15 @@ class Project:
   image: str
   content: str
 
-  pandoc = [
-    'pandoc',
-    '--mathjax',
-    '--quiet',
-    '-t',
-    'html',
-    '--highlight-style',
-    'monochrome'
-  ]
+  pandoc = ['pandoc', '--mathjax', '--quiet', '-t', 'html', '--highlight-style', 'monochrome']
 
   def markdown(self) -> str:
     return sp.run(
-      self.pandoc,
-      input=self.content,
-      capture_output=True,
-      text=True,
-      check=True
+      self.pandoc, input=self.content, capture_output=True, text=True, check=True
     ).stdout
 
   def template(self) -> str:
-    return f'''
+    return f"""
     <tr class="grid-container">
       <td>
         <div style="margin-bottom: 1em">
@@ -123,12 +110,13 @@ class Project:
         <img src='{'/images/' + project.image}'>
       </td>
     </tr>
-    '''
+    """
+
 
 if __name__ == '__main__':
   print('[+] PROJECTS')
 
-  output = "docs/projects/index.html"
+  output = 'docs/projects/index.html'
 
   if os.path.exists(output):
     os.remove(output)
@@ -137,12 +125,11 @@ if __name__ == '__main__':
 
   projects = sorted(
     map(
-      lambda x: (lambda y: Project(content=y.content, **y))
-      (frontmatter.load(x)),
-      glob("projects/*.md")
+      lambda x: (lambda y: Project(content=y.content, **y))(frontmatter.load(x)),
+      glob('projects/*.md'),
     ),
-    key=lambda project: datetime.strptime(str(project.date), "%Y-%m-%d"),
-    reverse=True
+    key=lambda project: datetime.strptime(str(project.date), '%Y-%m-%d'),
+    reverse=True,
   )
 
   with open(output, 'w') as out:

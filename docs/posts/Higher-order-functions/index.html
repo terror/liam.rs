@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -71,55 +71,94 @@
         </div>
         <h1>Higher order functions</h1>
         <div class="post-text">
-          <p>The higher-order function is one of the many powerful and important
-concepts I have run into when dabbling in the world of functional
-programming.</p>
-<p>Before diving into the details, it’s worth mentioning that in certain
-languages like Python or Javascript, functions are treated as
-first-class citizens. What does this mean? It means that functions can
-be stored in variables, passed around to functions or returned from
-functions, just as you would be able to do with a primitive or
-non-primitive data type.</p>
-<p>Knowing this, a higher-order function is a function that either takes
-in a function as input or returns a function as output.</p>
-<p>Examples of higher-order functions that you may deal with on a daily
-basis but may be unaware of the underlying concept: <code>filter</code>,
-<code>map</code>, <code>reduce</code>, <code>sort</code>.</p>
-<p>Now that definitions are taken care of, let’s take a look at some
-examples:</p>
-<h3 id="filter">Filter</h3>
-<p>Problem: <em>given an arbitrary iterable, filter out elements whose
-value fail to meet a certain criteria.</em></p>
-<p>The <code>filter</code> function takes in a single-argument predicate
-function (a function that returns a boolean value) and an iterable, and
-returns a new iterable that consists of each element in the passed in
-iterable that when passed into to the predicate function evaluate to
-true.</p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">filter</span>(func, iterable):</span>
+          <p>
+            The higher-order function is one of the many powerful and important
+            concepts I have run into when dabbling in the world of functional
+            programming.
+          </p>
+          <p>
+            Before diving into the details, it’s worth mentioning that in
+            certain languages like Python or Javascript, functions are treated
+            as first-class citizens. What does this mean? It means that
+            functions can be stored in variables, passed around to functions or
+            returned from functions, just as you would be able to do with a
+            primitive or non-primitive data type.
+          </p>
+          <p>
+            Knowing this, a higher-order function is a function that either
+            takes in a function as input or returns a function as output.
+          </p>
+          <p>
+            Examples of higher-order functions that you may deal with on a daily
+            basis but may be unaware of the underlying concept:
+            <code>filter</code>, <code>map</code>, <code>reduce</code>,
+            <code>sort</code>.
+          </p>
+          <p>
+            Now that definitions are taken care of, let’s take a look at some
+            examples:
+          </p>
+          <h3 id="filter">Filter</h3>
+          <p>
+            Problem:
+            <em
+              >given an arbitrary iterable, filter out elements whose value fail
+              to meet a certain criteria.</em
+            >
+          </p>
+          <p>
+            The <code>filter</code> function takes in a single-argument
+            predicate function (a function that returns a boolean value) and an
+            iterable, and returns a new iterable that consists of each element
+            in the passed in iterable that when passed into to the predicate
+            function evaluate to true.
+          </p>
+          <div class="sourceCode" id="cb1">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">filter</span>(func, iterable):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> [el <span class="cf">for</span> el <span class="kw">in</span> iterable <span class="cf">if</span> func(el)]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">filter</span>(<span class="kw">lambda</span> x: x <span class="op">&amp;</span> <span class="dv">1</span>, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])) <span class="co"># [1, 3 ,5]</span></span></code></pre></div>
-<h3 id="map">Map</h3>
-<p>Problem: <em>given an arbitrary iterable, apply some transformation
-to each element in that iterable.</em></p>
-<p>The <code>map</code> function takes in a single-argument function and
-an iterable applies that function to each item in the iterable,
-returning the resulting iterable.</p>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">map</span>(func, iterable):</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">filter</span>(<span class="kw">lambda</span> x: x <span class="op">&amp;</span> <span class="dv">1</span>, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])) <span class="co"># [1, 3 ,5]</span></span></code></pre>
+          </div>
+          <h3 id="map">Map</h3>
+          <p>
+            Problem:
+            <em
+              >given an arbitrary iterable, apply some transformation to each
+              element in that iterable.</em
+            >
+          </p>
+          <p>
+            The <code>map</code> function takes in a single-argument function
+            and an iterable applies that function to each item in the iterable,
+            returning the resulting iterable.
+          </p>
+          <div class="sourceCode" id="cb2">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">map</span>(func, iterable):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> [func(x) <span class="cf">for</span> x <span class="kw">in</span> iterable]</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">map</span>(<span class="kw">lambda</span> x: x <span class="op">//</span> <span class="dv">2</span>, [<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>])) <span class="co"># [1, 2, 3, 4]</span></span></code></pre></div>
-<h3 id="reduce">Reduce</h3>
-<p>Problem: <em>given an arbitrary iterable, accumulate some
-transformation to each element in that iterable and return the resulting
-value.</em></p>
-<p>The <code>reduce</code> function takes in a two-argument function and
-an iterable and applies that function to elements in the iterable,
-accumulating the result along the way.</p>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">reduce</span>(func, iterable, init<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">map</span>(<span class="kw">lambda</span> x: x <span class="op">//</span> <span class="dv">2</span>, [<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>])) <span class="co"># [1, 2, 3, 4]</span></span></code></pre>
+          </div>
+          <h3 id="reduce">Reduce</h3>
+          <p>
+            Problem:
+            <em
+              >given an arbitrary iterable, accumulate some transformation to
+              each element in that iterable and return the resulting value.</em
+            >
+          </p>
+          <p>
+            The <code>reduce</code> function takes in a two-argument function
+            and an iterable and applies that function to elements in the
+            iterable, accumulating the result along the way.
+          </p>
+          <div class="sourceCode" id="cb3">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">reduce</span>(func, iterable, init<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  it  <span class="op">=</span> <span class="bu">iter</span>(iterable)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  val <span class="op">=</span> <span class="bu">next</span>(it) <span class="cf">if</span> init <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> init</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -128,22 +167,37 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a hr
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> val</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">reduce</span>(<span class="kw">lambda</span> x, y: x <span class="op">*</span> y, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])) <span class="co"># 6</span></span></code></pre></div>
-<p>As we can see above, we first deal with our initializer value, if
-none is present we use the first element in the list.</p>
-<p>We then run through the list, applying the passed in
-<code>func</code> with our current value and each subsequent element in
-the list.</p>
-<h3 id="composition-of-programs">Composition of programs</h3>
-<p>Now that we’ve gone through some basic examples, let’s see how this
-pattern might be useful in a practical scenerio.</p>
-<p>Problem: <em>write a program that outputs the sum of naturals,
-squares and cubes from numbers 1 to N where N is some arbitrary
-input</em></p>
-<p>Seems easy enough? Without the use of higher order functions, we can
-simple write the program like so:</p>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> natural(N):</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">reduce</span>(<span class="kw">lambda</span> x, y: x <span class="op">*</span> y, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])) <span class="co"># 6</span></span></code></pre>
+          </div>
+          <p>
+            As we can see above, we first deal with our initializer value, if
+            none is present we use the first element in the list.
+          </p>
+          <p>
+            We then run through the list, applying the passed in
+            <code>func</code> with our current value and each subsequent element
+            in the list.
+          </p>
+          <h3 id="composition-of-programs">Composition of programs</h3>
+          <p>
+            Now that we’ve gone through some basic examples, let’s see how this
+            pattern might be useful in a practical scenerio.
+          </p>
+          <p>
+            Problem:
+            <em
+              >write a program that outputs the sum of naturals, squares and
+              cubes from numbers 1 to N where N is some arbitrary input</em
+            >
+          </p>
+          <p>
+            Seems easy enough? Without the use of higher order functions, we can
+            simple write the program like so:
+          </p>
+          <div class="sourceCode" id="cb4">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> natural(N):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="bu">sum</span>([x <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>)])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> square(N):</span>
@@ -157,14 +211,21 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a hr
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(func(N))</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  main(<span class="bu">int</span>(<span class="bu">input</span>()))</span></code></pre></div>
-<p>Notice that the three different functions are actually very similar,
-the only difference is the <em>transformation of data</em> we perform on
-each number in the sequence.</p>
-<p>We can introduce a higher order function that <em>applies</em> this
-transformation to the data.</p>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summation(func, N):</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  main(<span class="bu">int</span>(<span class="bu">input</span>()))</span></code></pre>
+          </div>
+          <p>
+            Notice that the three different functions are actually very similar,
+            the only difference is the <em>transformation of data</em> we
+            perform on each number in the sequence.
+          </p>
+          <p>
+            We can introduce a higher order function that <em>applies</em> this
+            transformation to the data.
+          </p>
+          <div class="sourceCode" id="cb5">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summation(func, N):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="bu">sum</span>(<span class="bu">list</span>(<span class="bu">map</span>(func, <span class="bu">range</span>(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>))))</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> main(N):</span>
@@ -172,16 +233,23 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a hr
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(summation(func, N))</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  main(<span class="bu">int</span>(<span class="bu">input</span>()))</span></code></pre></div>
-<h3 id="decorators">Decorators</h3>
-<p>It’s worth covering another type of higher-order function, one that
-<em>returns</em> a function. In Python, the idea of a <em>decorator</em>
-is simply a function that takes in another function and returns a new
-one with some modified behaviour.</p>
-<p>Here’s a simple example of a timer, a function that computes the time
-of a function call.</p>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  main(<span class="bu">int</span>(<span class="bu">input</span>()))</span></code></pre>
+          </div>
+          <h3 id="decorators">Decorators</h3>
+          <p>
+            It’s worth covering another type of higher-order function, one that
+            <em>returns</em> a function. In Python, the idea of a
+            <em>decorator</em> is simply a function that takes in another
+            function and returns a new one with some modified behaviour.
+          </p>
+          <p>
+            Here’s a simple example of a timer, a function that computes the
+            time of a function call.
+          </p>
+          <div class="sourceCode" id="cb6">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timer(func):</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> wrap(<span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
@@ -200,40 +268,64 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a hr
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  waste(<span class="dv">2000000</span>)</span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  main() <span class="co"># Function waste executed in 0.0396s</span></span></code></pre></div>
-<p>As we can see, the function <code>timer</code> takes in a function as
-input and returns a wrapper function that modifies the behaviour of the
-passed in function by performing operations before and after the
-function call. Now the new function will embody this new behaviour
-whenever it is called.</p>
-<h3 id="fin">Fin</h3>
-<p>Being able to treat functions as first-class citizens in your
-programming language is a powerful idea to wrap your head around and a
-worth while design choice when composing large scale and complex
-applications.</p>
-<p>All of the functions written for this post can be found here -&gt; <a
-href="https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e">https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e</a></p>
-
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  main() <span class="co"># Function waste executed in 0.0396s</span></span></code></pre>
+          </div>
+          <p>
+            As we can see, the function <code>timer</code> takes in a function
+            as input and returns a wrapper function that modifies the behaviour
+            of the passed in function by performing operations before and after
+            the function call. Now the new function will embody this new
+            behaviour whenever it is called.
+          </p>
+          <h3 id="fin">Fin</h3>
+          <p>
+            Being able to treat functions as first-class citizens in your
+            programming language is a powerful idea to wrap your head around and
+            a worth while design choice when composing large scale and complex
+            applications.
+          </p>
+          <p>
+            All of the functions written for this post can be found here -&gt;
+            <a
+              href="https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e"
+              >https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e</a
+            >
+          </p>
         </div>
-        
-    <div class="intro">
-      Hi.
-    <div class="hot-links">
-      <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
-    </div>
-    <p>I'm Liam.</p>
-    <p>
-      I'm currently a software engineer intern at <a href='https://1password.com/' target='_blank'>1Password</a> on the
-      Filling and Saving team, where I primarily work on the <a href='https://1password.com/downloads/browser-extension/' target='_blank'>browser extension</a>
-      and related infrastructure.<br/><br/>
 
-      I also study computer science at <a href='https://www.mcgill.ca/' target='_blank'>McGill University</a>.<br/><br/>
+        <div class="intro">
+          Hi.
+          <div class="hot-links">
+            <a href="https://liam.rs/index.xml" class="feed-button"
+              >Subscribe</a
+            >
+          </div>
+          <p>I'm Liam.</p>
+          <p>
+            I'm currently a software engineer intern at
+            <a href="https://1password.com/" target="_blank">1Password</a> on
+            the Filling and Saving team, where I primarily work on the
+            <a
+              href="https://1password.com/downloads/browser-extension/"
+              target="_blank"
+              >browser extension</a
+            >
+            and related infrastructure.<br /><br />
 
-      I like developer tooling, distributed systems, performance engineering and compiler design.
-    </p>
-    <p>You can reach out to me via email at <a href='mailto: liam@scalzulli.com'>liam@scalzulli.com</a>.</p>
-  </div>
-  
+            I also study computer science at
+            <a href="https://www.mcgill.ca/" target="_blank"
+              >McGill University</a
+            >.<br /><br />
+
+            I like developer tooling, distributed systems, performance
+            engineering and compiler design.
+          </p>
+          <p>
+            You can reach out to me via email at
+            <a href="mailto: liam@scalzulli.com">liam@scalzulli.com</a>.
+          </p>
+        </div>
+
         <a href="/" class="post-end-link">Home</a>
         <span>/</span>
         <a href="/posts" class="post-end-link">Posts</a>

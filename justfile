@@ -9,11 +9,14 @@ alias g := gen
 
 all: gen fix-typos fmt
 
+check:
+  uv run ruff check
+
 dev:
   python3 -m http.server 8000 --directory ./docs
 
 dev-deps:
-  brew install just prettier
+  brew install just prettier uv
   cargo install typos-cli
   cargo install --path crates/watcher
   curl https://raw.githubusercontent.com/jirutka/esh/master/esh > /usr/local/bin/esh
@@ -22,13 +25,13 @@ fix-typos:
   typos --write-changes
 
 fmt:
-  yapf --in-place --recursive . && isort .
+  ruff check --select I --fix && ruff format
   prettier --write .
 
 gen:
   ./bin/last-modified
   ./bin/generate-index
-  ./bin/generate-projects
+  uv run ./bin/generate-projects
   ./bin/forbid
 
 watch:

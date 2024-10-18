@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -71,28 +71,45 @@
         </div>
         <h1>Incremental select with treesitter</h1>
         <div class="post-text">
-          <p><a href="https://github.com/tree-sitter/tree-sitter">treesitter</a>
-is a tool that can build a concrete syntax tree for a source file and
-incrementally update the tree as the file is modified.</p>
-<p>Recently, I’ve been experimenting more and more with treesitter’s <a
-href="https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries">query
-DSL</a> and an abstraction layer in the form of a <a
-href="https://github.com/nvim-treesitter/nvim-treesitter">neovim
-plugin</a>, and found a configuration option to be particularly useful
-when editing code: <em>incremental selection</em>.</p>
-<p>When you write a treesitter parser, you must write a grammar that
-treesitter can read, which it then uses to generate the parser. This
-grammar specifies the named syntax nodes in the tree and how they relate
-to other nodes.</p>
-<p>For instance, if we head over to the <a
-href="https://tree-sitter.github.io/tree-sitter/playground">syntax tree
-playground</a> and parse rust source code that looks like this:</p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> main() <span class="op">{</span></span>
+          <p>
+            <a href="https://github.com/tree-sitter/tree-sitter">treesitter</a>
+            is a tool that can build a concrete syntax tree for a source file
+            and incrementally update the tree as the file is modified.
+          </p>
+          <p>
+            Recently, I’ve been experimenting more and more with treesitter’s
+            <a
+              href="https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries"
+              >query DSL</a
+            >
+            and an abstraction layer in the form of a
+            <a href="https://github.com/nvim-treesitter/nvim-treesitter"
+              >neovim plugin</a
+            >, and found a configuration option to be particularly useful when
+            editing code: <em>incremental selection</em>.
+          </p>
+          <p>
+            When you write a treesitter parser, you must write a grammar that
+            treesitter can read, which it then uses to generate the parser. This
+            grammar specifies the named syntax nodes in the tree and how they
+            relate to other nodes.
+          </p>
+          <p>
+            For instance, if we head over to the
+            <a href="https://tree-sitter.github.io/tree-sitter/playground"
+              >syntax tree playground</a
+            >
+            and parse rust source code that looks like this:
+          </p>
+          <div class="sourceCode" id="cb1">
+            <pre
+              class="sourceCode rust"
+            ><code class="sourceCode rust"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> main() <span class="op">{</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">println!</span>(<span class="st">&quot;Hello, world!&quot;</span>)<span class="op">;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p>we get the following syntax tree output:</p>
-<pre><code>source_file [0, 0] - [3, 0]
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+          </div>
+          <p>we get the following syntax tree output:</p>
+          <pre><code>source_file [0, 0] - [3, 0]
   function_item [0, 0] - [2, 1]
     name: identifier [0, 3] - [0, 7]
     parameters: parameters [0, 7] - [0, 9]
@@ -101,17 +118,25 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb1-1"><a href="
         macro: identifier [1, 2] - [1, 9]
         token_tree [1, 10] - [1, 27]
           string_literal [1, 11] - [1, 26]</code></pre>
-<p>The neovim plugin written as an abstraction layer for treesitter
-usage within neovim is able to parse your source file as you type. That
-is, it’s able to compute a syntax tree that resembles the one shown
-above, on the fly.</p>
-<p>As you hover over a certain part of a file, it is able to detect
-which node you’re currently at in the tree.</p>
-<p>The plugin includes a configuration option which allows for the
-setting of keybindings for initializing a node selection and
-incrementing a selected node range – configured like so:</p>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode lua"><code class="sourceCode lua"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">incremental_selection</span> <span class="op">=</span> <span class="op">{</span></span>
+          <p>
+            The neovim plugin written as an abstraction layer for treesitter
+            usage within neovim is able to parse your source file as you type.
+            That is, it’s able to compute a syntax tree that resembles the one
+            shown above, on the fly.
+          </p>
+          <p>
+            As you hover over a certain part of a file, it is able to detect
+            which node you’re currently at in the tree.
+          </p>
+          <p>
+            The plugin includes a configuration option which allows for the
+            setting of keybindings for initializing a node selection and
+            incrementing a selected node range – configured like so:
+          </p>
+          <div class="sourceCode" id="cb3">
+            <pre
+              class="sourceCode lua"
+            ><code class="sourceCode lua"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">incremental_selection</span> <span class="op">=</span> <span class="op">{</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">enable</span> <span class="op">=</span> <span class="kw">true</span><span class="op">,</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">keymaps</span> <span class="op">=</span> <span class="op">{</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">init_selection</span> <span class="op">=</span> <span class="st">&quot;&lt;cr&gt;&quot;</span><span class="op">,</span></span>
@@ -119,38 +144,61 @@ class="sourceCode lua"><code class="sourceCode lua"><span id="cb3-1"><a href="#c
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">scope_incremental</span> <span class="op">=</span> <span class="st">&quot;grc&quot;</span><span class="op">,</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">node_decremental</span> <span class="op">=</span> <span class="st">&quot;grm&quot;</span><span class="op">,</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p>Incremental selection has improved the rapidity in which I can yank
-or replace blocks of text in treesitter parsed source files, as
-expanding a node selection with a keybinding is super fast and usually
-results in the exact block of text I want to modify.</p>
-<p>Here’s a quick demo of it in action:</p>
-<p><a href="https://asciinema.org/a/507405"><img
-src="https://asciinema.org/a/507405.svg" alt="asciicast" /></a></p>
-<p>A reference of my full neovim configuration can be found on github,
-in my <a href="https://github.com/terror/dotfiles">dotfiles</a> repo. Be
-sure to check it out!</p>
-
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+          </div>
+          <p>
+            Incremental selection has improved the rapidity in which I can yank
+            or replace blocks of text in treesitter parsed source files, as
+            expanding a node selection with a keybinding is super fast and
+            usually results in the exact block of text I want to modify.
+          </p>
+          <p>Here’s a quick demo of it in action:</p>
+          <p>
+            <a href="https://asciinema.org/a/507405"
+              ><img src="https://asciinema.org/a/507405.svg" alt="asciicast"
+            /></a>
+          </p>
+          <p>
+            A reference of my full neovim configuration can be found on github,
+            in my
+            <a href="https://github.com/terror/dotfiles">dotfiles</a> repo. Be
+            sure to check it out!
+          </p>
         </div>
-        
-    <div class="intro">
-      Hi.
-    <div class="hot-links">
-      <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
-    </div>
-    <p>I'm Liam.</p>
-    <p>
-      I'm currently a software engineer intern at <a href='https://1password.com/' target='_blank'>1Password</a> on the
-      Filling and Saving team, where I primarily work on the <a href='https://1password.com/downloads/browser-extension/' target='_blank'>browser extension</a>
-      and related infrastructure.<br/><br/>
 
-      I also study computer science at <a href='https://www.mcgill.ca/' target='_blank'>McGill University</a>.<br/><br/>
+        <div class="intro">
+          Hi.
+          <div class="hot-links">
+            <a href="https://liam.rs/index.xml" class="feed-button"
+              >Subscribe</a
+            >
+          </div>
+          <p>I'm Liam.</p>
+          <p>
+            I'm currently a software engineer intern at
+            <a href="https://1password.com/" target="_blank">1Password</a> on
+            the Filling and Saving team, where I primarily work on the
+            <a
+              href="https://1password.com/downloads/browser-extension/"
+              target="_blank"
+              >browser extension</a
+            >
+            and related infrastructure.<br /><br />
 
-      I like developer tooling, distributed systems, performance engineering and compiler design.
-    </p>
-    <p>You can reach out to me via email at <a href='mailto: liam@scalzulli.com'>liam@scalzulli.com</a>.</p>
-  </div>
-  
+            I also study computer science at
+            <a href="https://www.mcgill.ca/" target="_blank"
+              >McGill University</a
+            >.<br /><br />
+
+            I like developer tooling, distributed systems, performance
+            engineering and compiler design.
+          </p>
+          <p>
+            You can reach out to me via email at
+            <a href="mailto: liam@scalzulli.com">liam@scalzulli.com</a>.
+          </p>
+        </div>
+
         <a href="/" class="post-end-link">Home</a>
         <span>/</span>
         <a href="/posts" class="post-end-link">Posts</a>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -71,90 +71,142 @@
         </div>
         <h1>Powerful `just` features</h1>
         <div class="post-text">
-          <p><a href="https://github.com/casey/just"><code>just</code></a> is a
-command runner written in Rust. Commands, or <em>recipes</em> in
-<code>just</code> lingo, are populated in a file called ‘justfile’, and
-are expressed in a make-like syntax.</p>
-<p>I’ve been using <code>just</code> as my command runner for all of my
-projects, big or small, and find it extremely useful to have a file in
-the projects root that contains every command needed to interact with
-the project.</p>
-<p>There are quite a few features baked into this program that make it
-unique from similar projects, which I find nice to have when crafting
-software. This post simply documents the few I use most often.</p>
-<h3 id="contents">Contents</h3>
-<ul>
-<li><a href="#aliases">Aliases</a></li>
-<li><a href="#fuzzy-searching-recipes">Fuzzy searching recipes</a></li>
-<li><a href="#recipes-in-arbitrary-languages">Recipes in arbitrary
-languages</a></li>
-<li><a href="#taking-advantage-of-the-default-recipe">Taking advantage
-of the default recipe</a></li>
-<li><a href="#recipe-dependencies">Recipe dependencies</a></li>
-<li><a href="#format-your-justfile">Format your justfile</a></li>
-<li><a href="#documenting-recipes">Documenting recipes</a></li>
-</ul>
-<h3 id="aliases">Aliases</h3>
-<p>Recipes can have aliases, or alternative names which refer to the
-original recipe that can be used with <code>just</code> to invoke the
-original recipe.</p>
-<p>For instance, if you have a recipe called <code>run</code>, you can
-alias it to <code>r</code> like so:</p>
-<pre><code>alias r := run
+          <p>
+            <a href="https://github.com/casey/just"><code>just</code></a> is a
+            command runner written in Rust. Commands, or <em>recipes</em> in
+            <code>just</code> lingo, are populated in a file called ‘justfile’,
+            and are expressed in a make-like syntax.
+          </p>
+          <p>
+            I’ve been using <code>just</code> as my command runner for all of my
+            projects, big or small, and find it extremely useful to have a file
+            in the projects root that contains every command needed to interact
+            with the project.
+          </p>
+          <p>
+            There are quite a few features baked into this program that make it
+            unique from similar projects, which I find nice to have when
+            crafting software. This post simply documents the few I use most
+            often.
+          </p>
+          <h3 id="contents">Contents</h3>
+          <ul>
+            <li><a href="#aliases">Aliases</a></li>
+            <li>
+              <a href="#fuzzy-searching-recipes">Fuzzy searching recipes</a>
+            </li>
+            <li>
+              <a href="#recipes-in-arbitrary-languages"
+                >Recipes in arbitrary languages</a
+              >
+            </li>
+            <li>
+              <a href="#taking-advantage-of-the-default-recipe"
+                >Taking advantage of the default recipe</a
+              >
+            </li>
+            <li><a href="#recipe-dependencies">Recipe dependencies</a></li>
+            <li><a href="#format-your-justfile">Format your justfile</a></li>
+            <li><a href="#documenting-recipes">Documenting recipes</a></li>
+          </ul>
+          <h3 id="aliases">Aliases</h3>
+          <p>
+            Recipes can have aliases, or alternative names which refer to the
+            original recipe that can be used with <code>just</code> to invoke
+            the original recipe.
+          </p>
+          <p>
+            For instance, if you have a recipe called <code>run</code>, you can
+            alias it to <code>r</code> like so:
+          </p>
+          <pre><code>alias r := run
 
 run:
   cargo run</code></pre>
-<p>and invoke it with <code>just r</code>.</p>
-<p>Somewhat related side note: consider aliasing the <code>just</code>
-command to <code>j</code>, it’ll save you some typing if you frequently
-execute commands with <code>just</code>.</p>
-<h3 id="fuzzy-searching-recipes">Fuzzy searching recipes</h3>
-<p>One feature I discovered recently is <code>just --choose</code>,
-which lets you fuzzy search through recipes defined in your justfile.
-You can also specify a chooser by passing it into
-<code>just --chooser</code>, else it will default to using <a
-href="https://github.com/junegunn/fzf"><code>fzf</code></a>.</p>
-<p>There is work planned to support recipe previews and command line
-arguments for recipes that take them when using the default chooser.</p>
-<p>However, with the help of <code>just --summary</code>,
-<code>just --show</code> and a bit of <a
-href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a>,
-here’s how you can get to look:</p>
-<p><a href="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN"><img
-src="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN.svg"
-alt="asciicast" /></a></p>
-<h3 id="recipes-in-arbitrary-languages">Recipes in arbitrary
-languages</h3>
-<p><code>just</code> recipes can be expressed in another language by
-adding a shebang at the top of the recipe, as they get executed as
-scripts by the shell.</p>
-<p>For instance, we can write a small script in Python that lists the
-contents of the current directory, and put it in a recipe:</p>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ls:</span>
+          <p>and invoke it with <code>just r</code>.</p>
+          <p>
+            Somewhat related side note: consider aliasing the
+            <code>just</code> command to <code>j</code>, it’ll save you some
+            typing if you frequently execute commands with <code>just</code>.
+          </p>
+          <h3 id="fuzzy-searching-recipes">Fuzzy searching recipes</h3>
+          <p>
+            One feature I discovered recently is <code>just --choose</code>,
+            which lets you fuzzy search through recipes defined in your
+            justfile. You can also specify a chooser by passing it into
+            <code>just --chooser</code>, else it will default to using
+            <a href="https://github.com/junegunn/fzf"><code>fzf</code></a
+            >.
+          </p>
+          <p>
+            There is work planned to support recipe previews and command line
+            arguments for recipes that take them when using the default chooser.
+          </p>
+          <p>
+            However, with the help of <code>just --summary</code>,
+            <code>just --show</code> and a bit of
+            <a
+              href="https://en.wikipedia.org/wiki/Python_(programming_language)"
+              >Python</a
+            >, here’s how you can get to look:
+          </p>
+          <p>
+            <a href="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN"
+              ><img
+                src="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN.svg"
+                alt="asciicast"
+            /></a>
+          </p>
+          <h3 id="recipes-in-arbitrary-languages">
+            Recipes in arbitrary languages
+          </h3>
+          <p>
+            <code>just</code> recipes can be expressed in another language by
+            adding a shebang at the top of the recipe, as they get executed as
+            scripts by the shell.
+          </p>
+          <p>
+            For instance, we can write a small script in Python that lists the
+            contents of the current directory, and put it in a recipe:
+          </p>
+          <div class="sourceCode" id="cb2">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ls:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#!/usr/bin/env python3</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> os</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="op">*</span>os.listdir())</span></code></pre></div>
-<h3 id="taking-advantage-of-the-default-recipe">Taking advantage of the
-default recipe</h3>
-<p><code>just</code> allows you to specify a <code>default</code> recipe
-that gets executed when invoking <code>just</code> without any arguments
-in a directory that contains a justfile (or a sub-directory in which a
-parent directory contains a justfile).</p>
-<p>For instance:</p>
-<pre><code>default:
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="op">*</span>os.listdir())</span></code></pre>
+          </div>
+          <h3 id="taking-advantage-of-the-default-recipe">
+            Taking advantage of the default recipe
+          </h3>
+          <p>
+            <code>just</code> allows you to specify a
+            <code>default</code> recipe that gets executed when invoking
+            <code>just</code> without any arguments in a directory that contains
+            a justfile (or a sub-directory in which a parent directory contains
+            a justfile).
+          </p>
+          <p>For instance:</p>
+          <pre><code>default:
   just --list</code></pre>
-<p>I usually use this feature to list out all recipes that are available
-in the justfile however this could be used for anything that merits
-being quickly invoked with a single command.</p>
-<h3 id="recipe-dependencies">Recipe dependencies</h3>
-<p><code>just</code> recipes can contain ‘dependencies’, or other
-recipes that should be ran <em>before</em> a given recipe.</p>
-<p>For example, let’s say you have a ‘build’ recipe and want to run
-tests – specified in a ‘test’ recipe – each time before executing the
-contents of the recipe, you can do so by making ‘test’ a dependency of
-‘build’, like so:</p>
-<pre><code>default:
+          <p>
+            I usually use this feature to list out all recipes that are
+            available in the justfile however this could be used for anything
+            that merits being quickly invoked with a single command.
+          </p>
+          <h3 id="recipe-dependencies">Recipe dependencies</h3>
+          <p>
+            <code>just</code> recipes can contain ‘dependencies’, or other
+            recipes that should be ran <em>before</em> a given recipe.
+          </p>
+          <p>
+            For example, let’s say you have a ‘build’ recipe and want to run
+            tests – specified in a ‘test’ recipe – each time before executing
+            the contents of the recipe, you can do so by making ‘test’ a
+            dependency of ‘build’, like so:
+          </p>
+          <pre><code>default:
   just --list
 
 build: test # this is a dependency
@@ -162,10 +214,12 @@ build: test # this is a dependency
 
 test:
   cargo test</code></pre>
-<p>This also comes in handy when you want to run multiple recipes in
-sequence, <code>just</code> allows for a very expressive syntax via
-dependencies:</p>
-<pre><code>default:
+          <p>
+            This also comes in handy when you want to run multiple recipes in
+            sequence, <code>just</code> allows for a very expressive syntax via
+            dependencies:
+          </p>
+          <pre><code>default:
   just --list
 
 all: build test fmt
@@ -178,15 +232,23 @@ test:
 
 fmt:
   cargo +nightly fmt</code></pre>
-<h3 id="format-your-justfile">Format your justfile</h3>
-<p>As of recently, <code>just</code> supports justfile formatting via
-the <code>--fmt</code> command.</p>
-<p>It currently requires the <code>--unstable</code> flag, like so:</p>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> just <span class="at">--fmt</span> <span class="at">--unstable</span></span></code></pre></div>
-<p>Invoking the command above can turn a justfile that looks like
-this:</p>
-<pre><code>default:
+          <h3 id="format-your-justfile">Format your justfile</h3>
+          <p>
+            As of recently, <code>just</code> supports justfile formatting via
+            the <code>--fmt</code> command.
+          </p>
+          <p>
+            It currently requires the <code>--unstable</code> flag, like so:
+          </p>
+          <div class="sourceCode" id="cb6">
+            <pre
+              class="sourceCode bash"
+            ><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> just <span class="at">--fmt</span> <span class="at">--unstable</span></span></code></pre>
+          </div>
+          <p>
+            Invoking the command above can turn a justfile that looks like this:
+          </p>
+          <pre><code>default:
     just --list
 
 build:
@@ -197,8 +259,8 @@ test:
 
 clippy:
             cargo clippy --all-targets --all-features</code></pre>
-<p>into this:</p>
-<pre><code>default:
+          <p>into this:</p>
+          <pre><code>default:
   just --list
 
 build:
@@ -209,53 +271,80 @@ test:
 
 clippy:
   cargo clippy --all-targets --all-features</code></pre>
-<p>This can be useful if you have many people working on your project
-and recipes get added or modified in your projects justfile on the
-regular.</p>
-<h3 id="documenting-recipes">Documenting recipes</h3>
-<p><code>just</code> allows for comments above recipes that get appeared
-when invoking <code>just --list</code>.</p>
-<p>For example, here is a sample justfile with a <code>run</code> recipe
-that contains a comment above it:</p>
-<pre><code># Run the project
+          <p>
+            This can be useful if you have many people working on your project
+            and recipes get added or modified in your projects justfile on the
+            regular.
+          </p>
+          <h3 id="documenting-recipes">Documenting recipes</h3>
+          <p>
+            <code>just</code> allows for comments above recipes that get
+            appeared when invoking <code>just --list</code>.
+          </p>
+          <p>
+            For example, here is a sample justfile with a
+            <code>run</code> recipe that contains a comment above it:
+          </p>
+          <pre><code># Run the project
 run:
   cargo run</code></pre>
-<p>invoking <code>just --list</code> will yield the following
-output:</p>
-<pre><code>Available recipes:
+          <p>
+            invoking <code>just --list</code> will yield the following output:
+          </p>
+          <pre><code>Available recipes:
     run # Run the project</code></pre>
-<p>This is extremely useful for documenting obscure commands, especially
-when working in teams where people come and go on a project
-frequently.</p>
-<h3 id="fin">Fin</h3>
-<p>I personally think any project could benefit greatly by having a
-single source of truth in regards to project specific commands, and
-<code>just</code> provides a simple way to set that up.</p>
-<p>Have a look over at the <a
-href="https://github.com/casey/just">official readme</a> document on
-GitHub for more information and further elaboration on the features
-mentioned here.</p>
-
+          <p>
+            This is extremely useful for documenting obscure commands,
+            especially when working in teams where people come and go on a
+            project frequently.
+          </p>
+          <h3 id="fin">Fin</h3>
+          <p>
+            I personally think any project could benefit greatly by having a
+            single source of truth in regards to project specific commands, and
+            <code>just</code> provides a simple way to set that up.
+          </p>
+          <p>
+            Have a look over at the
+            <a href="https://github.com/casey/just">official readme</a> document
+            on GitHub for more information and further elaboration on the
+            features mentioned here.
+          </p>
         </div>
-        
-    <div class="intro">
-      Hi.
-    <div class="hot-links">
-      <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
-    </div>
-    <p>I'm Liam.</p>
-    <p>
-      I'm currently a software engineer intern at <a href='https://1password.com/' target='_blank'>1Password</a> on the
-      Filling and Saving team, where I primarily work on the <a href='https://1password.com/downloads/browser-extension/' target='_blank'>browser extension</a>
-      and related infrastructure.<br/><br/>
 
-      I also study computer science at <a href='https://www.mcgill.ca/' target='_blank'>McGill University</a>.<br/><br/>
+        <div class="intro">
+          Hi.
+          <div class="hot-links">
+            <a href="https://liam.rs/index.xml" class="feed-button"
+              >Subscribe</a
+            >
+          </div>
+          <p>I'm Liam.</p>
+          <p>
+            I'm currently a software engineer intern at
+            <a href="https://1password.com/" target="_blank">1Password</a> on
+            the Filling and Saving team, where I primarily work on the
+            <a
+              href="https://1password.com/downloads/browser-extension/"
+              target="_blank"
+              >browser extension</a
+            >
+            and related infrastructure.<br /><br />
 
-      I like developer tooling, distributed systems, performance engineering and compiler design.
-    </p>
-    <p>You can reach out to me via email at <a href='mailto: liam@scalzulli.com'>liam@scalzulli.com</a>.</p>
-  </div>
-  
+            I also study computer science at
+            <a href="https://www.mcgill.ca/" target="_blank"
+              >McGill University</a
+            >.<br /><br />
+
+            I like developer tooling, distributed systems, performance
+            engineering and compiler design.
+          </p>
+          <p>
+            You can reach out to me via email at
+            <a href="mailto: liam@scalzulli.com">liam@scalzulli.com</a>.
+          </p>
+        </div>
+
         <a href="/" class="post-end-link">Home</a>
         <span>/</span>
         <a href="/posts" class="post-end-link">Posts</a>

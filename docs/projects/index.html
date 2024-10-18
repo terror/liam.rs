@@ -1,868 +1,1737 @@
-
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="HandheldFriendly" content="true">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="theme-color" content="#ffffff">
-<meta name="viewport" content="initial-scale=1">
-<meta property="og:title" content="liam">
-<meta property="og:description" content="liam's musings">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://liam.rs">
-<link rel="alternate" type="application/atom+xml" title="liam's musings" href="./index.xml">
-<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"/>
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/>
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/>
-<link rel="manifest" href="/favicon/site.webmanifest"/>
-<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
-<link rel="stylesheet" href="/css/style.css">
-<title>liam.rs</title>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151954055-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'UA-151954055-3');
-</script>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="viewport" content="initial-scale=1" />
+    <meta property="og:title" content="liam" />
+    <meta property="og:description" content="liam's musings" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://liam.rs" />
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="liam's musings"
+      href="./index.xml"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/favicon/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>liam.rs</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-151954055-3"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-151954055-3');
+    </script>
+  </head>
   <body>
     <div class="posts">
-    <div class="post">
-    <a href="/" class="post-end-link">Home</a>
-    <span>/</span>
-    <a class="post-end-link">Projects</a>
-    <h1>Projects</h1>
-    <div class="separator"></div>
-    <table>
+      <div class="post">
+        <a href="/" class="post-end-link">Home</a>
+        <span>/</span>
+        <a class="post-end-link">Projects</a>
+        <h1>Projects</h1>
+        <div class="separator"></div>
+        <table>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>mnist</strong> August 2024
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >ML</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Math</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >GUI</span
+                >
+              </div>
+              <em> A neural network </em>
+              <div>
+                <p>
+                  <strong>mnist</strong> is a neural network written from
+                  scratch with the goal of being able to recognize handwritten
+                  digits, written in pure Rust with minimal dependencies used in
+                  the training process.
+                </p>
+                <p>
+                  You’re able to train and make predictions directly from the
+                  CLI. There’s also a subcommand to spawn an interactive GUI
+                  application where you can draw digits and have it perform live
+                  inference of the drawn figure.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/mnist">GitHub</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/mnist.png" />
+            </td>
+          </tr>
 
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>mnist</strong> August 2024
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">ML</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Math</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">GUI</span>
-        </div>
-        <em>
-          A neural network
-        </em>
-        <div>
-          <p><strong>mnist</strong> is a neural network written from scratch with
-the goal of being able to recognize handwritten digits, written in pure
-Rust with minimal dependencies used in the training process.</p>
-<p>You’re able to train and make predictions directly from the CLI.
-There’s also a subcommand to spawn an interactive GUI application where
-you can draw digits and have it perform live inference of the drawn
-figure.</p>
-<p>Links: <a href="https://github.com/terror/mnist">GitHub</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>proust</strong> July 2024
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >React</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >TypeScript</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >AI</span
+                >
+              </div>
+              <em> A learning tool </em>
+              <div>
+                <p>
+                  <strong>proust</strong> is a tool to help you learn more from
+                  static content.
+                </p>
+                <p>
+                  It lets you define interactive <em>workspaces</em>, places
+                  where you can load in static content from disk or from the
+                  web, having it fully indexed and ready to be interacted with.
+                </p>
+                <p>It runs fully client-side and in the browser.</p>
+                <p>
+                  Links: <a href="https://github.com/terror/proust">GitHub</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/proust.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/mnist.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>proust</strong> July 2024
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">React</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">TypeScript</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">AI</span>
-        </div>
-        <em>
-          A learning tool
-        </em>
-        <div>
-          <p><strong>proust</strong> is a tool to help you learn more from static
-content.</p>
-<p>It lets you define interactive <em>workspaces</em>, places where you
-can load in static content from disk or from the web, having it fully
-indexed and ready to be interacted with.</p>
-<p>It runs fully client-side and in the browser.</p>
-<p>Links: <a href="https://github.com/terror/proust">GitHub</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>llmbda</strong> October 2023
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Research</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >NLP</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Python</span
+                >
+              </div>
+              <em>
+                A large language model based propositional logic deduction
+                assistant
+              </em>
+              <div>
+                <p>
+                  <strong>llmbda</strong> was a research project I worked on for
+                  a natural language processing course I took at McGill
+                  University.
+                </p>
+                <p>
+                  Alongside two friends, we came up with a plan to investigate
+                  how good large language models could be at parsing natural
+                  language into logical expressions.
+                </p>
+                <p>
+                  For instance, we wanted to explore turning an expression like
+                  this:
+                </p>
+                <p>
+                  <code
+                    >COMP 202 and (COMP 250 or COMP 206) or permission of
+                    instructor</code
+                  >
+                </p>
+                <p>into this:</p>
+                <p><code>COMP 202 ∧ (COMP 250 ∨ COMP 206)</code></p>
+                <p>
+                  We explored a zero-shot, few-shot and fine-tuned alignment for
+                  various available language models, using the most accurate
+                  strategy in production for
+                  <a href="https://mcgill.courses/">mcgill.courses</a> course
+                  graph generation.
+                </p>
+                <p>
+                  Links:
+                  <a href="https://github.com/SamZhang02/llmbda">GitHub</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/llmbda.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/proust.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>llmbda</strong> October 2023
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Research</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">NLP</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Python</span>
-        </div>
-        <em>
-          A large language model based propositional logic deduction assistant
-        </em>
-        <div>
-          <p><strong>llmbda</strong> was a research project I worked on for a
-natural language processing course I took at McGill University.</p>
-<p>Alongside two friends, we came up with a plan to investigate how good
-large language models could be at parsing natural language into logical
-expressions.</p>
-<p>For instance, we wanted to explore turning an expression like
-this:</p>
-<p><code>COMP 202 and (COMP 250 or COMP 206) or permission of instructor</code></p>
-<p>into this:</p>
-<p><code>COMP 202 ∧ (COMP 250 ∨ COMP 206)</code></p>
-<p>We explored a zero-shot, few-shot and fine-tuned alignment for
-various available language models, using the most accurate strategy in
-production for <a href="https://mcgill.courses/">mcgill.courses</a>
-course graph generation.</p>
-<p>Links: <a href="https://github.com/SamZhang02/llmbda">GitHub</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>crisp</strong> September 2023
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >C</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Languages</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Lisp</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Compilers</span
+                >
+              </div>
+              <em> A toy lisp interpreter written in C. </em>
+              <div>
+                <p>
+                  <strong>crisp</strong> is a lisp written in C with a web
+                  playground compiled using
+                  <a
+                    href="https://en.wikipedia.org/wiki/WebAssembly?useskin=vector"
+                    >WebAssembly</a
+                  >. I wrote it initially to get more familiar with C using the
+                  book
+                  <a href="https://buildyourownlisp.com/"
+                    >Build Your Own Lisp</a
+                  >
+                  by Daniel Holden as a rough guide to follow.
+                </p>
+                <p>
+                  Links: <a href="http://github.com/terror/crisp">GitHub</a>,
+                  <a href="https://crisp.computer/">Website</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/crisp.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/llmbda.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>crisp</strong> September 2023
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">C</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Languages</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Lisp</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Compilers</span>
-        </div>
-        <em>
-          A toy lisp interpreter written in C.
-        </em>
-        <div>
-          <p><strong>crisp</strong> is a lisp written in C with a web playground
-compiled using <a
-href="https://en.wikipedia.org/wiki/WebAssembly?useskin=vector">WebAssembly</a>.
-I wrote it initially to get more familiar with C using the book <a
-href="https://buildyourownlisp.com/">Build Your Own Lisp</a> by Daniel
-Holden as a rough guide to follow.</p>
-<p>Links: <a href="http://github.com/terror/crisp">GitHub</a>, <a
-href="https://crisp.computer/">Website</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>mem1p</strong> July 2023
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >React</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >TypeScript</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >ML</span
+                >
+              </div>
+              <em> Memorize your passphrases with ease. </em>
+              <div>
+                <p>
+                  <strong>mem1p</strong> is a tool that let’s you memorize new
+                  or existing passphrases easily.
+                </p>
+                <p>
+                  It leverages
+                  <a href="https://github.com/mlc-ai/web-llm">Web-LLM</a> and
+                  <a href="https://github.com/mlc-ai/web-stable-diffusion"
+                    >Stable Diffusion</a
+                  >
+                  running on chromes recently shipped
+                  <a href="https://developer.chrome.com/blog/webgpu-release/"
+                    >WebGPU</a
+                  >
+                  to generate memorable sentences and images that help you
+                  better contextualize your passphrase.
+                </p>
+                <p>
+                  This project was built during an internal hackathon with a few
+                  colleagues at
+                  <a href="https://1password.com/">1Password</a> during my
+                  Summer 2023 internship.
+                </p>
+                <p>Links: <a href="https://mem1p.fly.dev/">Website</a></p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/mem1p.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/crisp.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>mem1p</strong> July 2023
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">React</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">TypeScript</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">ML</span>
-        </div>
-        <em>
-          Memorize your passphrases with ease.
-        </em>
-        <div>
-          <p><strong>mem1p</strong> is a tool that let’s you memorize new or
-existing passphrases easily.</p>
-<p>It leverages <a href="https://github.com/mlc-ai/web-llm">Web-LLM</a>
-and <a href="https://github.com/mlc-ai/web-stable-diffusion">Stable
-Diffusion</a> running on chromes recently shipped <a
-href="https://developer.chrome.com/blog/webgpu-release/">WebGPU</a> to
-generate memorable sentences and images that help you better
-contextualize your passphrase.</p>
-<p>This project was built during an internal hackathon with a few
-colleagues at <a href="https://1password.com/">1Password</a> during my
-Summer 2023 internship.</p>
-<p>Links: <a href="https://mem1p.fly.dev/">Website</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>edmv</strong> June 2023
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >CLI</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Tools</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Productivity</span
+                >
+              </div>
+              <em> Bulk rename files with your favorite editor. </em>
+              <div>
+                <p>
+                  <strong>edmv</strong> provides a quick way to rename a bunch
+                  of files using any editor of your choosing.
+                </p>
+                <p>
+                  It works by letting you provide valid paths on disk, having
+                  them opened up and editable in a temporary file on separate
+                  lines, and then performing any rename operations for modified
+                  lines upon exit.
+                </p>
+                <p>
+                  The tool behaves as if you were running <code>mv</code>, and
+                  has a few
+                  <a
+                    href="https://github.com/terror/edmv/blob/master/tests/integration.rs"
+                    >integration tests</a
+                  >
+                  that might be useful to check out as documentation.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/edmv">GitHub</a>,
+                  <a href="https://crates.io/crates/edmv">Crates.io</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/edmv.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/mem1p.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>edmv</strong> June 2023
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">CLI</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Tools</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Productivity</span>
-        </div>
-        <em>
-          Bulk rename files with your favorite editor.
-        </em>
-        <div>
-          <p><strong>edmv</strong> provides a quick way to rename a bunch of files
-using any editor of your choosing.</p>
-<p>It works by letting you provide valid paths on disk, having them
-opened up and editable in a temporary file on separate lines, and then
-performing any rename operations for modified lines upon exit.</p>
-<p>The tool behaves as if you were running <code>mv</code>, and has a
-few <a
-href="https://github.com/terror/edmv/blob/master/tests/integration.rs">integration
-tests</a> that might be useful to check out as documentation.</p>
-<p>Links: <a href="https://github.com/terror/edmv">GitHub</a>, <a
-href="https://crates.io/crates/edmv">Crates.io</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>skeleton</strong> May 2023
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >CLI</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Tools</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Productivity</span
+                >
+              </div>
+              <em> A project scaffolding utility </em>
+              <div>
+                <p>
+                  <strong>skeleton</strong> is a tool that makes it easier to
+                  start new projects.
+                </p>
+                <p>
+                  It stores your commonly used project specific files in one
+                  place, letting you easily apply them to new projects.
+                </p>
+                <p>
+                  In essence, a <code>template</code> is a file ending in
+                  <code>.skeleton</code> with a front-matter and content. The
+                  front-matter is structured
+                  <a href="https://en.wikipedia.org/wiki/YAML?useskin=vector"
+                    >YAML</a
+                  >
+                  with effect and free variables.
+                </p>
+                <p>
+                  An <code>effect</code> variable is pre-defined to perform some
+                  action, e.g. <code>filename</code> is used when applying a
+                  template and writing it to its appropriate location,
+                  <code>command</code> is used to apply a command post-write,
+                  etc.
+                </p>
+                <p>
+                  A <code>free</code> variable is used to substitute into the
+                  templates content, you can also specify whether or not to be
+                  interactively prompted for these types of variables when
+                  applying templates.
+                </p>
+                <p>
+                  <code>skeleton</code> is a re-implementation and improvement
+                  of a Python program I wrote a while back called
+                  <code>bp</code>, which you can find
+                  <a href="https://github.com/terror/bp">here</a>.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/skeleton">GitHub</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/skeleton.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/edmv.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>skeleton</strong> May 2023
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">CLI</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Tools</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Productivity</span>
-        </div>
-        <em>
-          A project scaffolding utility
-        </em>
-        <div>
-          <p><strong>skeleton</strong> is a tool that makes it easier to start new
-projects.</p>
-<p>It stores your commonly used project specific files in one place,
-letting you easily apply them to new projects.</p>
-<p>In essence, a <code>template</code> is a file ending in
-<code>.skeleton</code> with a front-matter and content. The front-matter
-is structured <a
-href="https://en.wikipedia.org/wiki/YAML?useskin=vector">YAML</a> with
-effect and free variables.</p>
-<p>An <code>effect</code> variable is pre-defined to perform some
-action, e.g. <code>filename</code> is used when applying a template and
-writing it to its appropriate location, <code>command</code> is used to
-apply a command post-write, etc.</p>
-<p>A <code>free</code> variable is used to substitute into the templates
-content, you can also specify whether or not to be interactively
-prompted for these types of variables when applying templates.</p>
-<p><code>skeleton</code> is a re-implementation and improvement of a
-Python program I wrote a while back called <code>bp</code>, which you
-can find <a href="https://github.com/terror/bp">here</a>.</p>
-<p>Links: <a href="https://github.com/terror/skeleton">GitHub</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>pdfathom</strong> April 2023
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Python</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >CLI</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >LangChain</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >GPT</span
+                >
+              </div>
+              <em> Query PDFs in natural language from the command-line. </em>
+              <div>
+                <p>
+                  <strong>pdfathom</strong> is a command-line utility that lets
+                  you query PDF documents with natural language.
+                </p>
+                <p>
+                  It lets you easily spawn a conversational repl environment
+                  with PDF documents on disk or in the cloud - building an
+                  in-memory question-answering agent with
+                  <a href="https://platform.openai.com/docs/guides/embeddings"
+                    >OpenAI embeddings</a
+                  >
+                  and
+                  <a
+                    href="https://python.langchain.com/docs/get_started/introduction.html"
+                    >LangChain</a
+                  >
+                  as the orchestrator.
+                </p>
+                <p>
+                  Links: <a href="http://github.com/terror/pdfathom">GitHub</a>,
+                  <a href="https://pypi.org/project/pdfathom/">PyPI</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/pdfathom.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/skeleton.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>pdfathom</strong> April 2023
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Python</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">CLI</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">LangChain</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">GPT</span>
-        </div>
-        <em>
-          Query PDFs in natural language from the command-line.
-        </em>
-        <div>
-          <p><strong>pdfathom</strong> is a command-line utility that lets you
-query PDF documents with natural language.</p>
-<p>It lets you easily spawn a conversational repl environment with PDF
-documents on disk or in the cloud - building an in-memory
-question-answering agent with <a
-href="https://platform.openai.com/docs/guides/embeddings">OpenAI
-embeddings</a> and <a
-href="https://python.langchain.com/docs/get_started/introduction.html">LangChain</a>
-as the orchestrator.</p>
-<p>Links: <a href="http://github.com/terror/pdfathom">GitHub</a>, <a
-href="https://pypi.org/project/pdfathom/">PyPI</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>textmap</strong> April 2023
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Python</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Spacy</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >NLP</span
+                >
+              </div>
+              <em> A heatmap-like visualization for text-based content. </em>
+              <div>
+                <p>
+                  This project was an experiment to see what it would be like to
+                  introduce similarity-based highlighting to text interfaces.
+                </p>
+                <p>
+                  It works by chunking the input text into sentence vectors
+                  using
+                  <a href="https://github.com/explosion/spaCy">Spacy</a> and
+                  then ranking them based on their cosine similarity to other
+                  sentence vectors within the same body of text - giving them a
+                  score that falls within a range which can easily be mapped to
+                  a color.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/textmap">GitHub</a>,
+                  <a href="https://textmap.up.railway.app/">Website</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/textmap.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/pdfathom.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>textmap</strong> April 2023
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Python</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Spacy</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">NLP</span>
-        </div>
-        <em>
-          A heatmap-like visualization for text-based content.
-        </em>
-        <div>
-          <p>This project was an experiment to see what it would be like to
-introduce similarity-based highlighting to text interfaces.</p>
-<p>It works by chunking the input text into sentence vectors using <a
-href="https://github.com/explosion/spaCy">Spacy</a> and then ranking
-them based on their cosine similarity to other sentence vectors within
-the same body of text - giving them a score that falls within a range
-which can easily be mapped to a color.</p>
-<p>Links: <a href="https://github.com/terror/textmap">GitHub</a>, <a
-href="https://textmap.up.railway.app/">Website</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>stream</strong> March 2023
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >React</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >TypeScript</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >MongoDB</span
+                >
+              </div>
+              <em> A stream of thoughts. </em>
+              <div>
+                <p>
+                  I wrote <strong>stream</strong> as a way to post short
+                  snippets of text to a feed that isn’t crowded by noise and ads
+                  (cough Twitter).
+                </p>
+                <p>It offers a few other niceties:</p>
+                <ul>
+                  <li>Authentication with GitHub</li>
+                  <li>Post creation form with live markdown preview</li>
+                  <li>
+                    Custom markdown renderer with syntax highlighting and math
+                    typesetting with KaTeX
+                  </li>
+                  <li>Fast full-text search through the entire feed</li>
+                  <li>
+                    Tag support with exact tag search - simply prefix queries
+                    with <code>#</code>
+                  </li>
+                </ul>
+                <p>
+                  And it’s easily self-hostable with
+                  <a
+                    href="https://github.com/terror/stream/blob/master/Dockerfile"
+                    >docker</a
+                  >.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/stream">GitHub</a>,
+                  <a href="https://stream.liam.rs/">Website</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/stream.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/textmap.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>stream</strong> March 2023
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">React</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">TypeScript</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">MongoDB</span>
-        </div>
-        <em>
-          A stream of thoughts.
-        </em>
-        <div>
-          <p>I wrote <strong>stream</strong> as a way to post short snippets of
-text to a feed that isn’t crowded by noise and ads (cough Twitter).</p>
-<p>It offers a few other niceties:</p>
-<ul>
-<li>Authentication with GitHub</li>
-<li>Post creation form with live markdown preview</li>
-<li>Custom markdown renderer with syntax highlighting and math
-typesetting with KaTeX</li>
-<li>Fast full-text search through the entire feed</li>
-<li>Tag support with exact tag search - simply prefix queries with
-<code>#</code></li>
-</ul>
-<p>And it’s easily self-hostable with <a
-href="https://github.com/terror/stream/blob/master/Dockerfile">docker</a>.</p>
-<p>Links: <a href="https://github.com/terror/stream">GitHub</a>, <a
-href="https://stream.liam.rs/">Website</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>mcgill.courses</strong> March 2023
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >React</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >MongoDB</span
+                >
+              </div>
+              <em>
+                A course search and review platform for McGill University.
+              </em>
+              <div>
+                <p>
+                  A few friends and I decided to build this after noticing there
+                  was no real McGill-focused course discoverability and review
+                  site out there.
+                </p>
+                <p>
+                  We support fast course/instructor search and exploration,
+                  alongside functionality for creating and interacting with
+                  course reviews.
+                </p>
+                <p>
+                  Links:
+                  <a href="https://github.com/terror/mcgill.courses">GitHub</a>,
+                  <a href="https://mcgill.courses">Website</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/mcgill.courses.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/stream.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>mcgill.courses</strong> March 2023
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">React</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">MongoDB</span>
-        </div>
-        <em>
-          A course search and review platform for McGill University.
-        </em>
-        <div>
-          <p>A few friends and I decided to build this after noticing there was no
-real McGill-focused course discoverability and review site out
-there.</p>
-<p>We support fast course/instructor search and exploration, alongside
-functionality for creating and interacting with course reviews.</p>
-<p>Links: <a href="https://github.com/terror/mcgill.courses">GitHub</a>,
-<a href="https://mcgill.courses">Website</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>chatgpt.nvim</strong> December 2022
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Python</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Neovim</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >GPT</span
+                >
+              </div>
+              <em> Query ChatGPT in Neovim. </em>
+              <div>
+                <p>
+                  This project is a simple wrapper around the
+                  <a href="https://openai.com/blog/chatgpt">ChatGPT</a> API to
+                  allow for fast queries within the
+                  <a href="https://neovim.io/">Neovim</a> text editor.
+                </p>
+                <p>
+                  I wrote this soon after an
+                  <a href="https://github.com/acheong08/ChatGPT"
+                    >unofficial API wrapper</a
+                  >
+                  came out for ChatGPT mostly as a way to explore writing Neovim
+                  plugins in Python.
+                </p>
+                <p>
+                  Links:
+                  <a href="https://github.com/terror/chatgpt.nvim">GitHub</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/chatgpt.nvim.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/mcgill.courses.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>chatgpt.nvim</strong> December 2022
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Python</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Neovim</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">GPT</span>
-        </div>
-        <em>
-          Query ChatGPT in Neovim.
-        </em>
-        <div>
-          <p>This project is a simple wrapper around the <a
-href="https://openai.com/blog/chatgpt">ChatGPT</a> API to allow for fast
-queries within the <a href="https://neovim.io/">Neovim</a> text
-editor.</p>
-<p>I wrote this soon after an <a
-href="https://github.com/acheong08/ChatGPT">unofficial API wrapper</a>
-came out for ChatGPT mostly as a way to explore writing Neovim plugins
-in Python.</p>
-<p>Links: <a
-href="https://github.com/terror/chatgpt.nvim">GitHub</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>mcgill.wtf</strong> September 2022
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Redis</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >FTS</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Web Scraping</span
+                >
+              </div>
+              <em>
+                A low-latency full-text search engine for McGill's course
+                catalog.
+              </em>
+              <div>
+                <p>
+                  <strong>mcgill.wtf</strong> is a fast full-text search of
+                  McGill’s entire course catalog with a server implemented in
+                  Rust and an intuitive front-end built using React.
+                </p>
+                <p>
+                  I was inspired to build this after seeing
+                  <a href="https://classes.wtf/">classes.wtf</a>, a super fast
+                  course search engine for Harvard’s course catalog implemented
+                  by <a href="https://www.ekzhang.com/">Eric Zhang</a> - in
+                  addition to noticing a need for this considering McGill’s lack
+                  of full-text course search infrastructure.
+                </p>
+                <p>
+                  Links:
+                  <a href="https://github.com/terror/mcgill.wtf">GitHub</a>,
+                  <a href="https://mcgill.wtf/">Website</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/mcgill.wtf.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/chatgpt.nvim.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>mcgill.wtf</strong> September 2022
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Redis</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">FTS</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Web Scraping</span>
-        </div>
-        <em>
-          A low-latency full-text search engine for McGill's course catalog.
-        </em>
-        <div>
-          <p><strong>mcgill.wtf</strong> is a fast full-text search of McGill’s
-entire course catalog with a server implemented in Rust and an intuitive
-front-end built using React.</p>
-<p>I was inspired to build this after seeing <a
-href="https://classes.wtf/">classes.wtf</a>, a super fast course search
-engine for Harvard’s course catalog implemented by <a
-href="https://www.ekzhang.com/">Eric Zhang</a> - in addition to noticing
-a need for this considering McGill’s lack of full-text course search
-infrastructure.</p>
-<p>Links: <a href="https://github.com/terror/mcgill.wtf">GitHub</a>, <a
-href="https://mcgill.wtf/">Website</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>flint</strong> June 2022
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Linters</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Tree-sitter</span
+                >
+              </div>
+              <em>
+                Write custom, lightweight static checkers using the tree-sitter
+                query language.
+              </em>
+              <div>
+                <p>
+                  <strong>flint</strong> is a tool that makes it easy to write
+                  and distribute static checkers using the tree-sitter query
+                  language.
+                </p>
+                <p>
+                  Checkers are specified in
+                  <a href="https://en.wikipedia.org/wiki/YAML?useskin=vector"
+                    >YAML</a
+                  >
+                  files that follow a certain structure.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/flint">GitHub</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/flint.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/mcgill.wtf.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>flint</strong> June 2022
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Linters</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Tree-sitter</span>
-        </div>
-        <em>
-          Write custom, lightweight static checkers using the tree-sitter query language.
-        </em>
-        <div>
-          <p><strong>flint</strong> is a tool that makes it easy to write and
-distribute static checkers using the tree-sitter query language.</p>
-<p>Checkers are specified in <a
-href="https://en.wikipedia.org/wiki/YAML?useskin=vector">YAML</a> files
-that follow a certain structure.</p>
-<p>Links: <a href="https://github.com/terror/flint">GitHub</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>fx</strong> June 2022
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >JavaScript</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Canvas</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >WebGL</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Languages</span
+                >
+              </div>
+              <em> Render art with commands. </em>
+              <div>
+                <p>
+                  <strong>fx</strong> is a simple command-based language for
+                  producing art based on texture input/output chaining.
+                </p>
+                <p>
+                  This was a side experiment done before implementing GPU
+                  acceleration for
+                  <a href="https://github.com/casey/degenerate">degenerate</a>,
+                  mostly as a way to fledge out the chaining technique with
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API"
+                    >WebGL</a
+                  >
+                  textures.
+                </p>
+                <p>Links: <a href="https://github.com/terror/fx">GitHub</a></p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/fx.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/flint.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>fx</strong> June 2022
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">JavaScript</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Canvas</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">WebGL</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Languages</span>
-        </div>
-        <em>
-          Render art with commands.
-        </em>
-        <div>
-          <p><strong>fx</strong> is a simple command-based language for producing
-art based on texture input/output chaining.</p>
-<p>This was a side experiment done before implementing GPU acceleration
-for <a href="https://github.com/casey/degenerate">degenerate</a>, mostly
-as a way to fledge out the chaining technique with <a
-href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a>
-textures.</p>
-<p>Links: <a href="https://github.com/terror/fx">GitHub</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>present</strong> February 2022
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Markdown</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >CLI</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Tools</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Productivity</span
+                >
+              </div>
+              <em> A script interpolation engine for markdown documents. </em>
+              <div>
+                <p>
+                  <strong>present</strong> is a tool that lets you interpolate
+                  the standard output of arbitrary scripts that get interpreted
+                  by the shell into your markdown documents.
+                </p>
+                <p>
+                  It offers a nice way to automatically update sections of your
+                  markdown documents that might be the standard output of a
+                  command, such as command-line utility help outputs or
+                  benchmarks.
+                </p>
+                <p>
+                  Simply add a suffix to the initial tag of markdown code-blocks
+                  using the format <code>present &lt;command&gt;</code>. When
+                  you execute the present binary on your document, it will run
+                  the specified <code>&lt;command&gt;</code>, and insert the
+                  resulting standard output within the same code-block.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/present">GitHub</a>,
+                  <a href="https://crates.io/crates/present">Crates.io</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/present.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/fx.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>present</strong> February 2022
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Markdown</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">CLI</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Tools</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Productivity</span>
-        </div>
-        <em>
-          A script interpolation engine for markdown documents.
-        </em>
-        <div>
-          <p><strong>present</strong> is a tool that lets you interpolate the
-standard output of arbitrary scripts that get interpreted by the shell
-into your markdown documents.</p>
-<p>It offers a nice way to automatically update sections of your
-markdown documents that might be the standard output of a command, such
-as command-line utility help outputs or benchmarks.</p>
-<p>Simply add a suffix to the initial tag of markdown code-blocks using
-the format <code>present &lt;command&gt;</code>. When you execute the
-present binary on your document, it will run the specified
-<code>&lt;command&gt;</code>, and insert the resulting standard output
-within the same code-block.</p>
-<p>Links: <a href="https://github.com/terror/present">GitHub</a>, <a
-href="https://crates.io/crates/present">Crates.io</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>ord</strong> January 2022
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Bitcoin</span
+                >
+              </div>
+              <em> Rare and exotic sats. </em>
+              <div>
+                <p>
+                  I was an early contributor to <strong>ord</strong>, the index,
+                  block explorer, and command-line wallet for
+                  <a
+                    href="https://github.com/ordinals/ord/blob/master/bip.mediawiki"
+                    >ordinals</a
+                  >
+                  - the brain-child of
+                  <a href="https://rodarmor.com/">Casey Rodarmor</a>.
+                </p>
+                <p>
+                  Ordinals are a numbering scheme for satoshis that allows
+                  tracking and transferring individual sats.
+                </p>
+                <p>
+                  The work I did on <strong>ord</strong> was primarily focused
+                  on the block explorer and building out an initial wallet
+                  prototype to facilitate ordinal-aware transactions.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/ordinals/ord">GitHub</a>,
+                  <a href="https://docs.ordinals.com/">Manual</a>,
+                  <a href="https://ordinals.com/">Website</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/ord.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/present.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>ord</strong> January 2022
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Bitcoin</span>
-        </div>
-        <em>
-          Rare and exotic sats.
-        </em>
-        <div>
-          <p>I was an early contributor to <strong>ord</strong>, the index, block
-explorer, and command-line wallet for <a
-href="https://github.com/ordinals/ord/blob/master/bip.mediawiki">ordinals</a>
-- the brain-child of <a href="https://rodarmor.com/">Casey
-Rodarmor</a>.</p>
-<p>Ordinals are a numbering scheme for satoshis that allows tracking and
-transferring individual sats.</p>
-<p>The work I did on <strong>ord</strong> was primarily focused on the
-block explorer and building out an initial wallet prototype to
-facilitate ordinal-aware transactions.</p>
-<p>Links: <a href="https://github.com/ordinals/ord">GitHub</a>, <a
-href="https://docs.ordinals.com/">Manual</a>, <a
-href="https://ordinals.com/">Website</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>degenerate</strong> December 2021
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >WASM</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >WebGL</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Graphics</span
+                >
+              </div>
+              <em> A generative art computer. </em>
+              <div>
+                <p>
+                  <strong>degenerate</strong> is a programmable generative art
+                  engine that runs in the browser that can be programmed with
+                  Rust or JavaScript.
+                </p>
+                <p>
+                  Internally, it operates as a chain of image filters. The
+                  output of each filter is used as the input of the next filter.
+                  Programs configure the state of the current image filter and
+                  call <code>render()</code> to apply it.
+                </p>
+                <p>
+                  Programs that are written in JavaScript are sent to a Web
+                  Worker for execution. The program then sends back a series of
+                  <code>Filter</code>
+                  objects from the worker, which are used to configure the
+                  renderer that runs in the main thread. The renderer renders to
+                  a full-page
+                  <code>&lt;canvas&gt;</code> element using
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API"
+                    >WebGL</a
+                  >.
+                </p>
+                <p>
+                  I worked on this primarily in collaboration with
+                  <a href="https://rodarmor.com/">Casey Rodarmor</a>.
+                </p>
+                <p>
+                  Links:
+                  <a href="https://github.com/casey/degenerate">GitHub</a>,
+                  <a href="https://degenerate.computer/man/introduction.html"
+                    >Manual</a
+                  >, <a href="https://degenerate.computer/">Website</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/degenerate.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/ord.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>degenerate</strong> December 2021
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">WASM</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">WebGL</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Graphics</span>
-        </div>
-        <em>
-          A generative art computer.
-        </em>
-        <div>
-          <p><strong>degenerate</strong> is a programmable generative art engine
-that runs in the browser that can be programmed with Rust or
-JavaScript.</p>
-<p>Internally, it operates as a chain of image filters. The output of
-each filter is used as the input of the next filter. Programs configure
-the state of the current image filter and call <code>render()</code> to
-apply it.</p>
-<p>Programs that are written in JavaScript are sent to a Web Worker for
-execution. The program then sends back a series of <code>Filter</code>
-objects from the worker, which are used to configure the renderer that
-runs in the main thread. The renderer renders to a full-page
-<code>&lt;canvas&gt;</code> element using <a
-href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a>.</p>
-<p>I worked on this primarily in collaboration with <a
-href="https://rodarmor.com/">Casey Rodarmor</a>.</p>
-<p>Links: <a href="https://github.com/casey/degenerate">GitHub</a>, <a
-href="https://degenerate.computer/man/introduction.html">Manual</a>, <a
-href="https://degenerate.computer/">Website</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>tetris</strong> November 2021
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >JavaScript</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Canvas</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Games</span
+                >
+              </div>
+              <em> A tetris clone written in vanilla JavaScript. </em>
+              <div>
+                <p>
+                  This was my first foray into ‘real’ game programming, among
+                  other things the project includes:
+                </p>
+                <ul>
+                  <li>
+                    <a
+                      href="https://github.com/terror/tetris/tree/master/src/states"
+                      >A state machine</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://github.com/terror/tetris/blob/master/lib/SpriteManager.js"
+                      >Dynamic sprite loading</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://github.com/terror/tetris/blob/master/lib/Sounds.js"
+                      >Sounds</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://github.com/terror/tetris/blob/master/src/states/EnterHighScoreState.js"
+                      >High-score management</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://github.com/terror/tetris/blob/master/lib/StateManager.js"
+                      >Saved states</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://github.com/terror/tetris/blob/master/src/states/LevelTransitionState.js"
+                      >Game progression with levels</a
+                    >
+                  </li>
+                </ul>
+                <p>
+                  I wrote this as a final project for a
+                  <a
+                    href="https://jac-cs-game-programming-fall22.github.io/Notes/#/"
+                    >game programming course</a
+                  >
+                  I took at
+                  <a href="https://johnabbott.qc.ca/">John Abbott College</a>
+                  taught by
+                  <a href="https://github.com/VikramSinghMTL">Vikram Singh</a>
+                  in my 5th semester.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/tetris">GitHub</a>,
+                  <a href="https://terror.github.io/tetris/">Website</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/tetris.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/degenerate.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>tetris</strong> November 2021
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">JavaScript</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Canvas</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Games</span>
-        </div>
-        <em>
-          A tetris clone written in vanilla JavaScript.
-        </em>
-        <div>
-          <p>This was my first foray into ‘real’ game programming, among other
-things the project includes:</p>
-<ul>
-<li><a href="https://github.com/terror/tetris/tree/master/src/states">A
-state machine</a></li>
-<li><a
-href="https://github.com/terror/tetris/blob/master/lib/SpriteManager.js">Dynamic
-sprite loading</a></li>
-<li><a
-href="https://github.com/terror/tetris/blob/master/lib/Sounds.js">Sounds</a></li>
-<li><a
-href="https://github.com/terror/tetris/blob/master/src/states/EnterHighScoreState.js">High-score
-management</a></li>
-<li><a
-href="https://github.com/terror/tetris/blob/master/lib/StateManager.js">Saved
-states</a></li>
-<li><a
-href="https://github.com/terror/tetris/blob/master/src/states/LevelTransitionState.js">Game
-progression with levels</a></li>
-</ul>
-<p>I wrote this as a final project for a <a
-href="https://jac-cs-game-programming-fall22.github.io/Notes/#/">game
-programming course</a> I took at <a
-href="https://johnabbott.qc.ca/">John Abbott College</a> taught by <a
-href="https://github.com/VikramSinghMTL">Vikram Singh</a> in my 5th
-semester.</p>
-<p>Links: <a href="https://github.com/terror/tetris">GitHub</a>, <a
-href="https://terror.github.io/tetris/">Website</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>vim-profiler</strong> June 2021
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Vim</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Tools</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Profiling</span
+                >
+              </div>
+              <em> A vim plugin profiler and data plotter. </em>
+              <div>
+                <p>
+                  <strong>vim-profiler</strong> is a light wrapper around the
+                  <code>(n)vim --startuptime</code> command that helps you
+                  visualize the bottlenecks in your (neo)vim startup time.
+                </p>
+                <p>
+                  It operates by simply parsing the output of
+                  <code>(n)vim --startuptime</code> and giving options to view,
+                  export, or plot its parsed representation.
+                </p>
+                <p>
+                  Links:
+                  <a href="https://github.com/terror/vim-profiler">GitHub</a>,
+                  <a href="https://crates.io/crates/vim-profiler">Crates.io</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/vim-profiler.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/tetris.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>vim-profiler</strong> June 2021
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Vim</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Tools</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Profiling</span>
-        </div>
-        <em>
-          A vim plugin profiler and data plotter.
-        </em>
-        <div>
-          <p><strong>vim-profiler</strong> is a light wrapper around the
-<code>(n)vim --startuptime</code> command that helps you visualize the
-bottlenecks in your (neo)vim startup time.</p>
-<p>It operates by simply parsing the output of
-<code>(n)vim --startuptime</code> and giving options to view, export, or
-plot its parsed representation.</p>
-<p>Links: <a href="https://github.com/terror/vim-profiler">GitHub</a>,
-<a href="https://crates.io/crates/vim-profiler">Crates.io</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>paragon</strong> April 2021
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Python</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Benchmarking</span
+                >
+              </div>
+              <em>
+                A lightweight command-line benchmarking utility for Python code.
+              </em>
+              <div>
+                <p>
+                  <strong>paragon</strong> provides a simple way to benchmark
+                  arbitrary Python code.
+                </p>
+                <p>
+                  It can be invoked directly from the command-line or called
+                  from within Python, and has support for rendering statistics,
+                  progress bars, and allowing users to export results to various
+                  file formats.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/paragon">GitHub</a>,
+                  <a href="https://pypi.org/project/paragon/">PyPI</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/paragon.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/vim-profiler.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>paragon</strong> April 2021
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Python</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Benchmarking</span>
-        </div>
-        <em>
-          A lightweight command-line benchmarking utility for Python code.
-        </em>
-        <div>
-          <p><strong>paragon</strong> provides a simple way to benchmark arbitrary
-Python code.</p>
-<p>It can be invoked directly from the command-line or called from
-within Python, and has support for rendering statistics, progress bars,
-and allowing users to export results to various file formats.</p>
-<p>Links: <a href="https://github.com/terror/paragon">GitHub</a>, <a
-href="https://pypi.org/project/paragon/">PyPI</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>zk</strong> February 2021
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >CLI</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Zettelkasten</span
+                >
+              </div>
+              <em>
+                A note-taking tool based on the famous Zettelkasten method.
+              </em>
+              <div>
+                <p>
+                  <strong>zk</strong> is a note-taking tool based on the famous
+                  <a href="https://zettelkasten.de/posts/overview/"
+                    >Zettelkasten</a
+                  >
+                  method with support for fuzzy searching, tags, and link
+                  exploration.
+                </p>
+                <p>
+                  Fuzzy search is powered by
+                  <a href="https://github.com/lotabout/skim">skim</a> with
+                  custom keybindings for recursive note exploration based on
+                  their links.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/zk">GitHub</a>,
+                  <a href="https://crates.io/crates/zkt">Crates.io</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/zk.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/paragon.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>zk</strong> February 2021
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">CLI</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Zettelkasten</span>
-        </div>
-        <em>
-          A note-taking tool based on the famous Zettelkasten method.
-        </em>
-        <div>
-          <p><strong>zk</strong> is a note-taking tool based on the famous <a
-href="https://zettelkasten.de/posts/overview/">Zettelkasten</a> method
-with support for fuzzy searching, tags, and link exploration.</p>
-<p>Fuzzy search is powered by <a
-href="https://github.com/lotabout/skim">skim</a> with custom keybindings
-for recursive note exploration based on their links.</p>
-<p>Links: <a href="https://github.com/terror/zk">GitHub</a>, <a
-href="https://crates.io/crates/zkt">Crates.io</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>quwue</strong> February 2021
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Postgres</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Bot</span
+                >
+              </div>
+              <em> Meet new people on discord. </em>
+              <div>
+                <p>
+                  <strong>quwue</strong> is a discord bot for meeting new
+                  people.
+                </p>
+                <p>
+                  All interaction with the bot is done via direct message,
+                  simply add it to your server and let the bot facilitate
+                  spontaneous user matchmaking and interactions.
+                </p>
+                <p>
+                  This project was initially started by
+                  <a href="http://github.com/casey">Casey</a>, I joined
+                  development shortly after and we eventually got a nice MVP
+                  done - it even has flaky
+                  <a
+                    href="https://github.com/quwue/quwue/blob/master/src/integration_tests.rs"
+                    >integration tests</a
+                  >!
+                </p>
+                <p>
+                  Links: <a href="https://github.com/quwue/quwue">GitHub</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/quwue.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/zk.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>quwue</strong> February 2021
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Postgres</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Bot</span>
-        </div>
-        <em>
-          Meet new people on discord.
-        </em>
-        <div>
-          <p><strong>quwue</strong> is a discord bot for meeting new people.</p>
-<p>All interaction with the bot is done via direct message, simply add
-it to your server and let the bot facilitate spontaneous user
-matchmaking and interactions.</p>
-<p>This project was initially started by <a
-href="http://github.com/casey">Casey</a>, I joined development shortly
-after and we eventually got a nice MVP done - it even has flaky <a
-href="https://github.com/quwue/quwue/blob/master/src/integration_tests.rs">integration
-tests</a>!</p>
-<p>Links: <a href="https://github.com/quwue/quwue">GitHub</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>vim-crypto</strong> February 2021
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Neovim</span
+                >
+              </div>
+              <em>
+                View live cryptocurrency prices without leaving (neo)vim.
+              </em>
+              <div>
+                <p>
+                  <strong>vim-crypto</strong> is a simple Neovim plugin for
+                  querying information about current cryptocurrency prices,
+                  populating a buffer with a nicely formatted table.
+                </p>
+                <p>
+                  I grab all up-to-date price information from
+                  <a href="https://messari.io/">messari</a>.
+                </p>
+                <p>
+                  Links:
+                  <a href="https://github.com/terror/vim-crypto">GitHub</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/vim-crypto.png" />
+            </td>
+          </tr>
 
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/quwue.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>vim-crypto</strong> February 2021
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Rust</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Neovim</span>
-        </div>
-        <em>
-          View live cryptocurrency prices without leaving (neo)vim.
-        </em>
-        <div>
-          <p><strong>vim-crypto</strong> is a simple Neovim plugin for querying
-information about current cryptocurrency prices, populating a buffer
-with a nicely formatted table.</p>
-<p>I grab all up-to-date price information from <a
-href="https://messari.io/">messari</a>.</p>
-<p>Links: <a href="https://github.com/terror/vim-crypto">GitHub</a></p>
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>solve</strong> January 2021
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >React</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >TypeScript</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Express</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >MongoDB</span
+                >
+              </div>
+              <em>
+                A fully featured competitive programming workspace in the cloud.
+              </em>
+              <div>
+                <p>
+                  <strong>solve</strong> is an interface for spinning up
+                  competitive programming workspaces quickly.
+                </p>
+                <p>
+                  It allows for users to solve problems on various contest
+                  platforms, testing and submitting code directly from a single
+                  environment - in addition to letting you save these
+                  environments for later.
+                </p>
+                <p>
+                  Code execution against sample test cases is handled by
+                  <a href="https://judge0.com/">judge0</a> cloud.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/solve">GitHub</a>,
+                  <a href="https://www.youtube.com/watch?v=C8pcr6RcZ6U">Demo</a
+                  >, <a href="https://solve-web.herokuapp.com/">Website</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/solve.png" />
+            </td>
+          </tr>
 
+          <tr class="grid-container">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>breakout</strong> December 2020
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >TypeScript</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Canvas</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Games</span
+                >
+              </div>
+              <em>
+                A simple Atari Breakout clone written in pure TypeScript.
+              </em>
+              <div>
+                <p>
+                  <strong>breakout</strong> is a simple clone of the popular
+                  arcade video game developed and published by Atari - Breakout.
+                </p>
+                <p>
+                  It’s a rudimentary clone that simply keeps track of a score
+                  and live count, with some basic sound effects to go along with
+                  the gameplay.
+                </p>
+                <p>
+                  I wrote this as a final project for a basic web programming
+                  course I took at
+                  <a href="https://johnabbott.qc.ca/">John Abbott College</a>
+                  taught by Helen Katalifos in my 3rd semester.
+                </p>
+                <p>
+                  Links: <a href="https://github.com/terror/breakout">GitHub</a>
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/breakout.png" />
+            </td>
+          </tr>
+        </table>
+        <div class="separator"></div>
+        <div class="footer">
+          <a href="/projects">Projects</a> ·
+          <a href="https://stream.liam.rs" target="_blank">Stream</a> ·
+          <a href="https://linkedin.com/in/liam-scalzulli" target="_blank"
+            >LinkedIn</a
+          >
+          · <a href="https://github.com/terror" target="_blank">Github</a> ·
+          <a href="mailto:liam@scalzulli.com">Mail</a> ·
+          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+            <img
+              class="footimgs"
+              src="https://d33wubrfki0l68.cloudfront.net/94387e9d77fbc8b4360db81e72603ecba3df94a7/632bc/static/cc.svg"
+            />
+          </a>
         </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/vim-crypto.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>solve</strong> January 2021
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">React</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">TypeScript</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Express</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">MongoDB</span>
-        </div>
-        <em>
-          A fully featured competitive programming workspace in the cloud.
-        </em>
-        <div>
-          <p><strong>solve</strong> is an interface for spinning up competitive
-programming workspaces quickly.</p>
-<p>It allows for users to solve problems on various contest platforms,
-testing and submitting code directly from a single environment - in
-addition to letting you save these environments for later.</p>
-<p>Code execution against sample test cases is handled by <a
-href="https://judge0.com/">judge0</a> cloud.</p>
-<p>Links: <a href="https://github.com/terror/solve">GitHub</a>, <a
-href="https://www.youtube.com/watch?v=C8pcr6RcZ6U">Demo</a>, <a
-href="https://solve-web.herokuapp.com/">Website</a></p>
-
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/solve.png'>
-      </td>
-    </tr>
-    
-    <tr class="grid-container">
-      <td>
-        <div style="margin-bottom: 1em">
-          <strong>breakout</strong> December 2020
-        </div>
-        <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          <span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">TypeScript</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Canvas</span><span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">Games</span>
-        </div>
-        <em>
-          A simple Atari Breakout clone written in pure TypeScript.
-        </em>
-        <div>
-          <p><strong>breakout</strong> is a simple clone of the popular arcade
-video game developed and published by Atari - Breakout.</p>
-<p>It’s a rudimentary clone that simply keeps track of a score and live
-count, with some basic sound effects to go along with the gameplay.</p>
-<p>I wrote this as a final project for a basic web programming course I
-took at <a href="https://johnabbott.qc.ca/">John Abbott College</a>
-taught by Helen Katalifos in my 3rd semester.</p>
-<p>Links: <a href="https://github.com/terror/breakout">GitHub</a></p>
-
-        </div>
-      </td>
-      <td style="display: flex; align-items: center">
-        <img src='/images/breakout.png'>
-      </td>
-    </tr>
-    
-</table>
-<div class="separator"></div>
-<div class="footer">
-  <a href="/projects">Projects</a> ·
-  <a href="https://stream.liam.rs" target="_blank">Stream</a> ·
-  <a href="https://linkedin.com/in/liam-scalzulli" target="_blank"
-  >LinkedIn</a
-  >
-  · <a href="https://github.com/terror" target="_blank">Github</a> ·
-  <a href="mailto:liam@scalzulli.com">Mail</a> ·
-  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-  <img
-  class="footimgs"
-  src="https://d33wubrfki0l68.cloudfront.net/94387e9d77fbc8b4360db81e72603ecba3df94a7/632bc/static/cc.svg"
-  />
-  </a>
-</div>
-</div>
-</div>
-</body>
+      </div>
+    </div>
+  </body>
 </html>

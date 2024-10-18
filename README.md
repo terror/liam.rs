@@ -17,9 +17,11 @@ git clone https://github.com/{username}/liam.rs.git
 Make changes and generate static assets:
 
 ```bash
-poetry shell
-poetry install
 ./bin/last-modified
 ./bin/generate-index
-./bin/generate-projects
+uv run ./bin/generate-projects
+./bin/forbid
 ```
+
+**n.b.** This requires you to have [`uv`](https://github.com/astral-sh/uv)
+installed on your system.

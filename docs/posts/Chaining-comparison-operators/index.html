@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -71,56 +71,88 @@
         </div>
         <h1>Chaining comparison operators</h1>
         <div class="post-text">
-          <p>I recently came across this lesser known feature in Python and
-started to play around with it.</p>
-<p>Being able to chain comparison operators is a rarity among most
-modern programming languages, which is a shame considering how elegant
-and intuitive it turns out to be.</p>
-<p>Here are some examples:</p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a, b, c <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span></span>
+          <p>
+            I recently came across this lesser known feature in Python and
+            started to play around with it.
+          </p>
+          <p>
+            Being able to chain comparison operators is a rarity among most
+            modern programming languages, which is a shame considering how
+            elegant and intuitive it turns out to be.
+          </p>
+          <p>Here are some examples:</p>
+          <div class="sourceCode" id="cb1">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a, b, c <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">&lt;</span> b <span class="op">&lt;</span> c)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre></div>
-<p>The code above is equivalent to:</p>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>a, b, c <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre>
+          </div>
+          <p>The code above is equivalent to:</p>
+          <div class="sourceCode" id="cb2">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>a, b, c <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">&lt;</span> b <span class="kw">and</span> b <span class="op">&lt;</span> c) </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre></div>
-<p>And something a bit more complex:</p>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>a, b, c, d, e, f, g <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre>
+          </div>
+          <p>And something a bit more complex:</p>
+          <div class="sourceCode" id="cb3">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>a, b, c, d, e, f, g <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>flag <span class="op">=</span> a <span class="op">&lt;=</span> b <span class="op">&gt;</span> f <span class="op">&lt;</span> c <span class="op">&gt;</span> d <span class="kw">is</span> <span class="kw">not</span> f <span class="kw">is</span> g</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(flag)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre></div>
-<p>That is all equivalent to:</p>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a, b, c, d, e, f, g <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre>
+          </div>
+          <p>That is all equivalent to:</p>
+          <div class="sourceCode" id="cb4">
+            <pre
+              class="sourceCode python"
+            ><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a, b, c, d, e, f, g <span class="op">=</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>flag <span class="op">=</span> a <span class="op">&lt;=</span> b <span class="kw">and</span> b <span class="op">&gt;</span> f <span class="kw">and</span> f <span class="op">&lt;</span> c <span class="kw">and</span> c <span class="op">&gt;</span> d <span class="kw">and</span> d <span class="kw">is</span> <span class="kw">not</span> f <span class="kw">and</span> f <span class="kw">is</span> g</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(flag)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre></div>
-<p>You can see how tedious things might get. Python continues to amaze
-me with how beautiful and concise it can be.</p>
-
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># True</span></span></code></pre>
+          </div>
+          <p>
+            You can see how tedious things might get. Python continues to amaze
+            me with how beautiful and concise it can be.
+          </p>
         </div>
-        
-    <div class="intro">
-      Hi.
-    <div class="hot-links">
-      <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
-    </div>
-    <p>I'm Liam.</p>
-    <p>
-      I'm currently a software engineer intern at <a href='https://1password.com/' target='_blank'>1Password</a> on the
-      Filling and Saving team, where I primarily work on the <a href='https://1password.com/downloads/browser-extension/' target='_blank'>browser extension</a>
-      and related infrastructure.<br/><br/>
 
-      I also study computer science at <a href='https://www.mcgill.ca/' target='_blank'>McGill University</a>.<br/><br/>
+        <div class="intro">
+          Hi.
+          <div class="hot-links">
+            <a href="https://liam.rs/index.xml" class="feed-button"
+              >Subscribe</a
+            >
+          </div>
+          <p>I'm Liam.</p>
+          <p>
+            I'm currently a software engineer intern at
+            <a href="https://1password.com/" target="_blank">1Password</a> on
+            the Filling and Saving team, where I primarily work on the
+            <a
+              href="https://1password.com/downloads/browser-extension/"
+              target="_blank"
+              >browser extension</a
+            >
+            and related infrastructure.<br /><br />
 
-      I like developer tooling, distributed systems, performance engineering and compiler design.
-    </p>
-    <p>You can reach out to me via email at <a href='mailto: liam@scalzulli.com'>liam@scalzulli.com</a>.</p>
-  </div>
-  
+            I also study computer science at
+            <a href="https://www.mcgill.ca/" target="_blank"
+              >McGill University</a
+            >.<br /><br />
+
+            I like developer tooling, distributed systems, performance
+            engineering and compiler design.
+          </p>
+          <p>
+            You can reach out to me via email at
+            <a href="mailto: liam@scalzulli.com">liam@scalzulli.com</a>.
+          </p>
+        </div>
+
         <a href="/" class="post-end-link">Home</a>
         <span>/</span>
         <a href="/posts" class="post-end-link">Posts</a>

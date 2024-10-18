@@ -1,20 +1,21 @@
-[tool.poetry]
+[project]
 name = "liam-rs"
 version = "0.0.0"
-description = "Scripts for https://liam.rs/"
-authors = ["Liam <liam@scalzulli.com>"]
-license = "CC0-1.0"
+description = "Scripts for my personal website"
 readme = "README.md"
-packages = [{include = "liam"}]
+requires-python = ">=3.12"
+dependencies = ["python-frontmatter>=1.1.0"]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-python-frontmatter = "^1.0.0"
+[tool.ruff]
+src = ["src"]
+indent-width = 2
+line-length = 100
 
-[tool.poetry.group.dev.dependencies]
-isort = "^5.12.0"
-yapf = "^0.40.1"
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 20
+indent-style = "space"
+quote-style = "single"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.uv]
+dev-dependencies = ["ruff>=0.7.0"]
