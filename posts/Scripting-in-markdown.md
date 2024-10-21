@@ -133,8 +133,8 @@ a single codeblock. This could probably be done better, perhaps without dependin
 on a library for that initial step.
 
 Overall, I get what I need out of the program as it is. Whether or not the
-aformentioned todo's provide useful to someone else will most likely have a
-non-trivial amount of impact on my motiviation for getting them done.
+aforementioned todo's provide useful to someone else will most likely have a
+non-trivial amount of impact on my motivation for getting them done.
 
 Feel free to check out the code over on github
 [https://github.com/terror/present](https://github.com/terror/present). It is

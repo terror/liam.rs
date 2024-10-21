@@ -22,7 +22,7 @@ dev-deps:
   curl https://raw.githubusercontent.com/jirutka/esh/master/esh > /usr/local/bin/esh
 
 fix-typos:
-  typos --write-changes
+  typos --write-changes **/*.md
 
 fmt:
   ruff check --select I --fix && ruff format
@@ -31,7 +31,7 @@ fmt:
 gen:
   ./bin/last-modified
   ./bin/generate-index
-  uv run ./bin/generate-projects
+  uv run ./bin/generate-projects.py
   ./bin/forbid
 
 watch:
