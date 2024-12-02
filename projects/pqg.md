@@ -18,4 +18,6 @@ at McGill University, under the supervision of professor
 [Distributed Information Systems Lab](https://www.cs.mcgill.ca/~kemme/disl/index.html)
 (DISL).
 
-Links: [GitHub](https://github.com/DISLMcGill/pandas-query-generator)
+Links:
+[Paper](https://github.com/DISLMcGill/pandas-query-generator/blob/master/docs/paper.pdf),
+[GitHub](https://github.com/DISLMcGill/pandas-query-generator)
