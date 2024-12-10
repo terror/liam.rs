@@ -20,4 +20,5 @@ at McGill University, under the supervision of professor
 
 Links:
 [Paper](https://github.com/DISLMcGill/pandas-query-generator/blob/master/docs/paper.pdf),
-[GitHub](https://github.com/DISLMcGill/pandas-query-generator)
+[GitHub](https://github.com/DISLMcGill/pandas-query-generator),
+[Website](https://dislmcgill.github.io/pandas-query-generator/)

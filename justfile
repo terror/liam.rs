@@ -33,6 +33,7 @@ gen:
   ./bin/generate-index
   uv run ./bin/generate-projects.py
   ./bin/forbid
+  just fmt
 
 watch:
   ./bin/kill-server
