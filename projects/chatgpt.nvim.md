@@ -8,11 +8,13 @@ image: chatgpt.nvim.png
 ---
 
 This project is a simple wrapper around the
-[ChatGPT](https://openai.com/blog/chatgpt) API to allow for fast queries within
-the [Neovim](https://neovim.io/) text editor.
+[ChatGPT](https://openai.com/blog/chatgpt){target="\_blank"} API to allow for
+fast queries within the [Neovim](https://neovim.io/){target="\_blank"} text
+editor.
 
 I wrote this soon after an
-[unofficial API wrapper](https://github.com/acheong08/ChatGPT) came out for
-ChatGPT mostly as a way to explore writing Neovim plugins in Python.
+[unofficial API wrapper](https://github.com/acheong08/ChatGPT){target="\_blank"}
+came out for ChatGPT mostly as a way to explore writing Neovim plugins in
+Python.
 
-Links: [GitHub](https://github.com/terror/chatgpt.nvim)
+Links: [GitHub](https://github.com/terror/chatgpt.nvim){target="\_blank"}

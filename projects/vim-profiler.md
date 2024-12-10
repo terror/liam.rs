@@ -13,5 +13,5 @@ that helps you visualize the bottlenecks in your (neo)vim startup time.
 It operates by simply parsing the output of `(n)vim --startuptime` and giving
 options to view, export, or plot its parsed representation.
 
-Links: [GitHub](https://github.com/terror/vim-profiler),
-[Crates.io](https://crates.io/crates/vim-profiler)
+Links: [GitHub](https://github.com/terror/vim-profiler){target="\_blank"},
+[Crates.io](https://crates.io/crates/vim-profiler){target="\_blank"}

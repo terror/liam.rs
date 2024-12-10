@@ -20,7 +20,7 @@ It offers a few other niceties:
 - Tag support with exact tag search - simply prefix queries with `#`
 
 And it's easily self-hostable with
-[docker](https://github.com/terror/stream/blob/master/Dockerfile).
+[docker](https://github.com/terror/stream/blob/master/Dockerfile){target="\_blank"}.
 
-Links: [GitHub](https://github.com/terror/stream),
-[Website](https://stream.liam.rs/)
+Links: [GitHub](https://github.com/terror/stream){target="\_blank"},
+[Website](https://stream.liam.rs/){target="\_blank"}

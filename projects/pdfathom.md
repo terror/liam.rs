@@ -12,9 +12,10 @@ natural language.
 
 It lets you easily spawn a conversational repl environment with PDF documents on
 disk or in the cloud - building an in-memory question-answering agent with
-[OpenAI embeddings](https://platform.openai.com/docs/guides/embeddings) and
-[LangChain](https://python.langchain.com/docs/get_started/introduction.html) as
-the orchestrator.
+[OpenAI embeddings](https://platform.openai.com/docs/guides/embeddings){target="\_blank"}
+and
+[LangChain](https://python.langchain.com/docs/get_started/introduction.html){target="\_blank"}
+as the orchestrator.
 
-Links: [GitHub](http://github.com/terror/pdfathom),
-[PyPI](https://pypi.org/project/pdfathom/)
+Links: [GitHub](http://github.com/terror/pdfathom){target="\_blank"},
+[PyPI](https://pypi.org/project/pdfathom/){target="\_blank"}

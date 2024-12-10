@@ -15,8 +15,8 @@ submitting code directly from a single environment - in addition to letting you
 save these environments for later.
 
 Code execution against sample test cases is handled by
-[judge0](https://judge0.com/) cloud.
+[judge0](https://judge0.com/){target="\_blank"} cloud.
 
-Links: [GitHub](https://github.com/terror/solve),
-[Demo](https://www.youtube.com/watch?v=C8pcr6RcZ6U),
-[Website](https://solve-web.herokuapp.com/)
+Links: [GitHub](https://github.com/terror/solve){target="\_blank"},
+[Demo](https://www.youtube.com/watch?v=C8pcr6RcZ6U){target="\_blank"},
+[Website](https://solve-web.herokuapp.com/){target="\_blank"}

@@ -13,5 +13,5 @@ McGill-focused course discoverability and review site out there.
 We support fast course/instructor search and exploration, alongside
 functionality for creating and interacting with course reviews.
 
-Links: [GitHub](https://github.com/terror/mcgill.courses),
-[Website](https://mcgill.courses)
+Links: [GitHub](https://github.com/terror/mcgill.courses){target="\_blank"},
+[Website](https://mcgill.courses){target="\_blank"}

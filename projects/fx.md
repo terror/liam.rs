@@ -11,8 +11,9 @@ image: fx.png
 input/output chaining.
 
 This was a side experiment done before implementing GPU acceleration for
-[degenerate](https://github.com/casey/degenerate), mostly as a way to fledge out
-the chaining technique with
-[WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API) textures.
+[degenerate](https://github.com/casey/degenerate){target="\_blank"}, mostly as a
+way to fledge out the chaining technique with
+[WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API){target="\_blank"}
+textures.
 
-Links: [GitHub](https://github.com/terror/fx)
+Links: [GitHub](https://github.com/terror/fx){target="\_blank"}

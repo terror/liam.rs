@@ -18,11 +18,11 @@ Programs that are written in JavaScript are sent to a Web Worker for execution.
 The program then sends back a series of `Filter` objects from the worker, which
 are used to configure the renderer that runs in the main thread. The renderer
 renders to a full-page `<canvas>` element using
-[WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API).
+[WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API){target="\_blank"}.
 
 I worked on this primarily in collaboration with
-[Casey Rodarmor](https://rodarmor.com/).
+[Casey Rodarmor](https://rodarmor.com/){target="\_blank"}.
 
-Links: [GitHub](https://github.com/casey/degenerate),
-[Manual](https://degenerate.computer/man/introduction.html),
-[Website](https://degenerate.computer/)
+Links: [GitHub](https://github.com/casey/degenerate){target="\_blank"},
+[Manual](https://degenerate.computer/man/introduction.html){target="\_blank"},
+[Website](https://degenerate.computer/){target="\_blank"}

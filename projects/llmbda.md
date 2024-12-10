@@ -23,6 +23,7 @@ into this:
 
 We explored a zero-shot, few-shot and fine-tuned alignment for various available
 language models, using the most accurate strategy in production for
-[mcgill.courses](https://mcgill.courses/) course graph generation.
+[mcgill.courses](https://mcgill.courses/){target="\_blank"} course graph
+generation.
 
-Links: [GitHub](https://github.com/SamZhang02/llmbda)
+Links: [GitHub](https://github.com/SamZhang02/llmbda){target="\_blank"}

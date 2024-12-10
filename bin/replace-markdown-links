@@ -1,0 +1,43 @@
+#!/bin/bash
+
+processed_files=0
+
+process_file() {
+  local file="$1"
+  echo "Processing: $file"
+  local temp_file
+  temp_file=$(mktemp)
+  sed -E 's/\[([^]]*)\]\(([^)]*)\)([^{]|$)/[\1](\2){target="_blank"}\3/g' "$file" > "$temp_file"
+  mv "$temp_file" "$file"
+  ((processed_files++))
+}
+
+if [ $# -eq 0 ]; then
+  echo "Usage:"
+  echo "  Process single file: $0 file.md"
+  echo "  Process all .md files in current directory: $0 *.md"
+  echo "  Process all .md files recursively: $0 -r"
+  exit 1
+fi
+
+if [ "$1" = "-r" ]; then
+  echo "Processing all markdown files recursively..."
+
+  find . -type f -name "*.md" | while read -r file; do
+    process_file "$file"
+  done
+else
+  for file in "$@"; do
+    if [ -f "$file" ]; then
+      if [[ "$file" == *.md ]]; then
+        process_file "$file"
+      else
+        echo "Skipping non-markdown file: $file"
+      fi
+    else
+      echo "File not found: $file"
+    fi
+  done
+fi
+
+echo "Processed $processed_files files 🎉"

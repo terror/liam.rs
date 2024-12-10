@@ -13,7 +13,7 @@ image: flint.png
 using the tree-sitter query language.
 
 Checkers are specified in
-[YAML](https://en.wikipedia.org/wiki/YAML?useskin=vector) files that follow a
-certain structure.
+[YAML](https://en.wikipedia.org/wiki/YAML?useskin=vector){target="\_blank"}
+files that follow a certain structure.
 
-Links: [GitHub](https://github.com/terror/flint)
+Links: [GitHub](https://github.com/terror/flint){target="\_blank"}

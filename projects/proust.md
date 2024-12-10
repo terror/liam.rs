@@ -15,4 +15,4 @@ interacted with.
 
 It runs fully client-side and in the browser.
 
-Links: [GitHub](https://github.com/terror/proust)
+Links: [GitHub](https://github.com/terror/proust){target="\_blank"}

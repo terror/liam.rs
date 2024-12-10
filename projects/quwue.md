@@ -12,9 +12,9 @@ image: quwue.png
 All interaction with the bot is done via direct message, simply add it to your
 server and let the bot facilitate spontaneous user matchmaking and interactions.
 
-This project was initially started by [Casey](http://github.com/casey), I joined
-development shortly after and we eventually got a nice MVP done - it even has
-flaky
-[integration tests](https://github.com/quwue/quwue/blob/master/src/integration_tests.rs)!
+This project was initially started by
+[Casey](http://github.com/casey){target="\_blank"}, I joined development shortly
+after and we eventually got a nice MVP done - it even has flaky
+[integration tests](https://github.com/quwue/quwue/blob/master/src/integration_tests.rs){target="\_blank"}!
 
-Links: [GitHub](https://github.com/quwue/quwue)
+Links: [GitHub](https://github.com/quwue/quwue){target="\_blank"}

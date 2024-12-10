@@ -15,4 +15,4 @@ You're able to train and make predictions directly from the CLI. There's also a
 subcommand to spawn an interactive GUI application where you can draw digits and
 have it perform live inference of the drawn figure.
 
-Links: [GitHub](https://github.com/terror/mnist)
+Links: [GitHub](https://github.com/terror/mnist){target="\_blank"}

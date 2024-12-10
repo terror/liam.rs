@@ -14,8 +14,8 @@ easily apply them to new projects.
 
 In essence, a `template` is a file ending in `.skeleton` with a front-matter and
 content. The front-matter is structured
-[YAML](https://en.wikipedia.org/wiki/YAML?useskin=vector) with effect and free
-variables.
+[YAML](https://en.wikipedia.org/wiki/YAML?useskin=vector){target="\_blank"} with
+effect and free variables.
 
 An `effect` variable is pre-defined to perform some action, e.g. `filename` is
 used when applying a template and writing it to its appropriate location,
@@ -26,6 +26,7 @@ specify whether or not to be interactively prompted for these types of variables
 when applying templates.
 
 `skeleton` is a re-implementation and improvement of a Python program I wrote a
-while back called `bp`, which you can find [here](https://github.com/terror/bp).
+while back called `bp`, which you can find
+[here](https://github.com/terror/bp){target="\_blank"}.
 
-Links: [GitHub](https://github.com/terror/skeleton)
+Links: [GitHub](https://github.com/terror/skeleton){target="\_blank"}
