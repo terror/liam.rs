@@ -7,6 +7,309 @@
     <language>en-us</language>
     <copyright>Creative Commons BY-NC-SA 4.0</copyright>
     <item>
+<title>Python-in-the-browser</title>
+<description>&lt;p&gt;I recently wrote and distributed a &lt;a
+href="https://pypi.org/project/pqg/"&gt;Python package&lt;/a&gt; for a project,
+and I wanted a &lt;a
+href="https://dislmcgill.github.io/pandas-query-generator/"&gt;web
+interface&lt;/a&gt; to go with it. Naturally, I chose &lt;a
+href="https://react.dev/"&gt;React&lt;/a&gt; to build it, but I had never called
+Python from a React app before, so I had to figure things out.&lt;/p&gt;
+&lt;p&gt;After a quick search, I stumbled across &lt;a
+href="https://pyodide.org/en/stable/"&gt;Pyodide&lt;/a&gt;, which is a port of &lt;a
+href="https://en.wikipedia.org/wiki/CPython?useskin=vector"&gt;CPython&lt;/a&gt;
+to &lt;a href="https://webassembly.org/"&gt;WebAssembly&lt;/a&gt;/&lt;a
+href="https://emscripten.org/"&gt;Emscripten&lt;/a&gt;. It allows users to
+install and use any pure Python package with a wheel on &lt;a
+href="https://pypi.org/"&gt;PyPI&lt;/a&gt; via &lt;a
+href="https://micropip.pyodide.org/en/stable/project/api.html"&gt;micropip&lt;/a&gt;.
+This sounded like something that could be useful, so I decided to try it
+out.&lt;/p&gt;
+&lt;p&gt;Since my package was already distributed, all I needed to do,
+according to the Pyodide &lt;a
+href="https://pyodide.org/en/stable/usage/loading-packages.html"&gt;documentation&lt;/a&gt;,
+was:&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;code&gt;npm install pyodide&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Install my package with micropip&lt;/li&gt;
+&lt;li&gt;Run arbitrary Python code using my package with Pyodide’s &lt;a
+href="https://pyodide.org/en/stable/usage/api/js-api.html#pyodide.runPythonAsync"&gt;API&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Turns out this worked for my use case, let’s dive deeper into each
+step!&lt;/p&gt;
+&lt;h3 id="i.-installation"&gt;I. Installation&lt;/h3&gt;
+&lt;p&gt;This is straightforward. I used &lt;a href="https://bun.sh/"&gt;bun&lt;/a&gt; as
+my package manager, so all I had to do was run
+&lt;code&gt;bun add pyodide&lt;/code&gt;. Other package managers should follow a
+similar command. You can check out the official Pyodide package &lt;a
+href="https://www.npmjs.com/package/pyodide"&gt;on the npm
+registry&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="ii.-loading-the-package"&gt;II. Loading the package&lt;/h3&gt;
+&lt;p&gt;Getting Pyodide up and running involves a few steps that need to
+happen in the right order. First, we need to load the core Pyodide
+runtime from a &lt;a
+href="https://en.wikipedia.org/wiki/Content_delivery_network"&gt;CDN&lt;/a&gt;.
+Then we can use Pyodide’s package manager, micropip, to install our
+Python package. This is similar to how you might use &lt;a
+href="https://pip.pypa.io/en/stable/installation/"&gt;pip&lt;/a&gt; in a regular
+Python environment, but it’s all happening in the browser.&lt;/p&gt;
+&lt;p&gt;One nice thing about Pyodide’s CDN distribution is that it includes
+many common Python packages pre-built and ready to use. However, for
+packages that aren’t included by default (like my &lt;code&gt;pqg&lt;/code&gt;
+package), we need to install them explicitly using micropip. Here’s the
+complete initialization sequence:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre
+class="sourceCode typescript"&gt;&lt;code class="sourceCode typescript"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; { PyodideInterface&lt;span class="op"&gt;,&lt;/span&gt; loadPyodide } &lt;span class="im"&gt;from&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;pyodide&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a href="#cb1-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a href="#cb1-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;// Initialize Pyodide with the specified CDN URL&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a href="#cb1-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;// This loads the core Python runtime environment into the browser&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-5"&gt;&lt;a href="#cb1-5" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;const&lt;/span&gt; client &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="cf"&gt;await&lt;/span&gt; &lt;span class="fu"&gt;loadPyodide&lt;/span&gt;({&lt;/span&gt;
+&lt;span id="cb1-6"&gt;&lt;a href="#cb1-6" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  indexURL&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;https://cdn.jsdelivr.net/pyodide/v0.26.3/full&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-7"&gt;&lt;a href="#cb1-7" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;})&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-8"&gt;&lt;a href="#cb1-8" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-9"&gt;&lt;a href="#cb1-9" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;// Load the micropip package, which is Pyodide&amp;#39;s package installer&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-10"&gt;&lt;a href="#cb1-10" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;// This is similar to pip for regular Python, but works in the browser&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-11"&gt;&lt;a href="#cb1-11" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;await&lt;/span&gt; pyodide&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;loadPackage&lt;/span&gt;(&lt;span class="st"&gt;&amp;#39;micropip&amp;#39;&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-12"&gt;&lt;a href="#cb1-12" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-13"&gt;&lt;a href="#cb1-13" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;// Import the micropip module into the JavaScript environment&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-14"&gt;&lt;a href="#cb1-14" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;// This allows us to use micropip&amp;#39;s functions from JavaScript&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-15"&gt;&lt;a href="#cb1-15" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;const&lt;/span&gt; micropip &lt;span class="op"&gt;=&lt;/span&gt; pyodide&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;pyimport&lt;/span&gt;(&lt;span class="st"&gt;&amp;#39;micropip&amp;#39;&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-16"&gt;&lt;a href="#cb1-16" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-17"&gt;&lt;a href="#cb1-17" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;// Use micropip to install the &amp;#39;pqg&amp;#39; package from PyPI&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-18"&gt;&lt;a href="#cb1-18" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;// This downloads and installs the pure Python package in the browser environment&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-19"&gt;&lt;a href="#cb1-19" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;await&lt;/span&gt; micropip&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;install&lt;/span&gt;(&lt;span class="st"&gt;&amp;#39;pqg&amp;#39;&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;It’s worth noting that this initialization process can take a few
+seconds, especially on slower connections. The Pyodide runtime itself is
+about &lt;a
+href="https://pyodide.org/en/stable/project/roadmap.html#reducing-download-sizes-and-initialization-times"&gt;6MB&lt;/a&gt;,
+and any additional packages you install will add to that. In my case, I
+found that showing a loading indicator during this initialization was
+essential for a good user experience.&lt;/p&gt;
+&lt;p&gt;Also, because these operations are asynchronous, you need to be
+careful about when you start trying to execute Python code. I learned
+the hard way that trying to run code before Pyodide is fully initialized
+will fail. This is one of the reasons I eventually moved all of this
+into a web worker, which we’ll discuss later.&lt;/p&gt;
+&lt;h3 id="iii.-running-code"&gt;III. Running code&lt;/h3&gt;
+&lt;p&gt;Now that we have Pyodide and our package loaded, we need to actually
+run some Python code. In my case, I needed to generate pandas queries
+based on user-defined schemas and settings. One early challenge I
+encountered was that Pyodide doesn’t support multiprocessing due to
+browser limitations - I had to explicitly disable it in my package’s
+configuration to ensure compatibility. Here’s how I structured the code
+generation (abridged):&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre
+class="sourceCode typescript"&gt;&lt;code class="sourceCode typescript"&gt;&lt;span id="cb2-1"&gt;&lt;a href="#cb2-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;// Generate Python code that creates and configures the query generator&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a href="#cb2-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;const&lt;/span&gt; generateQueryGenerationCode &lt;span class="op"&gt;=&lt;/span&gt; (schema&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="dt"&gt;string&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt; settings&lt;span class="op"&gt;:&lt;/span&gt; Settings) &lt;span class="kw"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="vs"&gt;`&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a href="#cb2-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  import json&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-4"&gt;&lt;a href="#cb2-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-5"&gt;&lt;a href="#cb2-5" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  from pqg import Generator, QueryStructure, Schema, QueryPool, GenerateOptions&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-6"&gt;&lt;a href="#cb2-6" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-7"&gt;&lt;a href="#cb2-7" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  # Parse the schema from JSON&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-8"&gt;&lt;a href="#cb2-8" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  schema = Schema.from_dict(json.loads(&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="sc"&gt;${&lt;/span&gt;schema&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="vs"&gt;&amp;#39;&amp;#39;&amp;#39;))&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-9"&gt;&lt;a href="#cb2-9" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-10"&gt;&lt;a href="#cb2-10" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  # Configure query structure based on user settings&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-11"&gt;&lt;a href="#cb2-11" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  query_structure = QueryStructure(&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-12"&gt;&lt;a href="#cb2-12" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;    groupby_aggregation_probability=&lt;/span&gt;&lt;span class="sc"&gt;${&lt;/span&gt;settings&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;groupbyProbability&lt;/span&gt;&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="vs"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-13"&gt;&lt;a href="#cb2-13" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;    max_groupby_columns=&lt;/span&gt;&lt;span class="sc"&gt;${&lt;/span&gt;settings&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;maxGroupbyColumns&lt;/span&gt;&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="vs"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-14"&gt;&lt;a href="#cb2-14" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;    # ... other settings&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-15"&gt;&lt;a href="#cb2-15" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  )&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-16"&gt;&lt;a href="#cb2-16" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-17"&gt;&lt;a href="#cb2-17" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  generator = Generator(schema, query_structure)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-18"&gt;&lt;a href="#cb2-18" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-19"&gt;&lt;a href="#cb2-19" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  generate_options = GenerateOptions(&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-20"&gt;&lt;a href="#cb2-20" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;    ensure_non_empty=&lt;/span&gt;&lt;span class="sc"&gt;${&lt;/span&gt;settings&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;enforceNonEmptyResults&lt;/span&gt; &lt;span class="op"&gt;?&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;True&amp;#39;&lt;/span&gt; &lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;False&amp;#39;&lt;/span&gt;&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="vs"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-21"&gt;&lt;a href="#cb2-21" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;    multi_line=&lt;/span&gt;&lt;span class="sc"&gt;${&lt;/span&gt;settings&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;multiLine&lt;/span&gt; &lt;span class="op"&gt;?&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;True&amp;#39;&lt;/span&gt; &lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;False&amp;#39;&lt;/span&gt;&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="vs"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-22"&gt;&lt;a href="#cb2-22" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;    multi_processing=False,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-23"&gt;&lt;a href="#cb2-23" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;    num_queries=&lt;/span&gt;&lt;span class="sc"&gt;${&lt;/span&gt;settings&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;numQueries&lt;/span&gt;&lt;span class="sc"&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-24"&gt;&lt;a href="#cb2-24" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  )&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-25"&gt;&lt;a href="#cb2-25" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-26"&gt;&lt;a href="#cb2-26" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  query_pool = generator.generate(generate_options)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-27"&gt;&lt;a href="#cb2-27" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-28"&gt;&lt;a href="#cb2-28" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  # Return results as JSON&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-29"&gt;&lt;a href="#cb2-29" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  json.dumps({&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-30"&gt;&lt;a href="#cb2-30" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;    &amp;#39;queries&amp;#39;: [str(query) for query in query_pool],&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-31"&gt;&lt;a href="#cb2-31" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;    # ... other keys&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-32"&gt;&lt;a href="#cb2-32" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;  })&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-33"&gt;&lt;a href="#cb2-33" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="vs"&gt;`&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-34"&gt;&lt;a href="#cb2-34" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-35"&gt;&lt;a href="#cb2-35" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;// Execute the code using Pyodide&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-36"&gt;&lt;a href="#cb2-36" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;const&lt;/span&gt; response &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="cf"&gt;await&lt;/span&gt; client&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;runPythonAsync&lt;/span&gt;(&lt;span class="fu"&gt;generateQueryGenerationCode&lt;/span&gt;(schema&lt;span class="op"&gt;,&lt;/span&gt; settings))&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The key here is that we’re generating a Python code string that will
+be executed by Pyodide. We interpolate JavaScript values (the schema and
+settings) into the Python code string. This allows us to pass
+configuration from our React UI to the Python runtime.&lt;/p&gt;
+&lt;p&gt;One important detail is that we need to handle the data serialization
+carefully. Since we’re crossing the JavaScript-Python boundary, we use
+JSON as our data format. The Python code parses the JSON schema and
+returns its results as JSON, which can then be parsed back into
+JavaScript objects.&lt;/p&gt;
+&lt;h3 id="iv.-inside-a-web-worker"&gt;IV. Inside a web worker&lt;/h3&gt;
+&lt;p&gt;When I first implemented this, I quickly realized that loading and
+running Python in the main thread wasn’t ideal - it would freeze the UI
+during initialization and execution. The solution was to move all
+Pyodide-related code into a &lt;a
+href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers"&gt;web
+worker&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Here’s how I built the worker interface (abridged):&lt;/p&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre
+class="sourceCode typescript"&gt;&lt;code class="sourceCode typescript"&gt;&lt;span id="cb3-1"&gt;&lt;a href="#cb3-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; { useEffect&lt;span class="op"&gt;,&lt;/span&gt; useRef&lt;span class="op"&gt;,&lt;/span&gt; useState } &lt;span class="im"&gt;from&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;react&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a href="#cb3-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a href="#cb3-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; { useToast } &lt;span class="im"&gt;from&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;./use-toast&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a href="#cb3-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-5"&gt;&lt;a href="#cb3-5" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;type&lt;/span&gt; WorkerStatus &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;idle&amp;#39;&lt;/span&gt; &lt;span class="op"&gt;|&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;loading&amp;#39;&lt;/span&gt; &lt;span class="op"&gt;|&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;ready&amp;#39;&lt;/span&gt; &lt;span class="op"&gt;|&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-6"&gt;&lt;a href="#cb3-6" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-7"&gt;&lt;a href="#cb3-7" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;type&lt;/span&gt; WorkerResponse &lt;span class="op"&gt;=&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-8"&gt;&lt;a href="#cb3-8" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="op"&gt;|&lt;/span&gt; { type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;status&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt; payload&lt;span class="op"&gt;:&lt;/span&gt; WorkerStatus }&lt;/span&gt;
+&lt;span id="cb3-9"&gt;&lt;a href="#cb3-9" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="op"&gt;|&lt;/span&gt; { type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt; payload&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="dt"&gt;string&lt;/span&gt; }&lt;/span&gt;
+&lt;span id="cb3-10"&gt;&lt;a href="#cb3-10" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="op"&gt;|&lt;/span&gt; { type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;result&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt; payload&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="dt"&gt;string&lt;/span&gt; }&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-11"&gt;&lt;a href="#cb3-11" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-12"&gt;&lt;a href="#cb3-12" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;export&lt;/span&gt; &lt;span class="kw"&gt;const&lt;/span&gt; usePyodideWorker &lt;span class="op"&gt;=&lt;/span&gt; () &lt;span class="kw"&gt;=&amp;gt;&lt;/span&gt; {&lt;/span&gt;
+&lt;span id="cb3-13"&gt;&lt;a href="#cb3-13" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="kw"&gt;const&lt;/span&gt; [status&lt;span class="op"&gt;,&lt;/span&gt; setStatus] &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="fu"&gt;useState&lt;/span&gt;&lt;span class="op"&gt;&amp;lt;&lt;/span&gt;WorkerStatus&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;(&lt;span class="st"&gt;&amp;#39;idle&amp;#39;&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-14"&gt;&lt;a href="#cb3-14" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-15"&gt;&lt;a href="#cb3-15" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="kw"&gt;const&lt;/span&gt; workerRef &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="fu"&gt;useRef&lt;/span&gt;&lt;span class="op"&gt;&amp;lt;&lt;/span&gt;&lt;span class="bu"&gt;Worker&lt;/span&gt;&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;()&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-16"&gt;&lt;a href="#cb3-16" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-17"&gt;&lt;a href="#cb3-17" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="kw"&gt;const&lt;/span&gt; { toast } &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="fu"&gt;useToast&lt;/span&gt;()&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-18"&gt;&lt;a href="#cb3-18" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-19"&gt;&lt;a href="#cb3-19" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="fu"&gt;useEffect&lt;/span&gt;(() &lt;span class="kw"&gt;=&amp;gt;&lt;/span&gt; {&lt;/span&gt;
+&lt;span id="cb3-20"&gt;&lt;a href="#cb3-20" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    workerRef&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;current&lt;/span&gt; &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="kw"&gt;new&lt;/span&gt; &lt;span class="bu"&gt;Worker&lt;/span&gt;(&lt;/span&gt;
+&lt;span id="cb3-21"&gt;&lt;a href="#cb3-21" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="kw"&gt;new&lt;/span&gt; &lt;span class="fu"&gt;URL&lt;/span&gt;(&lt;span class="st"&gt;&amp;#39;../workers/pyodide.worker.ts&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt; import&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;meta&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;url&lt;/span&gt;)&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-22"&gt;&lt;a href="#cb3-22" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      { type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;module&amp;#39;&lt;/span&gt; }&lt;/span&gt;
+&lt;span id="cb3-23"&gt;&lt;a href="#cb3-23" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    )&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-24"&gt;&lt;a href="#cb3-24" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-25"&gt;&lt;a href="#cb3-25" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    workerRef&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;current&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;onmessage&lt;/span&gt; &lt;span class="op"&gt;=&lt;/span&gt; (event&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="bu"&gt;MessageEvent&lt;/span&gt;&lt;span class="op"&gt;&amp;lt;&lt;/span&gt;WorkerResponse&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;) &lt;span class="kw"&gt;=&amp;gt;&lt;/span&gt; {&lt;/span&gt;
+&lt;span id="cb3-26"&gt;&lt;a href="#cb3-26" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="kw"&gt;const&lt;/span&gt; { &lt;span class="kw"&gt;type&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt; payload } &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="bu"&gt;event&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;data&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-27"&gt;&lt;a href="#cb3-27" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-28"&gt;&lt;a href="#cb3-28" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="cf"&gt;switch&lt;/span&gt; (&lt;span class="kw"&gt;type&lt;/span&gt;) {&lt;/span&gt;
+&lt;span id="cb3-29"&gt;&lt;a href="#cb3-29" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;case&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;status&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-30"&gt;&lt;a href="#cb3-30" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="fu"&gt;setStatus&lt;/span&gt;(payload)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-31"&gt;&lt;a href="#cb3-31" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="cf"&gt;break&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-32"&gt;&lt;a href="#cb3-32" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;case&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-33"&gt;&lt;a href="#cb3-33" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="co"&gt;// ...&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-34"&gt;&lt;a href="#cb3-34" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="fu"&gt;setStatus&lt;/span&gt;(&lt;span class="st"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-35"&gt;&lt;a href="#cb3-35" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="cf"&gt;break&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-36"&gt;&lt;a href="#cb3-36" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      }&lt;/span&gt;
+&lt;span id="cb3-37"&gt;&lt;a href="#cb3-37" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    }&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-38"&gt;&lt;a href="#cb3-38" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-39"&gt;&lt;a href="#cb3-39" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    workerRef&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;current&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;postMessage&lt;/span&gt;({ type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;init&amp;#39;&lt;/span&gt; })&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-40"&gt;&lt;a href="#cb3-40" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-41"&gt;&lt;a href="#cb3-41" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; () &lt;span class="kw"&gt;=&amp;gt;&lt;/span&gt; {&lt;/span&gt;
+&lt;span id="cb3-42"&gt;&lt;a href="#cb3-42" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      workerRef&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;current&lt;/span&gt;&lt;span class="op"&gt;?.&lt;/span&gt;&lt;span class="fu"&gt;terminate&lt;/span&gt;()&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-43"&gt;&lt;a href="#cb3-43" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    }&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-44"&gt;&lt;a href="#cb3-44" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  }&lt;span class="op"&gt;,&lt;/span&gt; [toast])&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-45"&gt;&lt;a href="#cb3-45" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-46"&gt;&lt;a href="#cb3-46" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="kw"&gt;const&lt;/span&gt; runPython &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="kw"&gt;async&lt;/span&gt; &lt;span class="op"&gt;&amp;lt;&lt;/span&gt;T&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;(code&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="dt"&gt;string&lt;/span&gt;)&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="bu"&gt;Promise&lt;/span&gt;&lt;span class="op"&gt;&amp;lt;&lt;/span&gt;T&lt;span class="op"&gt;&amp;gt;&lt;/span&gt; &lt;span class="kw"&gt;=&amp;gt;&lt;/span&gt; {&lt;/span&gt;
+&lt;span id="cb3-47"&gt;&lt;a href="#cb3-47" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; &lt;span class="kw"&gt;new&lt;/span&gt; &lt;span class="bu"&gt;Promise&lt;/span&gt;((resolve&lt;span class="op"&gt;,&lt;/span&gt; reject) &lt;span class="kw"&gt;=&amp;gt;&lt;/span&gt; {&lt;/span&gt;
+&lt;span id="cb3-48"&gt;&lt;a href="#cb3-48" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="co"&gt;// ...&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-49"&gt;&lt;a href="#cb3-49" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    })&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-50"&gt;&lt;a href="#cb3-50" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  }&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-51"&gt;&lt;a href="#cb3-51" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-52"&gt;&lt;a href="#cb3-52" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;return&lt;/span&gt; {&lt;/span&gt;
+&lt;span id="cb3-53"&gt;&lt;a href="#cb3-53" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    error&lt;span class="op"&gt;:&lt;/span&gt; status &lt;span class="op"&gt;===&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-54"&gt;&lt;a href="#cb3-54" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    loading&lt;span class="op"&gt;:&lt;/span&gt; status &lt;span class="op"&gt;===&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;loading&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-55"&gt;&lt;a href="#cb3-55" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    ready&lt;span class="op"&gt;:&lt;/span&gt; status &lt;span class="op"&gt;===&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;ready&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-56"&gt;&lt;a href="#cb3-56" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    runPython&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-57"&gt;&lt;a href="#cb3-57" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  }&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-58"&gt;&lt;a href="#cb3-58" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;}&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I created this as a React &lt;a
+href="https://react.dev/learn#using-hooks"&gt;hook&lt;/a&gt; that manages the
+worker lifecycle. The hook creates the worker when the component mounts
+and provides a &lt;a
+href="https://github.com/DISLMcGill/pandas-query-generator/blob/303251c5f4ae4bdcdc945caac0c0f21a22fda56f/www/src/hooks/use-pyodide-worker.ts#L52"&gt;&lt;code&gt;runPython&lt;/code&gt;&lt;/a&gt;
+function that components can use to execute Python code. The status
+updates help the UI show loading states while Pyodide initializes or
+executes code.&lt;/p&gt;
+&lt;p&gt;The worker implementation itself is relatively straightforward:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre
+class="sourceCode typescript"&gt;&lt;code class="sourceCode typescript"&gt;&lt;span id="cb4-1"&gt;&lt;a href="#cb4-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; { PyodideInterface&lt;span class="op"&gt;,&lt;/span&gt; loadPyodide } &lt;span class="im"&gt;from&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;pyodide&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a href="#cb4-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a href="#cb4-3" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;let&lt;/span&gt; pyodide&lt;span class="op"&gt;:&lt;/span&gt; PyodideInterface&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-4"&gt;&lt;a href="#cb4-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-5"&gt;&lt;a href="#cb4-5" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;type&lt;/span&gt; WorkerMessage &lt;span class="op"&gt;=&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-6"&gt;&lt;a href="#cb4-6" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="op"&gt;|&lt;/span&gt; { type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;init&amp;#39;&lt;/span&gt; }&lt;/span&gt;
+&lt;span id="cb4-7"&gt;&lt;a href="#cb4-7" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="op"&gt;|&lt;/span&gt; { type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;run&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt; payload&lt;span class="op"&gt;:&lt;/span&gt; { code&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="dt"&gt;string&lt;/span&gt; } }&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-8"&gt;&lt;a href="#cb4-8" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-9"&gt;&lt;a href="#cb4-9" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;type&lt;/span&gt; WorkerResponse &lt;span class="op"&gt;=&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-10"&gt;&lt;a href="#cb4-10" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="op"&gt;|&lt;/span&gt; { type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;status&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt; payload&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;loading&amp;#39;&lt;/span&gt; &lt;span class="op"&gt;|&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;ready&amp;#39;&lt;/span&gt; }&lt;/span&gt;
+&lt;span id="cb4-11"&gt;&lt;a href="#cb4-11" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="op"&gt;|&lt;/span&gt; { type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt; payload&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="dt"&gt;string&lt;/span&gt; }&lt;/span&gt;
+&lt;span id="cb4-12"&gt;&lt;a href="#cb4-12" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="op"&gt;|&lt;/span&gt; { type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;result&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt; payload&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="dt"&gt;string&lt;/span&gt; }&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-13"&gt;&lt;a href="#cb4-13" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-14"&gt;&lt;a href="#cb4-14" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;self&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;onmessage&lt;/span&gt; &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="kw"&gt;async&lt;/span&gt; (event&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="bu"&gt;MessageEvent&lt;/span&gt;&lt;span class="op"&gt;&amp;lt;&lt;/span&gt;WorkerMessage&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;) &lt;span class="kw"&gt;=&amp;gt;&lt;/span&gt; {&lt;/span&gt;
+&lt;span id="cb4-15"&gt;&lt;a href="#cb4-15" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="kw"&gt;const&lt;/span&gt; { &lt;span class="kw"&gt;type&lt;/span&gt; } &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="bu"&gt;event&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;data&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-16"&gt;&lt;a href="#cb4-16" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-17"&gt;&lt;a href="#cb4-17" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="cf"&gt;try&lt;/span&gt; {&lt;/span&gt;
+&lt;span id="cb4-18"&gt;&lt;a href="#cb4-18" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;switch&lt;/span&gt; (&lt;span class="kw"&gt;type&lt;/span&gt;) {&lt;/span&gt;
+&lt;span id="cb4-19"&gt;&lt;a href="#cb4-19" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="cf"&gt;case&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;init&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-20"&gt;&lt;a href="#cb4-20" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;if&lt;/span&gt; (&lt;span class="op"&gt;!&lt;/span&gt;pyodide) {&lt;/span&gt;
+&lt;span id="cb4-21"&gt;&lt;a href="#cb4-21" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          self&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;postMessage&lt;/span&gt;({&lt;/span&gt;
+&lt;span id="cb4-22"&gt;&lt;a href="#cb4-22" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;            type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;status&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-23"&gt;&lt;a href="#cb4-23" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;            payload&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;loading&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-24"&gt;&lt;a href="#cb4-24" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          } satisfies WorkerResponse)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-25"&gt;&lt;a href="#cb4-25" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-26"&gt;&lt;a href="#cb4-26" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          pyodide &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="cf"&gt;await&lt;/span&gt; &lt;span class="fu"&gt;loadPyodide&lt;/span&gt;({&lt;/span&gt;
+&lt;span id="cb4-27"&gt;&lt;a href="#cb4-27" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;            indexURL&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;https://cdn.jsdelivr.net/pyodide/v0.26.3/full&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-28"&gt;&lt;a href="#cb4-28" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          })&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-29"&gt;&lt;a href="#cb4-29" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-30"&gt;&lt;a href="#cb4-30" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="cf"&gt;await&lt;/span&gt; pyodide&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;loadPackage&lt;/span&gt;(&lt;span class="st"&gt;&amp;#39;micropip&amp;#39;&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-31"&gt;&lt;a href="#cb4-31" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-32"&gt;&lt;a href="#cb4-32" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="kw"&gt;const&lt;/span&gt; micropip &lt;span class="op"&gt;=&lt;/span&gt; pyodide&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;pyimport&lt;/span&gt;(&lt;span class="st"&gt;&amp;#39;micropip&amp;#39;&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-33"&gt;&lt;a href="#cb4-33" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="cf"&gt;await&lt;/span&gt; micropip&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;install&lt;/span&gt;(&lt;span class="st"&gt;&amp;#39;pqg&amp;#39;&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-34"&gt;&lt;a href="#cb4-34" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-35"&gt;&lt;a href="#cb4-35" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          self&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;postMessage&lt;/span&gt;({&lt;/span&gt;
+&lt;span id="cb4-36"&gt;&lt;a href="#cb4-36" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;            type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;status&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-37"&gt;&lt;a href="#cb4-37" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;            payload&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;ready&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-38"&gt;&lt;a href="#cb4-38" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          } satisfies WorkerResponse)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-39"&gt;&lt;a href="#cb4-39" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;        }&lt;/span&gt;
+&lt;span id="cb4-40"&gt;&lt;a href="#cb4-40" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;break&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-41"&gt;&lt;a href="#cb4-41" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="cf"&gt;case&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;run&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-42"&gt;&lt;a href="#cb4-42" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;if&lt;/span&gt; (&lt;span class="op"&gt;!&lt;/span&gt;pyodide) &lt;span class="cf"&gt;throw&lt;/span&gt; &lt;span class="kw"&gt;new&lt;/span&gt; &lt;span class="bu"&gt;Error&lt;/span&gt;(&lt;span class="st"&gt;&amp;#39;Pyodide not initialized&amp;#39;&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-43"&gt;&lt;a href="#cb4-43" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-44"&gt;&lt;a href="#cb4-44" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;        self&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;postMessage&lt;/span&gt;({&lt;/span&gt;
+&lt;span id="cb4-45"&gt;&lt;a href="#cb4-45" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;result&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-46"&gt;&lt;a href="#cb4-46" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;          payload&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="cf"&gt;await&lt;/span&gt; pyodide&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;runPythonAsync&lt;/span&gt;(&lt;span class="bu"&gt;event&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;data&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;payload&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;code&lt;/span&gt;)&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-47"&gt;&lt;a href="#cb4-47" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;        } satisfies WorkerResponse)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-48"&gt;&lt;a href="#cb4-48" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-49"&gt;&lt;a href="#cb4-49" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;break&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-50"&gt;&lt;a href="#cb4-50" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="cf"&gt;default&lt;/span&gt;&lt;span class="op"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-51"&gt;&lt;a href="#cb4-51" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;throw&lt;/span&gt; &lt;span class="kw"&gt;new&lt;/span&gt; &lt;span class="bu"&gt;Error&lt;/span&gt;(&lt;span class="vs"&gt;`Unknown message type: &lt;/span&gt;&lt;span class="sc"&gt;${&lt;/span&gt;&lt;span class="kw"&gt;type&lt;/span&gt; satisfies &lt;span class="dt"&gt;never&lt;/span&gt;&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="vs"&gt;`&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-52"&gt;&lt;a href="#cb4-52" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    }&lt;/span&gt;
+&lt;span id="cb4-53"&gt;&lt;a href="#cb4-53" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  } &lt;span class="cf"&gt;catch&lt;/span&gt; (error) {&lt;/span&gt;
+&lt;span id="cb4-54"&gt;&lt;a href="#cb4-54" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    self&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;postMessage&lt;/span&gt;({&lt;/span&gt;
+&lt;span id="cb4-55"&gt;&lt;a href="#cb4-55" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      type&lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-56"&gt;&lt;a href="#cb4-56" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;      payload&lt;span class="op"&gt;:&lt;/span&gt; error &lt;span class="kw"&gt;instanceof&lt;/span&gt; &lt;span class="bu"&gt;Error&lt;/span&gt; &lt;span class="op"&gt;?&lt;/span&gt; error&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="at"&gt;message&lt;/span&gt; &lt;span class="op"&gt;:&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;Unknown error&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-57"&gt;&lt;a href="#cb4-57" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;    } satisfies WorkerResponse)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-58"&gt;&lt;a href="#cb4-58" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  }&lt;/span&gt;
+&lt;span id="cb4-59"&gt;&lt;a href="#cb4-59" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;}&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The worker maintains the Pyodide instance and handles two types of
+messages: initialization and code execution. This keeps all the heavy
+lifting off the main thread, ensuring the UI stays responsive.&lt;/p&gt;
+&lt;p&gt;One thing to note is that web workers have their own &lt;a
+href="https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope"&gt;global
+scope&lt;/a&gt;, so the Pyodide instance and any installed packages persist
+between executions. This is actually beneficial as it means we only need
+to load Pyodide and install packages once, rather than for each query
+generation.&lt;/p&gt;
+&lt;h3 id="fin"&gt;Fin&lt;/h3&gt;
+&lt;p&gt;Building this interface turned out to be surprisingly straightforward
+thanks to Pyodide. The ability to run Python code directly in the
+browser, without needing a backend server, makes for a great developer
+experience. The combination of React for the UI, Pyodide for Python
+execution, and web workers for performance created a smooth, interactive
+interface for my Python package.&lt;/p&gt;
+&lt;p&gt;While there are &lt;a
+href="https://pyodide.org/en/stable/usage/wasm-constraints.html"&gt;some
+limitations&lt;/a&gt; - Pyodide can only run pure Python packages, and the
+initial load time can be significant - it’s a powerful tool for the
+right use case. In my case, it allowed me to create a web interface for
+my Python package with minimal overhead and deployment complexity.&lt;/p&gt;
+&lt;p&gt;The full code for the implementation can be &lt;a
+href="https://github.com/DISLMcGill/pandas-query-generator/tree/master/www"&gt;found
+on GitHub&lt;/a&gt;.&lt;/p&gt;</description>
+<link>https://liam.rs/posts/Python-in-the-browser/</link>
+<pubDate>Fri, 13 Dec 2024 16:18:00 +0000</pubDate>
+<guid>https://liam.rs/posts/Python-in-the-browser/</guid>
+</item>
+<item>
 <title>Incremental-select-with-treesitter</title>
 <description>&lt;p&gt;&lt;a href="https://github.com/tree-sitter/tree-sitter"&gt;treesitter&lt;/a&gt;
 is a tool that can build a concrete syntax tree for a source file and

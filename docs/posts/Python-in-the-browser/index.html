@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="viewport" content="initial-scale=1" />
+    <meta property="og:title" content="Python in the browser" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://liam.rs" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/syntax.css" />
+    <title>Python in the browser · liam.rs</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-151954055-3"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-151954055-3');
+    </script>
+  </head>
+  <body>
+    <div class="posts">
+      <div class="post">
+        <a href="/" class="post-end-link">Home</a>
+        <span>/</span>
+        <a href="/posts" class="post-end-link">Posts</a>
+        <span>/</span>
+        <a class="post-end-link">Python in the browser</a>
+        <a
+          class="stats post-end-link"
+          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Python-in-the-browser.md
+"
+          >View Raw</a
+        >
+        <div class="separator"></div>
+        <div class="date">
+          13/12 — 2024
+          <div class="stats">
+            <span class="stats-number"> 98.70 </span>
+            <span class="stats-unit">cm</span>
+            &nbsp
+            <span class="stats-number"> 9.6 </span>
+            <span class="stats-unit">min</span>
+          </div>
+        </div>
+        <h1>Python in the browser</h1>
+        <div class="post-text">
+          <p>
+            I recently wrote and distributed a
+            <a href="https://pypi.org/project/pqg/">Python package</a> for a
+            project, and I wanted a
+            <a href="https://dislmcgill.github.io/pandas-query-generator/"
+              >web interface</a
+            >
+            to go with it. Naturally, I chose
+            <a href="https://react.dev/">React</a> to build it, but I had never
+            called Python from a React app before, so I had to figure things
+            out.
+          </p>
+          <p>
+            After a quick search, I stumbled across
+            <a href="https://pyodide.org/en/stable/">Pyodide</a>, which is a
+            port of
+            <a href="https://en.wikipedia.org/wiki/CPython?useskin=vector"
+              >CPython</a
+            >
+            to <a href="https://webassembly.org/">WebAssembly</a>/<a
+              href="https://emscripten.org/"
+              >Emscripten</a
+            >. It allows users to install and use any pure Python package with a
+            wheel on <a href="https://pypi.org/">PyPI</a> via
+            <a href="https://micropip.pyodide.org/en/stable/project/api.html"
+              >micropip</a
+            >. This sounded like something that could be useful, so I decided to
+            try it out.
+          </p>
+          <p>
+            Since my package was already distributed, all I needed to do,
+            according to the Pyodide
+            <a href="https://pyodide.org/en/stable/usage/loading-packages.html"
+              >documentation</a
+            >, was:
+          </p>
+          <ol type="1">
+            <li><code>npm install pyodide</code></li>
+            <li>Install my package with micropip</li>
+            <li>
+              Run arbitrary Python code using my package with Pyodide’s
+              <a
+                href="https://pyodide.org/en/stable/usage/api/js-api.html#pyodide.runPythonAsync"
+                >API</a
+              >
+            </li>
+          </ol>
+          <p>
+            Turns out this worked for my use case, let’s dive deeper into each
+            step!
+          </p>
+          <h3 id="i.-installation">I. Installation</h3>
+          <p>
+            This is straightforward. I used <a href="https://bun.sh/">bun</a> as
+            my package manager, so all I had to do was run
+            <code>bun add pyodide</code>. Other package managers should follow a
+            similar command. You can check out the official Pyodide package
+            <a href="https://www.npmjs.com/package/pyodide"
+              >on the npm registry</a
+            >.
+          </p>
+          <h3 id="ii.-loading-the-package">II. Loading the package</h3>
+          <p>
+            Getting Pyodide up and running involves a few steps that need to
+            happen in the right order. First, we need to load the core Pyodide
+            runtime from a
+            <a href="https://en.wikipedia.org/wiki/Content_delivery_network"
+              >CDN</a
+            >. Then we can use Pyodide’s package manager, micropip, to install
+            our Python package. This is similar to how you might use
+            <a href="https://pip.pypa.io/en/stable/installation/">pip</a> in a
+            regular Python environment, but it’s all happening in the browser.
+          </p>
+          <p>
+            One nice thing about Pyodide’s CDN distribution is that it includes
+            many common Python packages pre-built and ready to use. However, for
+            packages that aren’t included by default (like my
+            <code>pqg</code> package), we need to install them explicitly using
+            micropip. Here’s the complete initialization sequence:
+          </p>
+          <div class="sourceCode" id="cb1">
+            <pre
+              class="sourceCode typescript"
+            ><code class="sourceCode typescript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { PyodideInterface<span class="op">,</span> loadPyodide } <span class="im">from</span> <span class="st">&#39;pyodide&#39;</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Initialize Pyodide with the specified CDN URL</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">// This loads the core Python runtime environment into the browser</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> client <span class="op">=</span> <span class="cf">await</span> <span class="fu">loadPyodide</span>({</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  indexURL<span class="op">:</span> <span class="st">&#39;https://cdn.jsdelivr.net/pyodide/v0.26.3/full&#39;</span><span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Load the micropip package, which is Pyodide&#39;s package installer</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">// This is similar to pip for regular Python, but works in the browser</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> pyodide<span class="op">.</span><span class="fu">loadPackage</span>(<span class="st">&#39;micropip&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">// Import the micropip module into the JavaScript environment</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">// This allows us to use micropip&#39;s functions from JavaScript</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> micropip <span class="op">=</span> pyodide<span class="op">.</span><span class="fu">pyimport</span>(<span class="st">&#39;micropip&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">// Use micropip to install the &#39;pqg&#39; package from PyPI</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">// This downloads and installs the pure Python package in the browser environment</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> micropip<span class="op">.</span><span class="fu">install</span>(<span class="st">&#39;pqg&#39;</span>)<span class="op">;</span></span></code></pre>
+          </div>
+          <p>
+            It’s worth noting that this initialization process can take a few
+            seconds, especially on slower connections. The Pyodide runtime
+            itself is about
+            <a
+              href="https://pyodide.org/en/stable/project/roadmap.html#reducing-download-sizes-and-initialization-times"
+              >6MB</a
+            >, and any additional packages you install will add to that. In my
+            case, I found that showing a loading indicator during this
+            initialization was essential for a good user experience.
+          </p>
+          <p>
+            Also, because these operations are asynchronous, you need to be
+            careful about when you start trying to execute Python code. I
+            learned the hard way that trying to run code before Pyodide is fully
+            initialized will fail. This is one of the reasons I eventually moved
+            all of this into a web worker, which we’ll discuss later.
+          </p>
+          <h3 id="iii.-running-code">III. Running code</h3>
+          <p>
+            Now that we have Pyodide and our package loaded, we need to actually
+            run some Python code. In my case, I needed to generate pandas
+            queries based on user-defined schemas and settings. One early
+            challenge I encountered was that Pyodide doesn’t support
+            multiprocessing due to browser limitations - I had to explicitly
+            disable it in my package’s configuration to ensure compatibility.
+            Here’s how I structured the code generation (abridged):
+          </p>
+          <div class="sourceCode" id="cb2">
+            <pre
+              class="sourceCode typescript"
+            ><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Generate Python code that creates and configures the query generator</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> generateQueryGenerationCode <span class="op">=</span> (schema<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> settings<span class="op">:</span> Settings) <span class="kw">=&gt;</span> <span class="vs">`</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="vs">  import json</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  from pqg import Generator, QueryStructure, Schema, QueryPool, GenerateOptions</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="vs">  # Parse the schema from JSON</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  schema = Schema.from_dict(json.loads(&#39;&#39;&#39;</span><span class="sc">${</span>schema<span class="sc">}</span><span class="vs">&#39;&#39;&#39;))</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="vs">  # Configure query structure based on user settings</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="vs">  query_structure = QueryStructure(</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="vs">    groupby_aggregation_probability=</span><span class="sc">${</span>settings<span class="op">.</span><span class="at">groupbyProbability</span><span class="sc">}</span><span class="vs">,</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="vs">    max_groupby_columns=</span><span class="sc">${</span>settings<span class="op">.</span><span class="at">maxGroupbyColumns</span><span class="sc">}</span><span class="vs">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="vs">    # ... other settings</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="vs">  )</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="vs">  generator = Generator(schema, query_structure)</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="vs">  generate_options = GenerateOptions(</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="vs">    ensure_non_empty=</span><span class="sc">${</span>settings<span class="op">.</span><span class="at">enforceNonEmptyResults</span> <span class="op">?</span> <span class="st">&#39;True&#39;</span> <span class="op">:</span> <span class="st">&#39;False&#39;</span><span class="sc">}</span><span class="vs">,</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="vs">    multi_line=</span><span class="sc">${</span>settings<span class="op">.</span><span class="at">multiLine</span> <span class="op">?</span> <span class="st">&#39;True&#39;</span> <span class="op">:</span> <span class="st">&#39;False&#39;</span><span class="sc">}</span><span class="vs">,</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="vs">    multi_processing=False,</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="vs">    num_queries=</span><span class="sc">${</span>settings<span class="op">.</span><span class="at">numQueries</span><span class="sc">}</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="vs">  )</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="vs">  query_pool = generator.generate(generate_options)</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="vs">  # Return results as JSON</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="vs">  json.dumps({</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="vs">    &#39;queries&#39;: [str(query) for query in query_pool],</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="vs">    # ... other keys</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="vs">  })</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co">// Execute the code using Pyodide</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> client<span class="op">.</span><span class="fu">runPythonAsync</span>(<span class="fu">generateQueryGenerationCode</span>(schema<span class="op">,</span> settings))<span class="op">;</span></span></code></pre>
+          </div>
+          <p>
+            The key here is that we’re generating a Python code string that will
+            be executed by Pyodide. We interpolate JavaScript values (the schema
+            and settings) into the Python code string. This allows us to pass
+            configuration from our React UI to the Python runtime.
+          </p>
+          <p>
+            One important detail is that we need to handle the data
+            serialization carefully. Since we’re crossing the JavaScript-Python
+            boundary, we use JSON as our data format. The Python code parses the
+            JSON schema and returns its results as JSON, which can then be
+            parsed back into JavaScript objects.
+          </p>
+          <h3 id="iv.-inside-a-web-worker">IV. Inside a web worker</h3>
+          <p>
+            When I first implemented this, I quickly realized that loading and
+            running Python in the main thread wasn’t ideal - it would freeze the
+            UI during initialization and execution. The solution was to move all
+            Pyodide-related code into a
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers"
+              >web worker</a
+            >.
+          </p>
+          <p>Here’s how I built the worker interface (abridged):</p>
+          <div class="sourceCode" id="cb3">
+            <pre
+              class="sourceCode typescript"
+            ><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { useEffect<span class="op">,</span> useRef<span class="op">,</span> useState } <span class="im">from</span> <span class="st">&#39;react&#39;</span><span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { useToast } <span class="im">from</span> <span class="st">&#39;./use-toast&#39;</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> WorkerStatus <span class="op">=</span> <span class="st">&#39;idle&#39;</span> <span class="op">|</span> <span class="st">&#39;loading&#39;</span> <span class="op">|</span> <span class="st">&#39;ready&#39;</span> <span class="op">|</span> <span class="st">&#39;error&#39;</span><span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> WorkerResponse <span class="op">=</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> { type<span class="op">:</span> <span class="st">&#39;status&#39;</span><span class="op">;</span> payload<span class="op">:</span> WorkerStatus }</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> { type<span class="op">:</span> <span class="st">&#39;error&#39;</span><span class="op">;</span> payload<span class="op">:</span> <span class="dt">string</span> }</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> { type<span class="op">:</span> <span class="st">&#39;result&#39;</span><span class="op">;</span> payload<span class="op">:</span> <span class="dt">string</span> }<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> usePyodideWorker <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> [status<span class="op">,</span> setStatus] <span class="op">=</span> <span class="fu">useState</span><span class="op">&lt;</span>WorkerStatus<span class="op">&gt;</span>(<span class="st">&#39;idle&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> workerRef <span class="op">=</span> <span class="fu">useRef</span><span class="op">&lt;</span><span class="bu">Worker</span><span class="op">&gt;</span>()<span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> { toast } <span class="op">=</span> <span class="fu">useToast</span>()<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">useEffect</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    workerRef<span class="op">.</span><span class="at">current</span> <span class="op">=</span> <span class="kw">new</span> <span class="bu">Worker</span>(</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      <span class="kw">new</span> <span class="fu">URL</span>(<span class="st">&#39;../workers/pyodide.worker.ts&#39;</span><span class="op">,</span> import<span class="op">.</span><span class="at">meta</span><span class="op">.</span><span class="at">url</span>)<span class="op">,</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      { type<span class="op">:</span> <span class="st">&#39;module&#39;</span> }</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    )<span class="op">;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    workerRef<span class="op">.</span><span class="at">current</span><span class="op">.</span><span class="at">onmessage</span> <span class="op">=</span> (event<span class="op">:</span> <span class="bu">MessageEvent</span><span class="op">&lt;</span>WorkerResponse<span class="op">&gt;</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> { <span class="kw">type</span><span class="op">,</span> payload } <span class="op">=</span> <span class="bu">event</span><span class="op">.</span><span class="at">data</span><span class="op">;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>      <span class="cf">switch</span> (<span class="kw">type</span>) {</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> <span class="st">&#39;status&#39;</span><span class="op">:</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>          <span class="fu">setStatus</span>(payload)<span class="op">;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>          <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> <span class="st">&#39;error&#39;</span><span class="op">:</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>          <span class="co">// ...</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>          <span class="fu">setStatus</span>(<span class="st">&#39;error&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>          <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    workerRef<span class="op">.</span><span class="at">current</span><span class="op">.</span><span class="fu">postMessage</span>({ type<span class="op">:</span> <span class="st">&#39;init&#39;</span> })<span class="op">;</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>      workerRef<span class="op">.</span><span class="at">current</span><span class="op">?.</span><span class="fu">terminate</span>()<span class="op">;</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> [toast])<span class="op">;</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> runPython <span class="op">=</span> <span class="kw">async</span> <span class="op">&lt;</span>T<span class="op">&gt;</span>(code<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="kw">=&gt;</span> {</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve<span class="op">,</span> reject) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>      <span class="co">// ...</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    error<span class="op">:</span> status <span class="op">===</span> <span class="st">&#39;error&#39;</span><span class="op">,</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    loading<span class="op">:</span> status <span class="op">===</span> <span class="st">&#39;loading&#39;</span><span class="op">,</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>    ready<span class="op">:</span> status <span class="op">===</span> <span class="st">&#39;ready&#39;</span><span class="op">,</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    runPython<span class="op">,</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre>
+          </div>
+          <p>
+            I created this as a React
+            <a href="https://react.dev/learn#using-hooks">hook</a> that manages
+            the worker lifecycle. The hook creates the worker when the component
+            mounts and provides a
+            <a
+              href="https://github.com/DISLMcGill/pandas-query-generator/blob/303251c5f4ae4bdcdc945caac0c0f21a22fda56f/www/src/hooks/use-pyodide-worker.ts#L52"
+              ><code>runPython</code></a
+            >
+            function that components can use to execute Python code. The status
+            updates help the UI show loading states while Pyodide initializes or
+            executes code.
+          </p>
+          <p>The worker implementation itself is relatively straightforward:</p>
+          <div class="sourceCode" id="cb4">
+            <pre
+              class="sourceCode typescript"
+            ><code class="sourceCode typescript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { PyodideInterface<span class="op">,</span> loadPyodide } <span class="im">from</span> <span class="st">&#39;pyodide&#39;</span><span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> pyodide<span class="op">:</span> PyodideInterface<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> WorkerMessage <span class="op">=</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> { type<span class="op">:</span> <span class="st">&#39;init&#39;</span> }</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> { type<span class="op">:</span> <span class="st">&#39;run&#39;</span><span class="op">;</span> payload<span class="op">:</span> { code<span class="op">:</span> <span class="dt">string</span> } }<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> WorkerResponse <span class="op">=</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> { type<span class="op">:</span> <span class="st">&#39;status&#39;</span><span class="op">;</span> payload<span class="op">:</span> <span class="st">&#39;loading&#39;</span> <span class="op">|</span> <span class="st">&#39;ready&#39;</span> }</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> { type<span class="op">:</span> <span class="st">&#39;error&#39;</span><span class="op">;</span> payload<span class="op">:</span> <span class="dt">string</span> }</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> { type<span class="op">:</span> <span class="st">&#39;result&#39;</span><span class="op">;</span> payload<span class="op">:</span> <span class="dt">string</span> }<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>self<span class="op">.</span><span class="at">onmessage</span> <span class="op">=</span> <span class="kw">async</span> (event<span class="op">:</span> <span class="bu">MessageEvent</span><span class="op">&lt;</span>WorkerMessage<span class="op">&gt;</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> { <span class="kw">type</span> } <span class="op">=</span> <span class="bu">event</span><span class="op">.</span><span class="at">data</span><span class="op">;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">switch</span> (<span class="kw">type</span>) {</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      <span class="cf">case</span> <span class="st">&#39;init&#39;</span><span class="op">:</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="op">!</span>pyodide) {</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>          self<span class="op">.</span><span class="fu">postMessage</span>({</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>            type<span class="op">:</span> <span class="st">&#39;status&#39;</span><span class="op">,</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>            payload<span class="op">:</span> <span class="st">&#39;loading&#39;</span><span class="op">,</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>          } satisfies WorkerResponse)<span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>          pyodide <span class="op">=</span> <span class="cf">await</span> <span class="fu">loadPyodide</span>({</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>            indexURL<span class="op">:</span> <span class="st">&#39;https://cdn.jsdelivr.net/pyodide/v0.26.3/full&#39;</span><span class="op">,</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>          })<span class="op">;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>          <span class="cf">await</span> pyodide<span class="op">.</span><span class="fu">loadPackage</span>(<span class="st">&#39;micropip&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>          <span class="kw">const</span> micropip <span class="op">=</span> pyodide<span class="op">.</span><span class="fu">pyimport</span>(<span class="st">&#39;micropip&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>          <span class="cf">await</span> micropip<span class="op">.</span><span class="fu">install</span>(<span class="st">&#39;pqg&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>          self<span class="op">.</span><span class="fu">postMessage</span>({</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>            type<span class="op">:</span> <span class="st">&#39;status&#39;</span><span class="op">,</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>            payload<span class="op">:</span> <span class="st">&#39;ready&#39;</span><span class="op">,</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>          } satisfies WorkerResponse)<span class="op">;</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>      <span class="cf">case</span> <span class="st">&#39;run&#39;</span><span class="op">:</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="op">!</span>pyodide) <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">&#39;Pyodide not initialized&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        self<span class="op">.</span><span class="fu">postMessage</span>({</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>          type<span class="op">:</span> <span class="st">&#39;result&#39;</span><span class="op">,</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>          payload<span class="op">:</span> <span class="cf">await</span> pyodide<span class="op">.</span><span class="fu">runPythonAsync</span>(<span class="bu">event</span><span class="op">.</span><span class="at">data</span><span class="op">.</span><span class="at">payload</span><span class="op">.</span><span class="at">code</span>)<span class="op">,</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>        } satisfies WorkerResponse)<span class="op">;</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>      <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Unknown message type: </span><span class="sc">${</span><span class="kw">type</span> satisfies <span class="dt">never</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (error) {</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    self<span class="op">.</span><span class="fu">postMessage</span>({</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> <span class="st">&#39;error&#39;</span><span class="op">,</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>      payload<span class="op">:</span> error <span class="kw">instanceof</span> <span class="bu">Error</span> <span class="op">?</span> error<span class="op">.</span><span class="at">message</span> <span class="op">:</span> <span class="st">&#39;Unknown error&#39;</span><span class="op">,</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    } satisfies WorkerResponse)<span class="op">;</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre>
+          </div>
+          <p>
+            The worker maintains the Pyodide instance and handles two types of
+            messages: initialization and code execution. This keeps all the
+            heavy lifting off the main thread, ensuring the UI stays responsive.
+          </p>
+          <p>
+            One thing to note is that web workers have their own
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope"
+              >global scope</a
+            >, so the Pyodide instance and any installed packages persist
+            between executions. This is actually beneficial as it means we only
+            need to load Pyodide and install packages once, rather than for each
+            query generation.
+          </p>
+          <h3 id="fin">Fin</h3>
+          <p>
+            Building this interface turned out to be surprisingly
+            straightforward thanks to Pyodide. The ability to run Python code
+            directly in the browser, without needing a backend server, makes for
+            a great developer experience. The combination of React for the UI,
+            Pyodide for Python execution, and web workers for performance
+            created a smooth, interactive interface for my Python package.
+          </p>
+          <p>
+            While there are
+            <a href="https://pyodide.org/en/stable/usage/wasm-constraints.html"
+              >some limitations</a
+            >
+            - Pyodide can only run pure Python packages, and the initial load
+            time can be significant - it’s a powerful tool for the right use
+            case. In my case, it allowed me to create a web interface for my
+            Python package with minimal overhead and deployment complexity.
+          </p>
+          <p>
+            The full code for the implementation can be
+            <a
+              href="https://github.com/DISLMcGill/pandas-query-generator/tree/master/www"
+              >found on GitHub</a
+            >.
+          </p>
+        </div>
+
+        <div class="intro">
+          Hi.
+          <div class="hot-links">
+            <a href="https://liam.rs/index.xml" class="feed-button"
+              >Subscribe</a
+            >
+          </div>
+          <p>I'm Liam.</p>
+          <p>
+            I'm currently a software engineer intern at
+            <a href="https://1password.com/" target="_blank">1Password</a> on
+            the Filling and Saving team, where I primarily work on the
+            <a
+              href="https://1password.com/downloads/browser-extension/"
+              target="_blank"
+              >browser extension</a
+            >
+            and related infrastructure.<br /><br />
+
+            I also study computer science at
+            <a href="https://www.mcgill.ca/" target="_blank"
+              >McGill University</a
+            >.<br /><br />
+
+            I like developer tooling, distributed systems, performance
+            engineering and compiler design.
+          </p>
+          <p>
+            You can reach out to me via email at
+            <a href="mailto: liam@scalzulli.com">liam@scalzulli.com</a>.
+          </p>
+        </div>
+
+        <a href="/" class="post-end-link">Home</a>
+        <span>/</span>
+        <a href="/posts" class="post-end-link">Posts</a>
+        <span>/</span>
+        <a class="post-end-link">Python in the browser</a>
+        <a
+          class="stats post-end-link"
+          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/Python-in-the-browser.md
+"
+          >View Raw</a
+        >
+      </div>
+    </div>
+    <!-- Wikipedia preview -->
+    <script src="/js/wikipedia-preview.production.js"></script>
+    <script type="text/javascript">
+      wikipediaPreview.init({
+        root: document.querySelector('.post-text'),
+        detectLinks: true,
+      });
+    </script>
+    <!-- MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </body>
+</html>
