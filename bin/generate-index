@@ -52,7 +52,8 @@ intro() {
     <p>I'm Liam.</p>
     <p>
       I'm currently a software engineer intern at <a href='https://www.wealthsimple.com/en-ca/' target='_blank'>Wealthsimple</a>,
-      where I work on the <a href='https://www.wealthsimple.com/en-ca/managed-investing' target='_blank'>managed investing</a> service.<br/><br/>
+      where I work on the <a href='https://www.wealthsimple.com/en-ca/managed-investing' target='_blank'>managed investing</a>
+      service and related infrastructure.<br/><br/>
 
       I also study computer science at <a href='https://www.mcgill.ca/' target='_blank'>McGill University</a>.<br/><br/>
 
@@ -89,7 +90,7 @@ EOF
 logo() {
   cat << EOF
   <div>
-  <img class='avatar' src="https://files.catbox.moe/2ldb2v.jpeg" width="100" height="100">
+  <img class='avatar' src="https://files.catbox.moe/o5tm12.png" width="100" height="100">
   <h4 class="subheading">liam's musings</h4>
   <h4 class="subheading">:･✧:･.☽･✧:･.</h4>
   </div>
