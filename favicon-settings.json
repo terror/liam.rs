@@ -1,0 +1,26 @@
+{
+  "icon": {
+    "desktop": {
+      "regularIconTransformation": {
+        "type": "none"
+      },
+      "darkIconType": "none"
+    },
+    "touch": {
+      "transformation": {
+        "type": "none"
+      },
+      "appTitle": ""
+    },
+    "webAppManifest": {
+      "transformation": {
+        "type": "none"
+      },
+      "backgroundColor": "#ffffff",
+      "name": "",
+      "shortName": "",
+      "themeColor": "#ffffff"
+    }
+  },
+  "path": "/favicon/"
+}

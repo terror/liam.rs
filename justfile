@@ -5,12 +5,15 @@ default:
 
 alias d := dev
 alias f := fmt
-alias g := gen
+alias g := generate
 
-all: gen fix-typos fmt
+all: generate fix-typos fmt
 
 check:
   uv run ruff check
+
+check-favicon port='https://liam.rs':
+  npx realfavicon check {{ port }}
 
 dev:
   python3 -m http.server 8000 --directory ./docs
@@ -28,12 +31,17 @@ fmt:
   ruff check --select I --fix && ruff format
   prettier --write .
 
-gen:
+generate:
   ./bin/last-modified
   ./bin/generate-index
   uv run ./bin/generate-projects.py
   ./bin/forbid
   just fmt
+
+generate-favicon image:
+  npx realfavicon generate {{ image }} favicon-settings.json favicon-output.json docs/favicon
+  cat favicon-output.json | jq -r '.markups | sort | join("\n")' > favicon-output.txt
+  rm favicon-output.json
 
 watch:
   ./bin/kill-server
