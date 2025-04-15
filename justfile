@@ -28,7 +28,7 @@ fix-typos:
   typos --write-changes **/*.md
 
 fmt:
-  ruff check --select I --fix && ruff format
+  uv run ruff check --select I --fix && uv run ruff format
   prettier --write .
 
 generate:
