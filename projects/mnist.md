@@ -3,7 +3,7 @@ title: mnist
 date: 2024-08-02
 repo: terror/mnist
 topics: ['Rust', 'ML', 'Math', 'GUI']
-lead: A neural network
+lead: A neural network.
 image: mnist.png
 ---
 

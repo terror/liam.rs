@@ -3,7 +3,7 @@ title: just-lsp
 date: 2025-03-17
 repo: terror/just-lsp
 topics: ['Rust', 'Language Servers', 'Compilers']
-lead: A language server for just
+lead: A language server for just.
 image: just-lsp.png
 ---
 

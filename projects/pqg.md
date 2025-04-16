@@ -3,7 +3,7 @@ title: pqg
 date: 2024-09-25
 repo: DISLMcGill/pandas-query-generator
 topics: ['Python', 'Pandas', 'Databases', 'SQL']
-lead: Generate synthetic pandas queries
+lead: Generate synthetic pandas queries.
 image: pqg.png
 ---
 

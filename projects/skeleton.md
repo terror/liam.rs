@@ -3,7 +3,7 @@ title: skeleton
 date: 2023-05-12
 repo: terror/skeleton
 topics: ['Rust', 'CLI', 'Tools', 'Productivity']
-lead: A project scaffolding utility
+lead: A project scaffolding utility.
 image: skeleton.png
 ---
 

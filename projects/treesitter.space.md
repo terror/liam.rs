@@ -3,7 +3,7 @@ title: treesitter.space
 date: 2025-03-05
 repo: terror/treesitter.space
 topics: ['React', 'TypeScript', 'Treesitter', 'WASM']
-lead: A web playground for tree-sitter
+lead: A web playground for tree-sitter.
 image: treesitter.space.png
 ---
 

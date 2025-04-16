@@ -3,7 +3,7 @@ title: arrg
 date: 2025-02-28
 repo: terror/arrg
 topics: ['Python', 'Library']
-lead: Build modular command-line applications in Python
+lead: Build modular command-line applications in Python.
 image: arrg.png
 ---
 

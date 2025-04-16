@@ -3,7 +3,7 @@ title: proust
 date: 2024-07-05
 repo: terror/proust
 topics: ['React', 'TypeScript', 'AI']
-lead: A learning tool
+lead: A learning tool.
 image: proust.png
 ---
 

@@ -3,7 +3,7 @@ title: microeconomics.study
 date: 2025-02-23
 repo: terror/microeconomics.study
 topics: ['React', 'TypeScript', 'Education Tech']
-lead: Learn microeconomics in the browser
+lead: Learn microeconomics in the browser.
 image: microeconomics.study.png
 ---
 

@@ -3,7 +3,7 @@ title: minic
 date: 2025-01-14
 repo: terror/minic
 topics: ['Java', 'Compilers']
-lead: A compiler for a C-like language
+lead: A compiler for a C-like language.
 image: minic.png
 ---
 

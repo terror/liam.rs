@@ -3,7 +3,7 @@ title: llmbda
 date: 2023-10-23
 repo: SamZhang02/llmbda
 topics: ['Research', 'NLP', 'Python']
-lead: A large language model based propositional logic deduction assistant
+lead: A large language model based propositional logic deduction assistant.
 image: llmbda.png
 ---
 

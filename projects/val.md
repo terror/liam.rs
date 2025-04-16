@@ -7,7 +7,7 @@ lead: An arbitrary precision calculator language.
 image: val.png
 ---
 
-**val** is a bc inspired arbitrary precision calculator language.
+**val** is a bc-inspired arbitrary precision calculator language.
 
 It aims to approximate much of the functionality described in the
 [bc(1) man page](https://linux.die.net/man/1/bc), but also differing in
