@@ -23,4 +23,4 @@ This project was written as part of a
 [compiler design course](https://www.mcgill.ca/study/2024-2025/courses/comp-520){target="\_blank"}
 offered at [McGill University](https://www.mcgill.ca/){target="\_blank"}
 
-Links: [GitHub](https://github.com/terror/minic)
+Links: [GitHub](https://github.com/terror/minic){target="\_blank"}

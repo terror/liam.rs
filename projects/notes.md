@@ -19,4 +19,4 @@ using the `search` subcommand.
 It's a single bash script, and assumes a few dependencies (as mentioned) are
 installed on your system.
 
-Links: [GitHub](https://github.com/terror/notes)
+Links: [GitHub](https://github.com/terror/notes){target="\_blank"}
