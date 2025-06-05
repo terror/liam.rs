@@ -2,19 +2,25 @@
 title: jot
 date: 2025-05-27
 repo: terror/jot
-topics: ['Rust', 'Desktop', 'Productivity']
-lead: A developer-focused daily note-taking application.
+topics: ['Rust', 'Tauri', 'Desktop', 'Productivity']
+lead: A daily writing application.
 image: jot.png
 ---
 
-**jot** is a developer-focused daily note-taking application.
+**jot** is a text editor for the day.
 
-It providers users with a new persisted text buffer each day.
+The application is centered around a day, maintaining a set of markdown files on
+disk for each one.
 
-Built on top of the [Tiptap](https://tiptap.dev/docs){target="\_blank"} text
-editor, it offers fully inline markdown and math (with LaTeX) rendering.
+It's a place to store your ephemeral notes, thoughts, and the like you have
+throughout the day. Think of it as a 'journal' separate from your primary
+editor.
 
 **jot** is built using [Tauri](https://tauri.app/){target="\_blank"}, with Rust
 for the 'backend', and React/TypeScript on the frontend.
+
+[Tiptap](https://tiptap.dev/docs){target="\_blank"} is used for text editor
+implementation, allowing for a few niceties such as inline markdown and math
+rendering, search and replace, inline menu, etc.
 
 Links: [GitHub](https://github.com/terror/jot){target="\_blank"}
