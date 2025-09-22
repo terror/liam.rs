@@ -57,7 +57,7 @@
         </div>
         <h1><%=$title%></h1>
         <div class="post-text">
-          <% pandoc --mathjax --quiet -t html --highlight-style monochrome "$file" %>
+          <% pandoc --mathjax --quiet -t html --syntax-highlighting monochrome "$file" %>
         </div>
         <%= "$intro" %>
         <a href="/" class="post-end-link">Home</a>

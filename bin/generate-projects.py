@@ -82,7 +82,7 @@ class Project:
   image: str
   content: str
 
-  pandoc = ['pandoc', '--mathjax', '--quiet', '-t', 'html', '--highlight-style', 'monochrome']
+  pandoc = ['pandoc', '--mathjax', '--quiet', '-t', 'html', '--syntax-highlighting', 'monochrome']
 
   def markdown(self) -> str:
     return sp.run(

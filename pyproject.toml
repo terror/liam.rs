@@ -6,6 +6,9 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = ["python-frontmatter>=1.1.0"]
 
+[dependency-groups]
+dev = ["ruff>=0.7.0"]
+
 [tool.ruff]
 src = ["src"]
 indent-width = 2
@@ -16,6 +19,3 @@ docstring-code-format = true
 docstring-code-line-length = 20
 indent-style = "space"
 quote-style = "single"
-
-[tool.uv]
-dev-dependencies = ["ruff>=0.7.0"]
