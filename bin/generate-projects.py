@@ -91,7 +91,7 @@ class Project:
 
   def template(self) -> str:
     return f"""
-    <tr class="grid-container">
+    <tr class="grid-container" id="{self.title.lower().replace(' ', '-')}">
       <td>
         <div style="margin-bottom: 1em">
           <strong>{project.title}</strong> {datetime.strptime(str(project.date), '%Y-%m-%d').strftime('%B %Y')}
