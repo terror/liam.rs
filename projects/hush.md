@@ -8,8 +8,8 @@ image: hush.png
 ---
 
 **hush** is a browser extension that lets you easily convert speech to text,
-powered by [Whisper](https://github.com/openai/whisper) and
-[WebGPU](https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API).
+powered by [Whisper](https://github.com/openai/whisper){target="\_blank"} and
+[WebGPU](https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API){target="\_blank"}.
 
 I couldn't find a simple, easy to use speech to text extension for the browser
 that leverages WebGPU instead of querying some cloud based model, so I built

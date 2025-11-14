@@ -14,8 +14,8 @@ It provides a synced game board controllable by a room admin and a global chat
 with system messages for game state updates.
 
 All persistence and collaboration features are powered by
-[Instant](https://www.instantdb.com/), a modern
-[Firebase](https://firebase.google.com/) alternative.
+[Instant](https://www.instantdb.com/){target="\_blank"}, a modern
+[Firebase](https://firebase.google.com/){target="\_blank"} alternative.
 
 Links: [GitHub](https://github.com/terror/zip){target="\_blank"},
 [Website](https://terror.github.io/zip){target="\_blank"}
