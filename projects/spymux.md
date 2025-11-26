@@ -3,7 +3,7 @@ title: spymux
 date: 2025-11-14
 repo: terror/spymux
 topics: ['Rust', 'TUI', 'Tools', 'Productivity']
-lead: Spy on your tmux panes
+lead: Spy on your tmux panes.
 image: spymux.png
 ---
 

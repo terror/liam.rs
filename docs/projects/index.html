@@ -54,6 +54,85 @@
         <h1>Projects</h1>
         <div class="separator"></div>
         <table>
+          <tr class="grid-container" id="pyproject">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>pyproject</strong> November 2025
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Language Servers</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Linters</span
+                >
+              </div>
+              <em> Check your `pyproject.toml` files. </em>
+              <div>
+                <p>
+                  <strong>pyproject</strong> is a linter and language server for
+                  <a
+                    href="https://packaging.python.org/en/latest/guides/writing-pyproject-toml/"
+                    >pyproject.toml</a
+                  >
+                  files.
+                </p>
+                <p>
+                  I wrote this after encountering inconsistencies in build tool
+                  error reporting (e.g. some tools will let you ship empty
+                  licenses directories). I thought it would be nice to have a
+                  single source of truth for
+                  <a href="https://peps.python.org/pep-0621/" target="_blank"
+                    >PEP 621</a
+                  >
+                  related checks and beyond that can run prior to running more
+                  expensive workflows.
+                </p>
+                <p>
+                  There are currently over
+                  <a
+                    href="https://github.com/terror/pyproject/tree/master/src/rule"
+                    target="_blank"
+                    >30+ rules</a
+                  >
+                  that cover syntax validation, schema compliance, project
+                  metadata (i.e. name, version, description, etc), dependencies
+                  (i.e. PEP 508 format, version bounds, deprecations, updates),
+                  and lots more. The rule system is designed to be easily
+                  extended with custom rules to fit any projects specific needs.
+                </p>
+                <p>
+                  Links:
+                  <a href="https://github.com/terror/pyproject" target="_blank"
+                    >GitHub</a
+                  >,
+                  <a href="https://crates.io/crates/pyproject" target="_blank"
+                    >Crates.io</a
+                  >
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/pyproject.png" />
+            </td>
+          </tr>
+
           <tr class="grid-container" id="spymux">
             <td>
               <div style="margin-bottom: 1em">
@@ -90,7 +169,7 @@
                   >Productivity</span
                 >
               </div>
-              <em> Spy on your tmux panes </em>
+              <em> Spy on your tmux panes. </em>
               <div>
                 <p>
                   <strong>spymux</strong> is a terminal user-interface for
@@ -447,7 +526,7 @@
                   <a
                     href="https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/"
                     target="_blank"
-                    >specifiction</a
+                    >specification</a
                   >, like completions, hover, diagnostics, references, symbol
                   renaming, etc.
                 </p>

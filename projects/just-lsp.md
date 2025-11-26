@@ -12,7 +12,7 @@ image: just-lsp.png
 for [just](https://github.com/casey/just){target="\_blank"}, the command runner.
 
 The server implements a decent amount of the language server protocol
-[specifiction](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/){target="\_blank"},
+[specification](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/){target="\_blank"},
 like completions, hover, diagnostics, references, symbol renaming, etc.
 
 Links: [GitHub](https://github.com/terror/just-lsp){target="\_blank"}
