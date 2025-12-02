@@ -150,11 +150,11 @@ table {
 }
 
 .table-post {
-  width: 70%;
+  width: 55%;
 }
 
 .table-stats {
-  width: 30%;
+  width: 45%;
   text-align: right;
 }
 
@@ -301,6 +301,14 @@ a:active {
 
 .stats-unit {
   font-size: 0.6rem;
+}
+
+.project-lead {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .footer {

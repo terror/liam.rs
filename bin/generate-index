@@ -4,6 +4,7 @@ export ESH_AWK="/opt/homebrew/bin/gawk"
 
 INDEX_BLOG_LIMIT=3
 INDEX_BLOG_COUNT=0
+INDEX_PROJECT_LIMIT=3
 
 title_wrapper() {
   echo "$1" | sed -E -e "s/\..+$//g"  -e "s/-(.)/ \1/g" -e "s/^(.)/\1/g"
@@ -83,6 +84,78 @@ more_link() {
 EOF
 }
 
+format_project_date() {
+  local input="$1"
+  local out
+
+  out=$(date -j -f "%Y-%m-%d" "$input" "+%Y-%m-%d" 2>/dev/null) && {
+    echo "$out"
+    return
+  }
+
+  out=$(date -d "$input" "+%Y-%m-%d" 2>/dev/null) && {
+    echo "$out"
+    return
+  }
+
+  echo "$input"
+}
+
+recent_projects_rows() {
+  local rows=()
+
+  while IFS= read -r file; do
+    local title="" date="" lead="" in_fm=0
+
+    while IFS= read -r line; do
+      if [[ "$line" == "---" ]]; then
+        if ((in_fm)); then
+          break
+        else
+          in_fm=1
+          continue
+        fi
+      fi
+
+      ((in_fm)) || continue
+
+      key="${line%%:*}"
+      val="${line#*:}"
+      key="$(echo "$key" | tr -d '[:space:]')"
+      val="${val#" "}"
+
+      case "$key" in
+        title) title="$val" ;;
+        date) date="$val" ;;
+        lead) lead="$val" ;;
+      esac
+    done < "$file"
+
+    [[ -z "$title" || -z "$date" ]] && continue
+
+    slug=$(url_slug "$title")
+    rows+=("$date|$title|$lead|$slug")
+  done < <(find projects -maxdepth 1 -type f -name "*.md" -print)
+
+  printf '%s\n' "${rows[@]}" | sort -r | head -n "$INDEX_PROJECT_LIMIT" | while IFS='|' read -r date title lead slug; do
+    display_date=$(format_project_date "$date")
+    lead_output="${lead:-&nbsp;}"
+    cat << EOF
+  <tr>
+    <td class="table-post">
+      <div class="date">$display_date</div>
+      <a href="/projects#$slug" class="post-link">
+        <span class="post-link">$title</span>
+      </a>
+    </td>
+    <td class="table-stats">
+      <span class="stats-number project-lead">$lead_output</span>
+    </td>
+  </tr>
+EOF
+  done
+}
+
 breadcrumbs() {
   # 1 - path
   cat << EOF
@@ -123,7 +196,7 @@ if [ "$1" = "--single" ]; then
   lines=$(echo "$stats" | awk '{ print $1 }')
   r_time=$(read_time "$words")
   height=$(height "$lines")
-  post_date=$(date -r "$post_file" "+%d/%m — %Y")
+  post_date=$(date -r "$post_file" "+%Y-%m-%d")
 
   echo "[~] $post_title"
 
@@ -218,7 +291,7 @@ echo -ne "
 
     echo "[~] $post_title"
 
-    post_date=$(date -r "$file" "+%d/%m — %Y")
+    post_date=$(date -r "$file" "+%Y-%m-%d")
     id="${id%.*}"
     url_id=$(url_slug "$id")
     post_link=$(link_wrapper "$url_id" "$post_title" "$post_date" "$r_time")
@@ -245,6 +318,9 @@ echo -ne "
   done
 
   echo "$(more_link posts)" >> ./docs/index.html
+  echo "$(recent_link "Projects")" >> ./docs/index.html
+  recent_projects_rows >> ./docs/index.html
+  echo "$(more_link projects)" >> ./docs/index.html
 
   echo "generating RSS feeds ..."
 
