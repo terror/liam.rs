@@ -1,48 +1,61 @@
-export ESH_AWK := '/opt/homebrew/bin/gawk'
+set dotenv-load
 
-default:
-  just --list
+export EDITOR := 'nvim'
+export ESH_AWK := '/opt/homebrew/bin/gawk'
 
 alias d := dev
 alias f := fmt
 alias g := generate
 
-all: generate fix-typos fmt
+default:
+  just --list
 
+all: forbid fix-typos generate fmt
+
+[group: 'check']
 check:
   uv run ruff check
 
+[group: 'check']
 check-favicon port='https://liam.rs':
   npx realfavicon check {{ port }}
 
+[group: 'dev']
 dev:
   python3 -m http.server 8000 --directory ./docs
 
+[group: 'dev']
 dev-deps:
-  brew install just prettier uv
-  cargo install typos-cli
+  brew install just prettier typos-cli uv
   cargo install --path crates/watcher
   curl https://raw.githubusercontent.com/jirutka/esh/master/esh > /usr/local/bin/esh
 
+[group: 'fix']
 fix-typos:
   typos --write-changes **/*.md
 
+[group: 'format']
 fmt:
   uv run ruff check --select I --fix && uv run ruff format
   prettier --write .
 
+[group: 'check']
+forbid:
+  ./bin/forbid
+
+[group: 'dev']
 generate:
   ./bin/last-modified
   ./bin/generate-index
   uv run ./bin/generate-projects.py
-  ./bin/forbid
-  just fmt
 
+[group: 'dev']
 generate-favicon image:
   npx realfavicon generate {{ image }} favicon-settings.json favicon-output.json docs/favicon
   cat favicon-output.json | jq -r '.markups | sort | join("\n")' > favicon-output.txt
   rm favicon-output.json
 
+[group: 'dev']
 watch:
   ./bin/kill-server
   python3 -m http.server 8000 --directory ./docs &

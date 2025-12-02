@@ -60,7 +60,7 @@ We then run through the list, applying the passed in `func` with our current val
 ### Composition of programs
 
 Now that we've gone through some basic examples, let's see how this pattern might be useful in a practical
-scenerio.
+scenario.
 
 Problem: *write a program that outputs the sum of naturals, squares and cubes from numbers 1 to N where N is some arbitrary input*
 

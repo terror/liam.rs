@@ -1078,7 +1078,7 @@ none is present we use the first element in the list.&lt;/p&gt;
 the list.&lt;/p&gt;
 &lt;h3 id="composition-of-programs"&gt;Composition of programs&lt;/h3&gt;
 &lt;p&gt;Now that we’ve gone through some basic examples, let’s see how this
-pattern might be useful in a practical scenerio.&lt;/p&gt;
+pattern might be useful in a practical scenario.&lt;/p&gt;
 &lt;p&gt;Problem: &lt;em&gt;write a program that outputs the sum of naturals,
 squares and cubes from numbers 1 to N where N is some arbitrary
 input&lt;/em&gt;&lt;/p&gt;
