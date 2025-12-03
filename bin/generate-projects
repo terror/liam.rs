@@ -1,3 +1,10 @@
+#!/usr/bin/env -S uv run --script
+#
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["python-frontmatter>=1.1.0"]
+# ///
+
 import os
 import subprocess as sp
 import typing as t
@@ -74,30 +81,38 @@ FOOTER = """
 
 @dataclass
 class Project:
-  title: str
-  date: str
-  repo: str
-  topics: t.List[str]
-  lead: str
-  image: str
-  content: str
+    title: str
+    date: str
+    repo: str
+    topics: t.List[str]
+    lead: str
+    image: str
+    content: str
 
-  pandoc = ['pandoc', '--mathjax', '--quiet', '-t', 'html', '--syntax-highlighting', 'monochrome']
+    pandoc = [
+        "pandoc",
+        "--mathjax",
+        "--quiet",
+        "-t",
+        "html",
+        "--syntax-highlighting",
+        "monochrome",
+    ]
 
-  def markdown(self) -> str:
-    return sp.run(
-      self.pandoc, input=self.content, capture_output=True, text=True, check=True
-    ).stdout
+    def markdown(self) -> str:
+        return sp.run(
+            self.pandoc, input=self.content, capture_output=True, text=True, check=True
+        ).stdout
 
-  def template(self) -> str:
-    return f"""
-    <tr class="grid-container" id="{self.title.lower().replace(' ', '-')}">
+    def template(self) -> str:
+        return f"""
+    <tr class="grid-container" id="{self.title.lower().replace(" ", "-")}">
       <td>
         <div style="margin-bottom: 1em">
-          <strong>{project.title}</strong> {datetime.strptime(str(project.date), '%Y-%m-%d').strftime('%B %Y')}
+          <strong>{project.title}</strong> {datetime.strptime(str(project.date), "%Y-%m-%d").strftime("%B %Y")}
         </div>
         <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
-          {''.join(map(lambda topic: f'<span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">{topic}</span>', project.topics))}
+          {"".join(map(lambda topic: f'<span style="padding: 2px 4px 2px 4px; border: 2px solid var(--dark-white); border-radius: 0.5em">{topic}</span>', project.topics))}
         </div>
         <em>
           {project.lead}
@@ -107,36 +122,36 @@ class Project:
         </div>
       </td>
       <td style="display: flex; align-items: center">
-        <img src='{'/images/' + project.image}'>
+        <img src='{"/images/" + project.image}'>
       </td>
     </tr>
     """
 
 
-if __name__ == '__main__':
-  print('[+] PROJECTS')
+if __name__ == "__main__":
+    print("[+] PROJECTS")
 
-  output = 'docs/projects/index.html'
+    output = "docs/projects/index.html"
 
-  if os.path.exists(output):
-    os.remove(output)
+    if os.path.exists(output):
+        os.remove(output)
 
-  os.makedirs(os.path.dirname(output), exist_ok=True)
+    os.makedirs(os.path.dirname(output), exist_ok=True)
 
-  projects = sorted(
-    map(
-      lambda x: (lambda y: Project(content=y.content, **y))(frontmatter.load(x)),
-      glob('projects/*.md'),
-    ),
-    key=lambda project: datetime.strptime(str(project.date), '%Y-%m-%d'),
-    reverse=True,
-  )
+    projects = sorted(
+        map(
+            lambda x: (lambda y: Project(content=y.content, **y))(frontmatter.load(x)),
+            glob("projects/*.md"),
+        ),
+        key=lambda project: datetime.strptime(str(project.date), "%Y-%m-%d"),
+        reverse=True,
+    )
 
-  with open(output, 'w') as out:
-    out.write(HEADER)
+    with open(output, "w") as out:
+        out.write(HEADER)
 
-    for project in projects:
-      print(f'[~] {project.title}')
-      out.write(project.template())
+        for project in projects:
+            print(f"[~] {project.title}")
+            out.write(project.template())
 
-    out.write(FOOTER)
+        out.write(FOOTER)

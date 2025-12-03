@@ -47,7 +47,7 @@ forbid:
 generate:
   ./bin/last-modified
   ./bin/generate-index
-  uv run ./bin/generate-projects.py
+  ./bin/generate-projects
 
 [group: 'dev']
 generate-favicon image:
