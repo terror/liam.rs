@@ -3,7 +3,9 @@
 Source code for my personal website built with bash and
 [esh](https://github.com/jirutka/esh).
 
-### Development
+<img width="800" alt="demo" src="screenshot.png" />
+
+## Development
 
 If you notice any typos feel free to submit a PR. All site content is in the
 /posts directory.
