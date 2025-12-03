@@ -21,7 +21,7 @@ Make changes and generate static assets:
 ```bash
 ./bin/last-modified
 ./bin/generate-index
-./bin/generate-projects
+./bin/generate-projects.py
 ```
 
 **n.b.** This requires you to have [uv](https://github.com/astral-sh/uv)

@@ -81,31 +81,31 @@ FOOTER = """
 
 @dataclass
 class Project:
-    title: str
-    date: str
-    repo: str
-    topics: t.List[str]
-    lead: str
-    image: str
-    content: str
+  title: str
+  date: str
+  repo: str
+  topics: t.List[str]
+  lead: str
+  image: str
+  content: str
 
-    pandoc = [
-        "pandoc",
-        "--mathjax",
-        "--quiet",
-        "-t",
-        "html",
-        "--syntax-highlighting",
-        "monochrome",
-    ]
+  pandoc = [
+    'pandoc',
+    '--mathjax',
+    '--quiet',
+    '-t',
+    'html',
+    '--syntax-highlighting',
+    'monochrome',
+  ]
 
-    def markdown(self) -> str:
-        return sp.run(
-            self.pandoc, input=self.content, capture_output=True, text=True, check=True
-        ).stdout
+  def markdown(self) -> str:
+    return sp.run(
+      self.pandoc, input=self.content, capture_output=True, text=True, check=True
+    ).stdout
 
-    def template(self) -> str:
-        return f"""
+  def template(self) -> str:
+    return f"""
     <tr class="grid-container" id="{self.title.lower().replace(" ", "-")}">
       <td>
         <div style="margin-bottom: 1em">
@@ -128,30 +128,30 @@ class Project:
     """
 
 
-if __name__ == "__main__":
-    print("[+] PROJECTS")
+if __name__ == '__main__':
+  print('[+] PROJECTS')
 
-    output = "docs/projects/index.html"
+  output = 'docs/projects/index.html'
 
-    if os.path.exists(output):
-        os.remove(output)
+  if os.path.exists(output):
+    os.remove(output)
 
-    os.makedirs(os.path.dirname(output), exist_ok=True)
+  os.makedirs(os.path.dirname(output), exist_ok=True)
 
-    projects = sorted(
-        map(
-            lambda x: (lambda y: Project(content=y.content, **y))(frontmatter.load(x)),
-            glob("projects/*.md"),
-        ),
-        key=lambda project: datetime.strptime(str(project.date), "%Y-%m-%d"),
-        reverse=True,
-    )
+  projects = sorted(
+    map(
+      lambda x: (lambda y: Project(content=y.content, **y))(frontmatter.load(x)),
+      glob('projects/*.md'),
+    ),
+    key=lambda project: datetime.strptime(str(project.date), '%Y-%m-%d'),
+    reverse=True,
+  )
 
-    with open(output, "w") as out:
-        out.write(HEADER)
+  with open(output, 'w') as out:
+    out.write(HEADER)
 
-        for project in projects:
-            print(f"[~] {project.title}")
-            out.write(project.template())
+    for project in projects:
+      print(f'[~] {project.title}')
+      out.write(project.template())
 
-        out.write(FOOTER)
+    out.write(FOOTER)
