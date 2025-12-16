@@ -1,5 +1,7 @@
 ## liam.rs
 
+[![build](https://img.shields.io/github/actions/workflow/status/terror/liam.rs/ci.yaml?branch=master&style=flat&labelColor=1d1d1d&color=424242&logo=GitHub%20Actions&logoColor=white&label=build)](https://github.com/terror/liam.rs/actions/workflows/ci.yaml)
+
 Source code for my personal website built with bash and
 [esh](https://github.com/jirutka/esh).
 
