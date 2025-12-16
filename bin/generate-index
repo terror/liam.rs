@@ -15,18 +15,14 @@ url_slug() {
 }
 
 read_time() {
-  echo "$(eva -f 1 "$1"/150 | xargs)"
+  eva -f 1 "$1"/150 | xargs
 }
 
 height() {
-  echo "$(eva -f 2 "$1"*18*0.0222 | xargs)"
+  eva -f 2 "$1"*18*0.0222 | xargs
 }
 
 link_wrapper() {
-  # 1 - id
-  # 2 - title
-  # 3 - date
-  # 4 - read time
   echo -ne "
   <tr>
     <td class=\"table-post\">
@@ -71,14 +67,12 @@ intro() {
 }
 
 recent_link() {
-  # 1 - sub page
   cat << EOF
   <tr><td class="recent-heading"><span class="recent-heading">Recent $1</span></td></tr>
 EOF
 }
 
 more_link() {
-  # 1 - sub page
   cat << EOF
   <tr><td><a href="/$1" class="post-end-link">More ⟶ </a></td></tr>
 EOF
@@ -157,7 +151,6 @@ EOF
 }
 
 breadcrumbs() {
-  # 1 - path
   cat << EOF
     <a href="/" class="post-end-link">Home</a>
   <span>/</span>
@@ -316,15 +309,17 @@ echo -ne "
       intro="$(intro)"
   done
 
-  echo "$(more_link posts)" >> ./docs/index.html
-  cat << EOF >> ./docs/index.html
+  {
+    more_link posts
+    cat << EOF
   </table>
   <table>
 EOF
-  echo "$(recent_link "Projects")" >> ./docs/index.html
-  recent_projects_rows >> ./docs/index.html
-  echo "$(more_link projects)" >> ./docs/index.html
-  echo "</table>" >> ./docs/index.html
+    recent_link "Projects"
+    recent_projects_rows
+    more_link projects
+    echo "</table>"
+  } >> ./docs/index.html
 
   echo "generating RSS feeds ..."
 

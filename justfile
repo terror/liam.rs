@@ -15,6 +15,7 @@ all: forbid fix-typos generate fmt
 [group: 'check']
 check:
   uv run ruff check
+  shellcheck ./bin/*
 
 [group: 'check']
 check-favicon port='https://liam.rs':
@@ -26,7 +27,7 @@ dev:
 
 [group: 'dev']
 dev-deps:
-  brew install just prettier typos-cli uv
+  brew install just prettier typos-cli shellcheck uv
   cargo install --path crates/watcher
   curl https://raw.githubusercontent.com/jirutka/esh/master/esh > /usr/local/bin/esh
 
