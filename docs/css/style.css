@@ -141,7 +141,10 @@ h6 {
     font-size: 0.7rem;
   }
 
-  .post .post-link {
+  .post .post-link,
+  .post .post-link:hover,
+  .post .post-link:visited,
+  .post .post-link:active {
     font-size: 1rem;
   }
 
