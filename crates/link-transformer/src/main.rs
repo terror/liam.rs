@@ -4,6 +4,7 @@ use {
   regex::{Captures, Regex},
   std::{
     ffi::OsStr,
+    sync::LazyLock,
     fs,
     path::{Path, PathBuf},
     process,
@@ -11,16 +12,16 @@ use {
   walkdir::WalkDir,
 };
 
-const LINK_PATTERN: &str =
-  r"(?m)\[([^\]\n]*)\]\(([^()\n]*(?:\([^()\n]*\)[^()\n]*)*)\)([^{\n]|$)";
+pub static LINK_TRANSFORM: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?m)\[([^\]\n]*)\]\(([^()\n]*(?:\([^()\n]*\)[^()\n]*)*)\)([^{\n]|$)").unwrap()
+});
 
 type Result<T = (), E = anyhow::Error> = std::result::Result<T, E>;
 
 #[derive(Debug, Parser)]
 #[command(
-  name = "replace-markdown-links",
+  name = env!("CARGO_PKG_NAME"),
   about = "Add target=\"_blank\" to markdown links.",
-  disable_help_subcommand = true
 )]
 struct Arguments {
   /// One or more markdown files to process.
@@ -29,10 +30,6 @@ struct Arguments {
   /// Process all .md files recursively from the current directory.
   #[arg(short = 'r', long = "recursive", conflicts_with = "files")]
   recursive: bool,
-}
-
-fn is_markdown(path: &Path) -> bool {
-  path.extension() == Some(OsStr::new("md"))
 }
 
 fn replacement_for(captures: &Captures<'_>) -> String {
@@ -60,18 +57,14 @@ fn replacement_for(captures: &Captures<'_>) -> String {
 
 fn process_file(
   path: &Path,
-  regex: &Regex,
-  processed_files: &mut usize,
 ) -> Result {
   let input = fs::read_to_string(path)
     .with_context(|| format!("reading {}", path.display()))?;
 
-  let output = regex.replace_all(&input, replacement_for);
+  let output = LINK_TRANSFORM.replace_all(&input, replacement_for);
 
   fs::write(path, output.as_bytes())
     .with_context(|| format!("writing {}", path.display()))?;
-
-  *processed_files += 1;
 
   Ok(())
 }
@@ -79,22 +72,21 @@ fn process_file(
 fn run() -> Result {
   let arguments = Arguments::parse();
 
-  let regex = Regex::new(LINK_PATTERN)?;
-
-  let mut processed_files = 0_usize;
+  let is_markdown =
+    |path: &Path| -> bool { path.extension() == Some(OsStr::new("md")) };
 
   if arguments.recursive {
     for entry in WalkDir::new(".") {
       let entry = entry?;
 
       if entry.file_type().is_file() && is_markdown(entry.path()) {
-        process_file(entry.path(), &regex, &mut processed_files)?;
+        process_file(entry.path())?;
       }
     }
   } else {
     for path in &arguments.files {
       if path.is_file() && is_markdown(path) {
-        process_file(path, &regex, &mut processed_files)?;
+        process_file(path)?;
       }
     }
   }
@@ -115,42 +107,34 @@ mod tests {
 
   #[test]
   fn adds_target_for_non_fragment_links() {
-    let regex = Regex::new(LINK_PATTERN).unwrap();
-
     let input = "- [Example](https://example.com)\n";
 
     assert_eq!(
-      regex.replace_all(input, replacement_for),
+      LINK_TRANSFORM.replace_all(input, replacement_for),
       "- [Example](https://example.com){target=\"_blank\"}\n"
     );
   }
 
   #[test]
   fn keeps_fragment_links_unchanged() {
-    let regex = Regex::new(LINK_PATTERN).unwrap();
-
     let input = "- [Panic! at the disco](#panic-at-the-disco)\n";
 
-    assert_eq!(regex.replace_all(input, replacement_for), input);
+    assert_eq!(LINK_TRANSFORM.replace_all(input, replacement_for), input);
   }
 
   #[test]
   fn preserves_existing_target_attribute() {
-    let regex = Regex::new(LINK_PATTERN).unwrap();
-
     let input = "- [Example](https://example.com){target=\"_blank\"}\n";
 
-    assert_eq!(regex.replace_all(input, replacement_for), input);
+    assert_eq!(LINK_TRANSFORM.replace_all(input, replacement_for), input);
   }
 
   #[test]
   fn adds_target_for_urls_with_parentheses() {
-    let regex = Regex::new(LINK_PATTERN).unwrap();
-
     let input = "- [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))\n";
 
     assert_eq!(
-      regex.replace_all(input, replacement_for),
+      LINK_TRANSFORM.replace_all(input, replacement_for),
       "- [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)){target=\"_blank\"}\n"
     );
   }
