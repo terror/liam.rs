@@ -1,5 +1,5 @@
 [package]
-name = "dead-markdown-links"
+name = "expired-link-checker"
 version = "0.0.0"
 edition = "2021"
 publish = false
