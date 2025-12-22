@@ -1,8 +1,9 @@
 use {
   anyhow::Context,
   clap::Parser,
-  regex::{Captures, Regex},
+  pulldown_cmark::{Event, LinkType, Options, Parser as MarkdownParser, Tag},
   std::{
+    backtrace::BacktraceStatus,
     ffi::OsStr,
     fs,
     path::{Path, PathBuf},
@@ -11,15 +12,12 @@ use {
   walkdir::WalkDir,
 };
 
-const LINK_PATTERN: &str = r"(?m)\[([^\]\n]*)\]\(([^)\n]*)\)([^{\n]|$)";
-
-type Result<T = (), E = anyhow::Error> = std::result::Result<T, E>;
+const TARGET_ATTRIBUTE: &str = "{target=\"_blank\"}";
 
 #[derive(Debug, Parser)]
 #[command(
-  name = "replace-markdown-links",
+  name = env!("CARGO_PKG_NAME"),
   about = "Add target=\"_blank\" to markdown links.",
-  disable_help_subcommand = true
 )]
 struct Arguments {
   /// One or more markdown files to process.
@@ -30,47 +28,72 @@ struct Arguments {
   recursive: bool,
 }
 
-fn is_markdown(path: &Path) -> bool {
-  path.extension() == Some(OsStr::new("md"))
-}
-
-fn replacement_for(captures: &Captures<'_>) -> String {
-  let url = captures.get(2).map_or("", |match_| match_.as_str());
-
-  let url_trimmed = url.trim();
-
-  if url_trimmed.starts_with('#') {
-    return captures
-      .get(0)
-      .map_or_else(String::new, |match_| match_.as_str().to_string());
+fn should_add_target(
+  link_type: LinkType,
+  destination: &str,
+  source: &str,
+  link_end: usize,
+) -> bool {
+  if matches!(link_type, LinkType::WikiLink { .. }) {
+    return false;
   }
 
-  let tail = captures.get(3).map_or("", |match_| match_.as_str());
+  let destination_trimmed = destination.trim();
 
-  if tail.is_empty() {
-    format!("[{}]({}){{target=\"_blank\"}}", &captures[1], &captures[2])
-  } else {
-    format!(
-      "[{}]({}){{target=\"_blank\"}}{tail}",
-      &captures[1], &captures[2],
-    )
+  if destination_trimmed.is_empty() || destination_trimmed.starts_with('#') {
+    return false;
   }
+
+  source.as_bytes().get(link_end) != Some(&b'{')
 }
 
-fn process_file(
-  path: &Path,
-  regex: &Regex,
-  processed_files: &mut usize,
-) -> Result {
+fn transform_links(input: &str) -> String {
+  let options = Options::all();
+
+  let parser = MarkdownParser::new_ext(input, options).into_offset_iter();
+
+  let mut insertions = parser
+    .filter(|(event, range)| {
+      matches!(
+          event,
+          Event::Start(Tag::Link { link_type, dest_url, .. })
+              if should_add_target(*link_type, dest_url, input, range.end)
+      )
+    })
+    .map(|(_, range)| range.end)
+    .collect::<Vec<_>>();
+
+  if insertions.is_empty() {
+    return input.to_string();
+  }
+
+  insertions.sort_unstable();
+  insertions.dedup();
+
+  let mut output = String::with_capacity(
+    input.len() + insertions.len() * TARGET_ATTRIBUTE.len(),
+  );
+
+  let mut last_index = 0;
+
+  for index in insertions {
+    output.push_str(&input[last_index..index]);
+    output.push_str(TARGET_ATTRIBUTE);
+    last_index = index;
+  }
+
+  output.push_str(&input[last_index..]);
+  output
+}
+
+fn process_file(path: &Path) -> Result {
   let input = fs::read_to_string(path)
     .with_context(|| format!("reading {}", path.display()))?;
 
-  let output = regex.replace_all(&input, replacement_for);
+  let output = transform_links(&input);
 
   fs::write(path, output.as_bytes())
     .with_context(|| format!("writing {}", path.display()))?;
-
-  *processed_files += 1;
 
   Ok(())
 }
@@ -78,22 +101,21 @@ fn process_file(
 fn run() -> Result {
   let arguments = Arguments::parse();
 
-  let regex = Regex::new(LINK_PATTERN)?;
-
-  let mut processed_files = 0_usize;
+  let is_markdown =
+    |path: &Path| -> bool { path.extension() == Some(OsStr::new("md")) };
 
   if arguments.recursive {
     for entry in WalkDir::new(".") {
       let entry = entry?;
 
       if entry.file_type().is_file() && is_markdown(entry.path()) {
-        process_file(entry.path(), &regex, &mut processed_files)?;
+        process_file(entry.path())?;
       }
     }
   } else {
     for path in &arguments.files {
       if path.is_file() && is_markdown(path) {
-        process_file(path, &regex, &mut processed_files)?;
+        process_file(path)?;
       }
     }
   }
@@ -101,9 +123,28 @@ fn run() -> Result {
   Ok(())
 }
 
+type Result<T = (), E = anyhow::Error> = std::result::Result<T, E>;
+
 fn main() {
   if let Err(error) = run() {
     eprintln!("error: {error}");
+
+    for (i, error) in error.chain().skip(1).enumerate() {
+      if i == 0 {
+        eprintln!();
+        eprintln!("because:");
+      }
+
+      eprintln!("- {error}");
+    }
+
+    let backtrace = error.backtrace();
+
+    if backtrace.status() == BacktraceStatus::Captured {
+      eprintln!("backtrace:");
+      eprintln!("{backtrace}");
+    }
+
     process::exit(1);
   }
 }
@@ -114,31 +155,52 @@ mod tests {
 
   #[test]
   fn adds_target_for_non_fragment_links() {
-    let regex = Regex::new(LINK_PATTERN).unwrap();
-
     let input = "- [Example](https://example.com)\n";
 
     assert_eq!(
-      regex.replace_all(input, replacement_for),
+      transform_links(input),
       "- [Example](https://example.com){target=\"_blank\"}\n"
     );
   }
 
   #[test]
   fn keeps_fragment_links_unchanged() {
-    let regex = Regex::new(LINK_PATTERN).unwrap();
-
     let input = "- [Panic! at the disco](#panic-at-the-disco)\n";
 
-    assert_eq!(regex.replace_all(input, replacement_for), input);
+    assert_eq!(transform_links(input), input);
   }
 
   #[test]
   fn preserves_existing_target_attribute() {
-    let regex = Regex::new(LINK_PATTERN).unwrap();
-
     let input = "- [Example](https://example.com){target=\"_blank\"}\n";
 
-    assert_eq!(regex.replace_all(input, replacement_for), input);
+    assert_eq!(transform_links(input), input);
+  }
+
+  #[test]
+  fn adds_target_for_urls_with_parentheses() {
+    let input = "- [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))\n";
+
+    assert_eq!(
+      transform_links(input),
+      "- [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)){target=\"_blank\"}\n"
+    );
+  }
+
+  #[test]
+  fn ignores_links_inside_inline_code() {
+    let input = "Use `[Example](https://example.com)` as code.\n";
+
+    assert_eq!(transform_links(input), input);
+  }
+
+  #[test]
+  fn adds_target_for_image_links() {
+    let input = "[![asciicast](https://asciinema.org/a/demo.svg)](https://asciinema.org/a/demo)\n";
+
+    assert_eq!(
+      transform_links(input),
+      "[![asciicast](https://asciinema.org/a/demo.svg)](https://asciinema.org/a/demo){target=\"_blank\"}\n"
+    );
   }
 }

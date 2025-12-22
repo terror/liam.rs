@@ -374,9 +374,8 @@ or replace blocks of text in treesitter parsed source files, as
 expanding a node selection with a keybinding is super fast and usually
 results in the exact block of text I want to modify.&lt;/p&gt;
 &lt;p&gt;Here’s a quick demo of it in action:&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://asciinema.org/a/507405"&gt;&lt;img
-src="https://asciinema.org/a/507405.svg" target="_blank"
-alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://asciinema.org/a/507405" target="_blank"&gt;&lt;img
+src="https://asciinema.org/a/507405.svg" alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;A reference of my full neovim configuration can be found on github,
 in my &lt;a href="https://github.com/terror/dotfiles"
 target="_blank"&gt;dotfiles&lt;/a&gt; repo. Be sure to check it out!&lt;/p&gt;</description>
@@ -435,11 +434,12 @@ target="_blank"&gt;&lt;code&gt;fzf&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 arguments for recipes that take them when using the default chooser.&lt;/p&gt;
 &lt;p&gt;However, with the help of &lt;code&gt;just --summary&lt;/code&gt;,
 &lt;code&gt;just --show&lt;/code&gt; and a bit of &lt;a
-href="https://en.wikipedia.org/wiki/Python_(programming_language)%7Btarget=%22_blank%22%7D"&gt;Python&lt;/a&gt;,
-here’s how you can get to look:&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN"&gt;&lt;img
+href="https://en.wikipedia.org/wiki/Python_(programming_language)"
+target="_blank"&gt;Python&lt;/a&gt;, here’s how you can get to look:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN"
+target="_blank"&gt;&lt;img
 src="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN.svg"
-target="_blank" alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
+alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id="recipes-in-arbitrary-languages"&gt;Recipes in arbitrary
 languages&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;just&lt;/code&gt; recipes can be expressed in another language by
@@ -696,8 +696,8 @@ target="_blank"&gt;CC0-1.0&lt;/a&gt; license.&lt;/p&gt;</description>
 <item>
 <title>From-bash-to-vim-and-back</title>
 <description>&lt;p&gt;I recently ran the following command to get my top 5 most used &lt;a
-href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)%7Btarget=%22_blank%22%7D"&gt;Bash&lt;/a&gt;
-commands:&lt;/p&gt;
+href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)"
+target="_blank"&gt;Bash&lt;/a&gt; commands:&lt;/p&gt;
 &lt;div class="sourceCode" id="cb1"&gt;&lt;pre
 class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;$&lt;/span&gt; history &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;awk&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;{print $2}&amp;#39;&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;sort&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;uniq&lt;/span&gt; &lt;span class="at"&gt;-c&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;sort&lt;/span&gt; &lt;span class="at"&gt;-nr&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;head&lt;/span&gt; &lt;span class="at"&gt;-5&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;and here is what came up:&lt;/p&gt;
@@ -727,11 +727,11 @@ config and first file&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;normal '0&lt;/code&gt;: The last set cursor position and file&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;bd1&lt;/code&gt;: Delete the first buffer&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;I use &lt;a
-href="https://en.wikipedia.org/wiki/Vim_(text_editor)%7Btarget=%22_blank%22%7D#Neovim"&gt;Neovim&lt;/a&gt;
-alot, and sometimes I quit the editor to run some arbitrary Bash
-command. Without having to search for the previously opened file, I
-invoke &lt;code&gt;lv&lt;/code&gt;, which gets me back to where I was at.&lt;/p&gt;
+&lt;p&gt;I use &lt;a href="https://en.wikipedia.org/wiki/Vim_(text_editor)"
+target="_blank"&gt;Neovim&lt;/a&gt; alot, and sometimes I quit the editor to run
+some arbitrary Bash command. Without having to search for the previously
+opened file, I invoke &lt;code&gt;lv&lt;/code&gt;, which gets me back to where I was
+at.&lt;/p&gt;
 &lt;p&gt;From bash to vim and back, in a flash.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/From-bash-to-vim-and-back/</link>
 <pubDate>Fri, 25 Feb 2022 05:00:00 +0000</pubDate>

@@ -22,3 +22,9 @@ type_complexity = "allow"
 undocumented_unsafe_blocks = "deny"
 unnecessary_wraps = "allow"
 wildcard_imports = "allow"
+
+[workspace.dependencies]
+anyhow = "1.0.100"
+clap = { version = "4.5.53", features = ["derive"] }
+pulldown-cmark = "0.13.0"
+walkdir = "2.5.0"

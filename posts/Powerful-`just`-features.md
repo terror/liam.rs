@@ -51,9 +51,9 @@ There is work planned to support recipe previews and command line arguments for
 recipes that take them when using the default chooser.
 
 However, with the help of `just --summary`, `just --show` and a bit of
-[Python](<https://en.wikipedia.org/wiki/Python_(programming_language){target="_blank"}>), here's how you can get to look:
+[Python](https://en.wikipedia.org/wiki/Python_(programming_language)){target="_blank"}, here's how you can get to look:
 
-[![asciicast](https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN.svg){target="_blank"}](https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN)
+[![asciicast](https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN.svg)](https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN){target="_blank"}
 
 ### Recipes in arbitrary languages
 
