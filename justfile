@@ -61,8 +61,8 @@ generate:
 
 [group: 'dev']
 generate-favicon image:
-  npx realfavicon generate {{ image }} favicon-settings.json favicon-output.json docs/favicon
-  cat favicon-output.json | jq -r '.markups | sort | join("\n")' > favicon-output.txt
+  npx realfavicon generate {{ image }} favicon/favicon-settings.json favicon/favicon-output.json docs/favicon
+  cat favicon-output.json | jq -r '.markups | sort | join("\n")' > favicon/favicon-output.txt
   rm favicon-output.json
 
 [group: 'dev']
