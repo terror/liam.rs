@@ -9,50 +9,55 @@
     <item>
 <title>Python-in-the-browser</title>
 <description>&lt;p&gt;I recently wrote and distributed a &lt;a
-href="https://pypi.org/project/pqg/"&gt;Python package&lt;/a&gt; for a project,
-and I wanted a &lt;a
-href="https://dislmcgill.github.io/pandas-query-generator/"&gt;web
-interface&lt;/a&gt; to go with it. Naturally, I chose &lt;a
-href="https://react.dev/"&gt;React&lt;/a&gt; to build it, but I had never called
-Python from a React app before, so I had to figure things out.&lt;/p&gt;
+href="https://pypi.org/project/pqg/" target="_blank"&gt;Python package&lt;/a&gt;
+for a project, and I wanted a &lt;a
+href="https://dislmcgill.github.io/pandas-query-generator/"
+target="_blank"&gt;web interface&lt;/a&gt; to go with it. Naturally, I chose &lt;a
+href="https://react.dev/" target="_blank"&gt;React&lt;/a&gt; to build it, but I
+had never called Python from a React app before, so I had to figure
+things out.&lt;/p&gt;
 &lt;p&gt;After a quick search, I stumbled across &lt;a
-href="https://pyodide.org/en/stable/"&gt;Pyodide&lt;/a&gt;, which is a port of &lt;a
-href="https://en.wikipedia.org/wiki/CPython?useskin=vector"&gt;CPython&lt;/a&gt;
-to &lt;a href="https://webassembly.org/"&gt;WebAssembly&lt;/a&gt;/&lt;a
-href="https://emscripten.org/"&gt;Emscripten&lt;/a&gt;. It allows users to
-install and use any pure Python package with a wheel on &lt;a
-href="https://pypi.org/"&gt;PyPI&lt;/a&gt; via &lt;a
-href="https://micropip.pyodide.org/en/stable/project/api.html"&gt;micropip&lt;/a&gt;.
-This sounded like something that could be useful, so I decided to try it
-out.&lt;/p&gt;
+href="https://pyodide.org/en/stable/" target="_blank"&gt;Pyodide&lt;/a&gt;, which
+is a port of &lt;a
+href="https://en.wikipedia.org/wiki/CPython?useskin=vector"
+target="_blank"&gt;CPython&lt;/a&gt; to &lt;a href="https://webassembly.org/"
+target="_blank"&gt;WebAssembly&lt;/a&gt;/&lt;a href="https://emscripten.org/"
+target="_blank"&gt;Emscripten&lt;/a&gt;. It allows users to install and use any
+pure Python package with a wheel on &lt;a href="https://pypi.org/"
+target="_blank"&gt;PyPI&lt;/a&gt; via &lt;a
+href="https://micropip.pyodide.org/en/stable/project/api.html"
+target="_blank"&gt;micropip&lt;/a&gt;. This sounded like something that could be
+useful, so I decided to try it out.&lt;/p&gt;
 &lt;p&gt;Since my package was already distributed, all I needed to do,
 according to the Pyodide &lt;a
-href="https://pyodide.org/en/stable/usage/loading-packages.html"&gt;documentation&lt;/a&gt;,
-was:&lt;/p&gt;
+href="https://pyodide.org/en/stable/usage/loading-packages.html"
+target="_blank"&gt;documentation&lt;/a&gt;, was:&lt;/p&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;&lt;code&gt;npm install pyodide&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Install my package with micropip&lt;/li&gt;
 &lt;li&gt;Run arbitrary Python code using my package with Pyodide’s &lt;a
-href="https://pyodide.org/en/stable/usage/api/js-api.html#pyodide.runPythonAsync"&gt;API&lt;/a&gt;&lt;/li&gt;
+href="https://pyodide.org/en/stable/usage/api/js-api.html#pyodide.runPythonAsync"
+target="_blank"&gt;API&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Turns out this worked for my use case, let’s dive deeper into each
 step!&lt;/p&gt;
 &lt;h3 id="i.-installation"&gt;I. Installation&lt;/h3&gt;
-&lt;p&gt;This is straightforward. I used &lt;a href="https://bun.sh/"&gt;bun&lt;/a&gt; as
-my package manager, so all I had to do was run
-&lt;code&gt;bun add pyodide&lt;/code&gt;. Other package managers should follow a
+&lt;p&gt;This is straightforward. I used &lt;a href="https://bun.sh/"
+target="_blank"&gt;bun&lt;/a&gt; as my package manager, so all I had to do was
+run &lt;code&gt;bun add pyodide&lt;/code&gt;. Other package managers should follow a
 similar command. You can check out the official Pyodide package &lt;a
-href="https://www.npmjs.com/package/pyodide"&gt;on the npm
+href="https://www.npmjs.com/package/pyodide" target="_blank"&gt;on the npm
 registry&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id="ii.-loading-the-package"&gt;II. Loading the package&lt;/h3&gt;
 &lt;p&gt;Getting Pyodide up and running involves a few steps that need to
 happen in the right order. First, we need to load the core Pyodide
 runtime from a &lt;a
-href="https://en.wikipedia.org/wiki/Content_delivery_network"&gt;CDN&lt;/a&gt;.
-Then we can use Pyodide’s package manager, micropip, to install our
-Python package. This is similar to how you might use &lt;a
-href="https://pip.pypa.io/en/stable/installation/"&gt;pip&lt;/a&gt; in a regular
-Python environment, but it’s all happening in the browser.&lt;/p&gt;
+href="https://en.wikipedia.org/wiki/Content_delivery_network"
+target="_blank"&gt;CDN&lt;/a&gt;. Then we can use Pyodide’s package manager,
+micropip, to install our Python package. This is similar to how you
+might use &lt;a href="https://pip.pypa.io/en/stable/installation/"
+target="_blank"&gt;pip&lt;/a&gt; in a regular Python environment, but it’s all
+happening in the browser.&lt;/p&gt;
 &lt;p&gt;One nice thing about Pyodide’s CDN distribution is that it includes
 many common Python packages pre-built and ready to use. However, for
 packages that aren’t included by default (like my &lt;code&gt;pqg&lt;/code&gt;
@@ -81,10 +86,10 @@ class="sourceCode typescript"&gt;&lt;code class="sourceCode typescript"&gt;&lt;s
 &lt;p&gt;It’s worth noting that this initialization process can take a few
 seconds, especially on slower connections. The Pyodide runtime itself is
 about &lt;a
-href="https://pyodide.org/en/stable/project/roadmap.html#reducing-download-sizes-and-initialization-times"&gt;6MB&lt;/a&gt;,
-and any additional packages you install will add to that. In my case, I
-found that showing a loading indicator during this initialization was
-essential for a good user experience.&lt;/p&gt;
+href="https://pyodide.org/en/stable/project/roadmap.html#reducing-download-sizes-and-initialization-times"
+target="_blank"&gt;6MB&lt;/a&gt;, and any additional packages you install will
+add to that. In my case, I found that showing a loading indicator during
+this initialization was essential for a good user experience.&lt;/p&gt;
 &lt;p&gt;Also, because these operations are asynchronous, you need to be
 careful about when you start trying to execute Python code. I learned
 the hard way that trying to run code before Pyodide is fully initialized
@@ -149,8 +154,8 @@ JavaScript objects.&lt;/p&gt;
 running Python in the main thread wasn’t ideal - it would freeze the UI
 during initialization and execution. The solution was to move all
 Pyodide-related code into a &lt;a
-href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers"&gt;web
-worker&lt;/a&gt;.&lt;/p&gt;
+href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers"
+target="_blank"&gt;web worker&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Here’s how I built the worker interface (abridged):&lt;/p&gt;
 &lt;div class="sourceCode" id="cb3"&gt;&lt;pre
 class="sourceCode typescript"&gt;&lt;code class="sourceCode typescript"&gt;&lt;span id="cb3-1"&gt;&lt;a href="#cb3-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; { useEffect&lt;span class="op"&gt;,&lt;/span&gt; useRef&lt;span class="op"&gt;,&lt;/span&gt; useState } &lt;span class="im"&gt;from&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;react&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
@@ -212,13 +217,13 @@ class="sourceCode typescript"&gt;&lt;code class="sourceCode typescript"&gt;&lt;s
 &lt;span id="cb3-57"&gt;&lt;a href="#cb3-57" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  }&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb3-58"&gt;&lt;a href="#cb3-58" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;}&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;I created this as a React &lt;a
-href="https://react.dev/learn#using-hooks"&gt;hook&lt;/a&gt; that manages the
-worker lifecycle. The hook creates the worker when the component mounts
-and provides a &lt;a
-href="https://github.com/DISLMcGill/pandas-query-generator/blob/303251c5f4ae4bdcdc945caac0c0f21a22fda56f/www/src/hooks/use-pyodide-worker.ts#L52"&gt;&lt;code&gt;runPython&lt;/code&gt;&lt;/a&gt;
-function that components can use to execute Python code. The status
-updates help the UI show loading states while Pyodide initializes or
-executes code.&lt;/p&gt;
+href="https://react.dev/learn#using-hooks" target="_blank"&gt;hook&lt;/a&gt; that
+manages the worker lifecycle. The hook creates the worker when the
+component mounts and provides a &lt;a
+href="https://github.com/DISLMcGill/pandas-query-generator/blob/303251c5f4ae4bdcdc945caac0c0f21a22fda56f/www/src/hooks/use-pyodide-worker.ts#L52"
+target="_blank"&gt;&lt;code&gt;runPython&lt;/code&gt;&lt;/a&gt; function that components can
+use to execute Python code. The status updates help the UI show loading
+states while Pyodide initializes or executes code.&lt;/p&gt;
 &lt;p&gt;The worker implementation itself is relatively straightforward:&lt;/p&gt;
 &lt;div class="sourceCode" id="cb4"&gt;&lt;pre
 class="sourceCode typescript"&gt;&lt;code class="sourceCode typescript"&gt;&lt;span id="cb4-1"&gt;&lt;a href="#cb4-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; { PyodideInterface&lt;span class="op"&gt;,&lt;/span&gt; loadPyodide } &lt;span class="im"&gt;from&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;pyodide&amp;#39;&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
@@ -284,11 +289,11 @@ class="sourceCode typescript"&gt;&lt;code class="sourceCode typescript"&gt;&lt;s
 messages: initialization and code execution. This keeps all the heavy
 lifting off the main thread, ensuring the UI stays responsive.&lt;/p&gt;
 &lt;p&gt;One thing to note is that web workers have their own &lt;a
-href="https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope"&gt;global
-scope&lt;/a&gt;, so the Pyodide instance and any installed packages persist
-between executions. This is actually beneficial as it means we only need
-to load Pyodide and install packages once, rather than for each query
-generation.&lt;/p&gt;
+href="https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope"
+target="_blank"&gt;global scope&lt;/a&gt;, so the Pyodide instance and any
+installed packages persist between executions. This is actually
+beneficial as it means we only need to load Pyodide and install packages
+once, rather than for each query generation.&lt;/p&gt;
 &lt;h3 id="fin"&gt;Fin&lt;/h3&gt;
 &lt;p&gt;Building this interface turned out to be surprisingly straightforward
 thanks to Pyodide. The ability to run Python code directly in the
@@ -297,36 +302,40 @@ experience. The combination of React for the UI, Pyodide for Python
 execution, and web workers for performance created a smooth, interactive
 interface for my Python package.&lt;/p&gt;
 &lt;p&gt;While there are &lt;a
-href="https://pyodide.org/en/stable/usage/wasm-constraints.html"&gt;some
-limitations&lt;/a&gt; - Pyodide can only run pure Python packages, and the
-initial load time can be significant - it’s a powerful tool for the
-right use case. In my case, it allowed me to create a web interface for
-my Python package with minimal overhead and deployment complexity.&lt;/p&gt;
+href="https://pyodide.org/en/stable/usage/wasm-constraints.html"
+target="_blank"&gt;some limitations&lt;/a&gt; - Pyodide can only run pure Python
+packages, and the initial load time can be significant - it’s a powerful
+tool for the right use case. In my case, it allowed me to create a web
+interface for my Python package with minimal overhead and deployment
+complexity.&lt;/p&gt;
 &lt;p&gt;The full code for the implementation can be &lt;a
-href="https://github.com/DISLMcGill/pandas-query-generator/tree/master/www"&gt;found
-on GitHub&lt;/a&gt;.&lt;/p&gt;</description>
+href="https://github.com/DISLMcGill/pandas-query-generator/tree/master/www"
+target="_blank"&gt;found on GitHub&lt;/a&gt;.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Python-in-the-browser/</link>
-<pubDate>Mon, 22 Dec 2025 17:52:00 +0000</pubDate>
+<pubDate>Fri, 13 Dec 2024 05:00:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Python-in-the-browser/</guid>
 </item>
 <item>
 <title>Incremental-select-with-treesitter</title>
-<description>&lt;p&gt;&lt;a href="https://github.com/tree-sitter/tree-sitter"&gt;treesitter&lt;/a&gt;
-is a tool that can build a concrete syntax tree for a source file and
-incrementally update the tree as the file is modified.&lt;/p&gt;
+<description>&lt;p&gt;&lt;a href="https://github.com/tree-sitter/tree-sitter"
+target="_blank"&gt;treesitter&lt;/a&gt; is a tool that can build a concrete
+syntax tree for a source file and incrementally update the tree as the
+file is modified.&lt;/p&gt;
 &lt;p&gt;Recently, I’ve been experimenting more and more with treesitter’s &lt;a
-href="https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries"&gt;query
-DSL&lt;/a&gt; and an abstraction layer in the form of a &lt;a
-href="https://github.com/nvim-treesitter/nvim-treesitter"&gt;neovim
-plugin&lt;/a&gt;, and found a configuration option to be particularly useful
-when editing code: &lt;em&gt;incremental selection&lt;/em&gt;.&lt;/p&gt;
+href="https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries"
+target="_blank"&gt;query DSL&lt;/a&gt; and an abstraction layer in the form of a
+&lt;a href="https://github.com/nvim-treesitter/nvim-treesitter"
+target="_blank"&gt;neovim plugin&lt;/a&gt;, and found a configuration option to
+be particularly useful when editing code: &lt;em&gt;incremental
+selection&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;When you write a treesitter parser, you must write a grammar that
 treesitter can read, which it then uses to generate the parser. This
 grammar specifies the named syntax nodes in the tree and how they relate
 to other nodes.&lt;/p&gt;
 &lt;p&gt;For instance, if we head over to the &lt;a
-href="https://tree-sitter.github.io/tree-sitter/playground"&gt;syntax tree
-playground&lt;/a&gt; and parse rust source code that looks like this:&lt;/p&gt;
+href="https://tree-sitter.github.io/tree-sitter/playground"
+target="_blank"&gt;syntax tree playground&lt;/a&gt; and parse rust source code
+that looks like this:&lt;/p&gt;
 &lt;div class="sourceCode" id="cb1"&gt;&lt;pre
 class="sourceCode rust"&gt;&lt;code class="sourceCode rust"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;fn&lt;/span&gt; main() &lt;span class="op"&gt;{&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb1-2"&gt;&lt;a href="#cb1-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="pp"&gt;println!&lt;/span&gt;(&lt;span class="st"&gt;&amp;quot;Hello, world!&amp;quot;&lt;/span&gt;)&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
@@ -366,20 +375,22 @@ expanding a node selection with a keybinding is super fast and usually
 results in the exact block of text I want to modify.&lt;/p&gt;
 &lt;p&gt;Here’s a quick demo of it in action:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://asciinema.org/a/507405"&gt;&lt;img
-src="https://asciinema.org/a/507405.svg" alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
+src="https://asciinema.org/a/507405.svg" target="_blank"
+alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;A reference of my full neovim configuration can be found on github,
-in my &lt;a href="https://github.com/terror/dotfiles"&gt;dotfiles&lt;/a&gt; repo. Be
-sure to check it out!&lt;/p&gt;</description>
+in my &lt;a href="https://github.com/terror/dotfiles"
+target="_blank"&gt;dotfiles&lt;/a&gt; repo. Be sure to check it out!&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Incremental-select-with-treesitter/</link>
 <pubDate>Sat, 09 Jul 2022 04:00:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Incremental-select-with-treesitter/</guid>
 </item>
 <item>
 <title>Powerful-`just`-features</title>
-<description>&lt;p&gt;&lt;a href="https://github.com/casey/just"&gt;&lt;code&gt;just&lt;/code&gt;&lt;/a&gt; is a
-command runner written in Rust. Commands, or &lt;em&gt;recipes&lt;/em&gt; in
-&lt;code&gt;just&lt;/code&gt; lingo, are populated in a file called ‘justfile’, and
-are expressed in a make-like syntax.&lt;/p&gt;
+<description>&lt;p&gt;&lt;a href="https://github.com/casey/just"
+target="_blank"&gt;&lt;code&gt;just&lt;/code&gt;&lt;/a&gt; is a command runner written in
+Rust. Commands, or &lt;em&gt;recipes&lt;/em&gt; in &lt;code&gt;just&lt;/code&gt; lingo, are
+populated in a file called ‘justfile’, and are expressed in a make-like
+syntax.&lt;/p&gt;
 &lt;p&gt;I’ve been using &lt;code&gt;just&lt;/code&gt; as my command runner for all of my
 projects, big or small, and find it extremely useful to have a file in
 the projects root that contains every command needed to interact with
@@ -418,16 +429,17 @@ execute commands with &lt;code&gt;just&lt;/code&gt;.&lt;/p&gt;
 which lets you fuzzy search through recipes defined in your justfile.
 You can also specify a chooser by passing it into
 &lt;code&gt;just --chooser&lt;/code&gt;, else it will default to using &lt;a
-href="https://github.com/junegunn/fzf"&gt;&lt;code&gt;fzf&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+href="https://github.com/junegunn/fzf"
+target="_blank"&gt;&lt;code&gt;fzf&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;There is work planned to support recipe previews and command line
 arguments for recipes that take them when using the default chooser.&lt;/p&gt;
 &lt;p&gt;However, with the help of &lt;code&gt;just --summary&lt;/code&gt;,
 &lt;code&gt;just --show&lt;/code&gt; and a bit of &lt;a
-href="https://en.wikipedia.org/wiki/Python_(programming_language)"&gt;Python&lt;/a&gt;,
+href="https://en.wikipedia.org/wiki/Python_(programming_language)%7Btarget=%22_blank%22%7D"&gt;Python&lt;/a&gt;,
 here’s how you can get to look:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN"&gt;&lt;img
 src="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN.svg"
-alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
+target="_blank" alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id="recipes-in-arbitrary-languages"&gt;Recipes in arbitrary
 languages&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;just&lt;/code&gt; recipes can be expressed in another language by
@@ -536,10 +548,9 @@ frequently.&lt;/p&gt;
 &lt;p&gt;I personally think any project could benefit greatly by having a
 single source of truth in regards to project specific commands, and
 &lt;code&gt;just&lt;/code&gt; provides a simple way to set that up.&lt;/p&gt;
-&lt;p&gt;Have a look over at the &lt;a
-href="https://github.com/casey/just"&gt;official readme&lt;/a&gt; document on
-GitHub for more information and further elaboration on the features
-mentioned here.&lt;/p&gt;</description>
+&lt;p&gt;Have a look over at the &lt;a href="https://github.com/casey/just"
+target="_blank"&gt;official readme&lt;/a&gt; document on GitHub for more
+information and further elaboration on the features mentioned here.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Powerful-`just`-features/</link>
 <pubDate>Tue, 12 Apr 2022 04:00:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Powerful-`just`-features/</guid>
@@ -547,23 +558,23 @@ mentioned here.&lt;/p&gt;</description>
 <item>
 <title>Scripting-in-markdown</title>
 <description>&lt;p&gt;I recently wrote yet another command-line utility in Rust called &lt;a
-href="https://github.com/terror/present"&gt;&lt;code&gt;present&lt;/code&gt;&lt;/a&gt; that
-lets you interpolate the standard output of arbitrary commands that get
-interpreted by the shell into a markdown file, and I thought I’d share a
-bit about it here.&lt;/p&gt;
+href="https://github.com/terror/present"
+target="_blank"&gt;&lt;code&gt;present&lt;/code&gt;&lt;/a&gt; that lets you interpolate the
+standard output of arbitrary commands that get interpreted by the shell
+into a markdown file, and I thought I’d share a bit about it here.&lt;/p&gt;
 &lt;h3 id="problem"&gt;Problem&lt;/h3&gt;
 &lt;p&gt;The main problem I kept running into that pushed me to write this
 tool was having to &lt;em&gt;manually&lt;/em&gt; update the outputs of command line
 utility help messages in my project readme documents.&lt;/p&gt;
 &lt;p&gt;For instance, I wrote a command-line utility called &lt;a
-href="https://github.com/terror/vim-profiler"&gt;&lt;code&gt;vim-profiler&lt;/code&gt;&lt;/a&gt;
-that lets you profile the startup-time for your installed vim plugins
-and receive a nicely formatted output. In the readme document I have a
-usage section that includes the output of calling
-&lt;code&gt;vp --help&lt;/code&gt;. Each time I make a version change, update the
-description, or update the API – the result of calling
-&lt;code&gt;vp --help&lt;/code&gt; changes, which prompts me to update the
-readme.&lt;/p&gt;
+href="https://github.com/terror/vim-profiler"
+target="_blank"&gt;&lt;code&gt;vim-profiler&lt;/code&gt;&lt;/a&gt; that lets you profile the
+startup-time for your installed vim plugins and receive a nicely
+formatted output. In the readme document I have a usage section that
+includes the output of calling &lt;code&gt;vp --help&lt;/code&gt;. Each time I make
+a version change, update the description, or update the API – the result
+of calling &lt;code&gt;vp --help&lt;/code&gt; changes, which prompts me to update
+the readme.&lt;/p&gt;
 &lt;h3 id="solution"&gt;Solution&lt;/h3&gt;
 &lt;p&gt;Instead of invoking the binary with the &lt;code&gt;--help&lt;/code&gt; flag,
 piping the result to &lt;code&gt;pbcopy&lt;/code&gt; and then manually pasting the
@@ -623,8 +634,8 @@ OPTIONS:
 ...&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In practice, I’ll add the command in a justfile &lt;code&gt;all&lt;/code&gt;
 recipe that I invoke before I commit any changes, such as shown in this
-&lt;a
-href="https://github.com/terror/present/blob/master/justfile"&gt;justfile&lt;/a&gt;.&lt;/p&gt;
+&lt;a href="https://github.com/terror/present/blob/master/justfile"
+target="_blank"&gt;justfile&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id="moving-forward"&gt;Moving forward&lt;/h3&gt;
 &lt;p&gt;The project is still in its early stages of development, and there
 most certainly exists a few non-trivial bugs to be found and fixed.&lt;/p&gt;
@@ -632,11 +643,10 @@ most certainly exists a few non-trivial bugs to be found and fixed.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Improve diff output in interactive mode&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;The project uses the &lt;a
-href="https://github.com/mitsuhiko/similar"&gt;&lt;code&gt;similar&lt;/code&gt;&lt;/a&gt;
-crate to help with diff output in interactive mode, but it can be made
-nicer by taking advantage of additional features the crate has to
-offer.&lt;/p&gt;
+&lt;p&gt;The project uses the &lt;a href="https://github.com/mitsuhiko/similar"
+target="_blank"&gt;&lt;code&gt;similar&lt;/code&gt;&lt;/a&gt; crate to help with diff output
+in interactive mode, but it can be made nicer by taking advantage of
+additional features the crate has to offer.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Support same-line command interpolation&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -663,21 +673,22 @@ the markdown file.&lt;/p&gt;
 &lt;p&gt;Get rid of &lt;code&gt;pulldown_cmark&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;The project uses the &lt;a
-href="https://github.com/raphlinus/pulldown-cmark"&gt;&lt;code&gt;pulldown_cmark&lt;/code&gt;&lt;/a&gt;
-crate to get full codeblock ranges within the source, and then hackily
-turns them into two separate ranges (start, end) which represent the
-starting and ending range of a single codeblock. This could probably be
-done better, perhaps without depending on a library for that initial
-step.&lt;/p&gt;
+href="https://github.com/raphlinus/pulldown-cmark"
+target="_blank"&gt;&lt;code&gt;pulldown_cmark&lt;/code&gt;&lt;/a&gt; crate to get full
+codeblock ranges within the source, and then hackily turns them into two
+separate ranges (start, end) which represent the starting and ending
+range of a single codeblock. This could probably be done better, perhaps
+without depending on a library for that initial step.&lt;/p&gt;
 &lt;p&gt;Overall, I get what I need out of the program as it is. Whether or
 not the aforementioned todo’s provide useful to someone else will most
 likely have a non-trivial amount of impact on my motivation for getting
 them done.&lt;/p&gt;
 &lt;p&gt;Feel free to check out the code over on github &lt;a
-href="https://github.com/terror/present"&gt;https://github.com/terror/present&lt;/a&gt;.
-It is licensed under the highly permissive &lt;a
-href="https://en.wikipedia.org/wiki/Creative_Commons_license"&gt;CC0-1.0&lt;/a&gt;
-license.&lt;/p&gt;</description>
+href="https://github.com/terror/present"
+target="_blank"&gt;https://github.com/terror/present&lt;/a&gt;. It is licensed
+under the highly permissive &lt;a
+href="https://en.wikipedia.org/wiki/Creative_Commons_license"
+target="_blank"&gt;CC0-1.0&lt;/a&gt; license.&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Scripting-in-markdown/</link>
 <pubDate>Sun, 27 Feb 2022 05:00:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Scripting-in-markdown/</guid>
@@ -685,7 +696,7 @@ license.&lt;/p&gt;</description>
 <item>
 <title>From-bash-to-vim-and-back</title>
 <description>&lt;p&gt;I recently ran the following command to get my top 5 most used &lt;a
-href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)"&gt;Bash&lt;/a&gt;
+href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)%7Btarget=%22_blank%22%7D"&gt;Bash&lt;/a&gt;
 commands:&lt;/p&gt;
 &lt;div class="sourceCode" id="cb1"&gt;&lt;pre
 class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;$&lt;/span&gt; history &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;awk&lt;/span&gt; &lt;span class="st"&gt;&amp;#39;{print $2}&amp;#39;&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;sort&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;uniq&lt;/span&gt; &lt;span class="at"&gt;-c&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;sort&lt;/span&gt; &lt;span class="at"&gt;-nr&lt;/span&gt; &lt;span class="kw"&gt;|&lt;/span&gt; &lt;span class="fu"&gt;head&lt;/span&gt; &lt;span class="at"&gt;-5&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -700,8 +711,8 @@ class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb1-
 &lt;li&gt;&lt;code&gt;lt&lt;/code&gt;: alias for &lt;code&gt;tree -L 1&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;v&lt;/code&gt;: alias for &lt;code&gt;nvim&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;j&lt;/code&gt;: alias for &lt;code&gt;just&lt;/code&gt;, &lt;a
-href="https://github.com/casey/just"&gt;the fabulous command
-runner&lt;/a&gt;&lt;/li&gt;
+href="https://github.com/casey/just" target="_blank"&gt;the fabulous
+command runner&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;gst&lt;/code&gt;: alias for &lt;code&gt;git status&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;What I assume isn’t so obvious is &lt;code&gt;lv&lt;/code&gt;, which stands for
@@ -717,7 +728,7 @@ config and first file&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;bd1&lt;/code&gt;: Delete the first buffer&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;I use &lt;a
-href="https://en.wikipedia.org/wiki/Vim_(text_editor)#Neovim"&gt;Neovim&lt;/a&gt;
+href="https://en.wikipedia.org/wiki/Vim_(text_editor)%7Btarget=%22_blank%22%7D#Neovim"&gt;Neovim&lt;/a&gt;
 alot, and sometimes I quit the editor to run some arbitrary Bash
 command. Without having to search for the previously opened file, I
 invoke &lt;code&gt;lv&lt;/code&gt;, which gets me back to where I was at.&lt;/p&gt;
@@ -736,9 +747,9 @@ errors in Rust and believe it serves great for small or large
 projects.&lt;/p&gt;
 &lt;p&gt;This post will walk through a few different ways to handle errors and
 then ultimately introduce the &lt;a
-href="https://github.com/shepmaster/snafu"&gt;&lt;code&gt;snafu&lt;/code&gt;&lt;/a&gt;
-library as a clean and ergonomic solution to the elusive task of dealing
-with erroneous behaviour.&lt;/p&gt;
+href="https://github.com/shepmaster/snafu"
+target="_blank"&gt;&lt;code&gt;snafu&lt;/code&gt;&lt;/a&gt; library as a clean and ergonomic
+solution to the elusive task of dealing with erroneous behaviour.&lt;/p&gt;
 &lt;h3 id="contents"&gt;Contents&lt;/h3&gt;
 &lt;!--ts--&gt;
 &lt;ul&gt;
@@ -785,16 +796,18 @@ class="sourceCode rust"&gt;&lt;code class="sourceCode rust"&gt;&lt;span id="cb1-
 &lt;li&gt;The file doesn’t exist.&lt;/li&gt;
 &lt;li&gt;The contents of the file aren’t valid UTF-8.&lt;/li&gt;
 &lt;li&gt;The call to &lt;a
-href="https://doc.rust-lang.org/std/io/trait.Write.html#method.write_all"&gt;&lt;code&gt;write_all&lt;/code&gt;&lt;/a&gt;
-gets interrupted.&lt;/li&gt;
+href="https://doc.rust-lang.org/std/io/trait.Write.html#method.write_all"
+target="_blank"&gt;&lt;code&gt;write_all&lt;/code&gt;&lt;/a&gt; gets interrupted.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;We are handling each of these instances with our calls to &lt;a
-href="https://learning-rust.github.io/docs/e4.unwrap_and_expect.html"&gt;&lt;code&gt;unwrap&lt;/code&gt;&lt;/a&gt;
-on the fallible function calls. However, instead of being able to
-recover from an error if it occurs, the current thread &lt;a
-href="https://doc.rust-lang.org/std/macro.panic.html"&gt;&lt;code&gt;panics&lt;/code&gt;&lt;/a&gt;,
-which, if it is the main thread, terminates all threads and ends the
-program with code &lt;code&gt;101&lt;/code&gt;.&lt;/p&gt;
+href="https://learning-rust.github.io/docs/e4.unwrap_and_expect.html"
+target="_blank"&gt;&lt;code&gt;unwrap&lt;/code&gt;&lt;/a&gt; on the fallible function calls.
+However, instead of being able to recover from an error if it occurs,
+the current thread &lt;a
+href="https://doc.rust-lang.org/std/macro.panic.html"
+target="_blank"&gt;&lt;code&gt;panics&lt;/code&gt;&lt;/a&gt;, which, if it is the main
+thread, terminates all threads and ends the program with code
+&lt;code&gt;101&lt;/code&gt;.&lt;/p&gt;
 &lt;h3 id="recoverable-errors-with-resultt-e"&gt;Recoverable errors with
 Result&amp;lt;T, E&amp;gt;&lt;/h3&gt;
 &lt;p&gt;Instead of calls to &lt;code&gt;panic!&lt;/code&gt; each time the program can
@@ -851,15 +864,16 @@ than one error type to create their own type that contains multiple
 variants.&lt;/p&gt;
 &lt;h3 id="crafting-custom-error-types"&gt;Crafting custom error types&lt;/h3&gt;
 &lt;p&gt;We can craft our own custom error type as a Rust &lt;a
-href="https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html"&gt;&lt;code&gt;enum&lt;/code&gt;&lt;/a&gt;
-and add multiple variants to it. We can then define a
-&lt;code&gt;Result&lt;/code&gt; type which we can use throughout our program which
-contains our custom error type as the error to propagate.&lt;/p&gt;
+href="https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html"
+target="_blank"&gt;&lt;code&gt;enum&lt;/code&gt;&lt;/a&gt; and add multiple variants to it.
+We can then define a &lt;code&gt;Result&lt;/code&gt; type which we can use
+throughout our program which contains our custom error type as the error
+to propagate.&lt;/p&gt;
 &lt;p&gt;In order to demonstrate the need for multiple error types, we’ll
 extend the functionality of this tiny application to include a call to
 some API endpoint that is written in the text file, using the &lt;a
-href="https://github.com/seanmonstar/reqwest"&gt;&lt;code&gt;reqwest&lt;/code&gt;&lt;/a&gt;
-library.&lt;/p&gt;
+href="https://github.com/seanmonstar/reqwest"
+target="_blank"&gt;&lt;code&gt;reqwest&lt;/code&gt;&lt;/a&gt; library.&lt;/p&gt;
 &lt;div class="sourceCode" id="cb4"&gt;&lt;pre
 class="sourceCode rust"&gt;&lt;code class="sourceCode rust"&gt;&lt;span id="cb4-1"&gt;&lt;a href="#cb4-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;use&lt;/span&gt; &lt;span class="pp"&gt;std::&lt;/span&gt;&lt;span class="op"&gt;{&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb4-2"&gt;&lt;a href="#cb4-2" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="pp"&gt;fmt::&lt;/span&gt;&lt;span class="op"&gt;{&lt;/span&gt;&lt;span class="kw"&gt;self&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt; &lt;span class="bu"&gt;Display&lt;/span&gt;&lt;span class="op"&gt;},&lt;/span&gt;&lt;/span&gt;
@@ -926,12 +940,13 @@ class="sourceCode rust"&gt;&lt;code class="sourceCode rust"&gt;&lt;span id="cb4-
 &lt;span id="cb4-63"&gt;&lt;a href="#cb4-63" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="op"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;In order to apply our nice shorthand &lt;code&gt;?&lt;/code&gt; operator, we have
 the implement the &lt;a
-href="https://doc.rust-lang.org/std/convert/trait.From.html"&gt;&lt;code&gt;From&lt;/code&gt;&lt;/a&gt;
-trait for each error type we wish to add to our custom
-&lt;code&gt;enum&lt;/code&gt;. In addition, in order for &lt;code&gt;main&lt;/code&gt; to be
-able to print out the error message, we must implement &lt;a
-href="https://doc.rust-lang.org/std/fmt/trait.Display.html"&gt;&lt;code&gt;Display&lt;/code&gt;&lt;/a&gt;
-for our custom error type, matching on each variant.&lt;/p&gt;
+href="https://doc.rust-lang.org/std/convert/trait.From.html"
+target="_blank"&gt;&lt;code&gt;From&lt;/code&gt;&lt;/a&gt; trait for each error type we wish
+to add to our custom &lt;code&gt;enum&lt;/code&gt;. In addition, in order for
+&lt;code&gt;main&lt;/code&gt; to be able to print out the error message, we must
+implement &lt;a href="https://doc.rust-lang.org/std/fmt/trait.Display.html"
+target="_blank"&gt;&lt;code&gt;Display&lt;/code&gt;&lt;/a&gt; for our custom error type,
+matching on each variant.&lt;/p&gt;
 &lt;p&gt;This implementation solves the problem of dealing with multiple error
 types in a given function. Having our own custom error type also allows
 for other users of our application to deal with our various custom error
@@ -991,16 +1006,17 @@ class="sourceCode rust"&gt;&lt;code class="sourceCode rust"&gt;&lt;span id="cb5-
 &lt;span id="cb5-44"&gt;&lt;a href="#cb5-44" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="op"&gt;}&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb5-45"&gt;&lt;a href="#cb5-45" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="op"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The &lt;a
-href="https://docs.rs/snafu/0.6.10/snafu/guide/the_macro/index.html"&gt;&lt;code&gt;Snafu&lt;/code&gt;&lt;/a&gt;
-macro implements all the necessary traits in order to begin using our
-custom error type in functions.&lt;/p&gt;
+href="https://docs.rs/snafu/0.6.10/snafu/guide/the_macro/index.html"
+target="_blank"&gt;&lt;code&gt;Snafu&lt;/code&gt;&lt;/a&gt; macro implements all the
+necessary traits in order to begin using our custom error type in
+functions.&lt;/p&gt;
 &lt;p&gt;Crafting our type this way not only let’s us avoid implementing
 traits ourselves but also gives us the added benefit of easily adding in
 custom fields to our error types as contextual information.&lt;/p&gt;
 &lt;p&gt;This tiny example doesn’t show all of the functionality the
 &lt;code&gt;snafu&lt;/code&gt; library has to offer, so I suggest you have a look at
-the official &lt;a
-href="https://docs.rs/snafu/0.6.10/snafu/index.html"&gt;documentation&lt;/a&gt;.&lt;/p&gt;
+the official &lt;a href="https://docs.rs/snafu/0.6.10/snafu/index.html"
+target="_blank"&gt;documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id="fin"&gt;Fin&lt;/h3&gt;
 &lt;p&gt;Quality Rust code should never panic when it doesn’t absolutely need
 to, and knowing this you should make the best of the situation by
@@ -1154,7 +1170,8 @@ programming language is a powerful idea to wrap your head around and a
 worth while design choice when composing large scale and complex
 applications.&lt;/p&gt;
 &lt;p&gt;All of the functions written for this post can be found here -&amp;gt; &lt;a
-href="https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e"&gt;https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e&lt;/a&gt;&lt;/p&gt;</description>
+href="https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e"
+target="_blank"&gt;https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e&lt;/a&gt;&lt;/p&gt;</description>
 <link>https://liam.rs/posts/Higher-order-functions/</link>
 <pubDate>Tue, 08 Jun 2021 04:00:00 +0000</pubDate>
 <guid>https://liam.rs/posts/Higher-order-functions/</guid>
@@ -1165,8 +1182,9 @@ href="https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e"&gt;https:
 crate I was trying to install which led me to be introduced to a git
 command called &lt;code&gt;bisect&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;From the official docs found over at &lt;a
-href="https://git-scm.com/docs/git-bisect"&gt;git-scm.com&lt;/a&gt;, the small
-description under the name heading reads:&lt;/p&gt;
+href="https://git-scm.com/docs/git-bisect"
+target="_blank"&gt;git-scm.com&lt;/a&gt;, the small description under the name
+heading reads:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Use binary search to find the commit that introduced a bug&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1194,8 +1212,8 @@ breaking change was introduced.&lt;/p&gt;</description>
 <item>
 <title>How-I-read-blogs</title>
 <description>&lt;p&gt;I have recently gotten into the habit of reading more blogs, in
-particular, ones featured on &lt;a
-href="https://news.ycombinator.com/news"&gt;HackerNews&lt;/a&gt;.&lt;/p&gt;
+particular, ones featured on &lt;a href="https://news.ycombinator.com/news"
+target="_blank"&gt;HackerNews&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Reading books, personally, has been a difficult habit to cultivate
 over time, which I mainly attribute to the periodic feelings of being
 “stuck” or bored on a certain set of books. Blogs, however, offer a
@@ -1215,9 +1233,10 @@ were the things I didn’t like?&lt;/p&gt;
 feature&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;To address these problems I chose to try out &lt;a
-href="https://www.instapaper.com/"&gt;&lt;code&gt;Instapaper&lt;/code&gt;&lt;/a&gt; and build
-a simple tool called &lt;a
-href="https://github.com/terror/hackerpaper"&gt;&lt;code&gt;hackerpaper&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+href="https://www.instapaper.com/"
+target="_blank"&gt;&lt;code&gt;Instapaper&lt;/code&gt;&lt;/a&gt; and build a simple tool
+called &lt;a href="https://github.com/terror/hackerpaper"
+target="_blank"&gt;&lt;code&gt;hackerpaper&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Instapaper has a feature that let’s you send articles to your Kindle,
 which makes reading blogs much more comfortable. Moreover, the built in
 &lt;code&gt;like&lt;/code&gt; and &lt;code&gt;archive&lt;/code&gt; features carryover to the

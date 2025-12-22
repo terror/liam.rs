@@ -80,7 +80,9 @@
           <p>
             This post will walk through a few different ways to handle errors
             and then ultimately introduce the
-            <a href="https://github.com/shepmaster/snafu"><code>snafu</code></a>
+            <a href="https://github.com/shepmaster/snafu" target="_blank"
+              ><code>snafu</code></a
+            >
             library as a clean and ergonomic solution to the elusive task of
             dealing with erroneous behaviour.
           </p>
@@ -147,6 +149,7 @@
               The call to
               <a
                 href="https://doc.rust-lang.org/std/io/trait.Write.html#method.write_all"
+                target="_blank"
                 ><code>write_all</code></a
               >
               gets interrupted.
@@ -156,11 +159,14 @@
             We are handling each of these instances with our calls to
             <a
               href="https://learning-rust.github.io/docs/e4.unwrap_and_expect.html"
+              target="_blank"
               ><code>unwrap</code></a
             >
             on the fallible function calls. However, instead of being able to
             recover from an error if it occurs, the current thread
-            <a href="https://doc.rust-lang.org/std/macro.panic.html"
+            <a
+              href="https://doc.rust-lang.org/std/macro.panic.html"
+              target="_blank"
               ><code>panics</code></a
             >, which, if it is the main thread, terminates all threads and ends
             the program with code <code>101</code>.
@@ -239,6 +245,7 @@
             We can craft our own custom error type as a Rust
             <a
               href="https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html"
+              target="_blank"
               ><code>enum</code></a
             >
             and add multiple variants to it. We can then define a
@@ -249,7 +256,7 @@
             In order to demonstrate the need for multiple error types, we’ll
             extend the functionality of this tiny application to include a call
             to some API endpoint that is written in the text file, using the
-            <a href="https://github.com/seanmonstar/reqwest"
+            <a href="https://github.com/seanmonstar/reqwest" target="_blank"
               ><code>reqwest</code></a
             >
             library.
@@ -324,13 +331,17 @@
           <p>
             In order to apply our nice shorthand <code>?</code> operator, we
             have the implement the
-            <a href="https://doc.rust-lang.org/std/convert/trait.From.html"
+            <a
+              href="https://doc.rust-lang.org/std/convert/trait.From.html"
+              target="_blank"
               ><code>From</code></a
             >
             trait for each error type we wish to add to our custom
             <code>enum</code>. In addition, in order for <code>main</code> to be
             able to print out the error message, we must implement
-            <a href="https://doc.rust-lang.org/std/fmt/trait.Display.html"
+            <a
+              href="https://doc.rust-lang.org/std/fmt/trait.Display.html"
+              target="_blank"
               ><code>Display</code></a
             >
             for our custom error type, matching on each variant.
@@ -405,6 +416,7 @@
             The
             <a
               href="https://docs.rs/snafu/0.6.10/snafu/guide/the_macro/index.html"
+              target="_blank"
               ><code>Snafu</code></a
             >
             macro implements all the necessary traits in order to begin using
@@ -420,7 +432,9 @@
             This tiny example doesn’t show all of the functionality the
             <code>snafu</code> library has to offer, so I suggest you have a
             look at the official
-            <a href="https://docs.rs/snafu/0.6.10/snafu/index.html"
+            <a
+              href="https://docs.rs/snafu/0.6.10/snafu/index.html"
+              target="_blank"
               >documentation</a
             >.
           </p>

@@ -1,11 +1,11 @@
-[treesitter](https://github.com/tree-sitter/tree-sitter) is a tool that can
+[treesitter](https://github.com/tree-sitter/tree-sitter){target="_blank"} is a tool that can
 build a concrete syntax tree for a source file and incrementally update the tree
 as the file is modified.
 
 Recently, I've been experimenting more and more with treesitter's
-[query DSL](https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries)
+[query DSL](https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries){target="_blank"}
 and an abstraction layer in the form of a
-[neovim plugin](https://github.com/nvim-treesitter/nvim-treesitter), and found a
+[neovim plugin](https://github.com/nvim-treesitter/nvim-treesitter){target="_blank"}, and found a
 configuration option to be particularly useful when editing code: _incremental
 selection_.
 
@@ -14,7 +14,7 @@ read, which it then uses to generate the parser. This grammar specifies the
 named syntax nodes in the tree and how they relate to other nodes.
 
 For instance, if we head over to the
-[syntax tree playground](https://tree-sitter.github.io/tree-sitter/playground)
+[syntax tree playground](https://tree-sitter.github.io/tree-sitter/playground){target="_blank"}
 and parse rust source code that looks like this:
 
 ```rust
@@ -67,7 +67,7 @@ want to modify.
 
 Here's a quick demo of it in action:
 
-[![asciicast](https://asciinema.org/a/507405.svg)](https://asciinema.org/a/507405)
+[![asciicast](https://asciinema.org/a/507405.svg){target="_blank"}](https://asciinema.org/a/507405)
 
 A reference of my full neovim configuration can be found on github, in my
-[dotfiles](https://github.com/terror/dotfiles) repo. Be sure to check it out!
+[dotfiles](https://github.com/terror/dotfiles){target="_blank"} repo. Be sure to check it out!

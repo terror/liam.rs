@@ -1,7 +1,7 @@
 I recently encountered a build failure in a dependency of a Rust crate I was trying to install which led me to
 be introduced to a git command called `bisect`.
 
-From the official docs found over at [git-scm.com](https://git-scm.com/docs/git-bisect), the small description under the name heading
+From the official docs found over at [git-scm.com](https://git-scm.com/docs/git-bisect){target="_blank"}, the small description under the name heading
 reads:
 
 > Use binary search to find the commit that introduced a bug

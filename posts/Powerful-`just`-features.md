@@ -1,4 +1,4 @@
-[`just`](https://github.com/casey/just) is a command runner written in Rust.
+[`just`](https://github.com/casey/just){target="_blank"} is a command runner written in Rust.
 Commands, or _recipes_ in `just` lingo, are populated in a file called 'justfile',
 and are expressed in a make-like syntax.
 
@@ -45,15 +45,15 @@ save you some typing if you frequently execute commands with `just`.
 One feature I discovered recently is `just --choose`, which lets you fuzzy
 search through recipes defined in your justfile. You can also specify a
 chooser by passing it into `just --chooser`, else it will default to
-using [`fzf`](https://github.com/junegunn/fzf).
+using [`fzf`](https://github.com/junegunn/fzf){target="_blank"}.
 
 There is work planned to support recipe previews and command line arguments for
 recipes that take them when using the default chooser.
 
 However, with the help of `just --summary`, `just --show` and a bit of
-[Python](<https://en.wikipedia.org/wiki/Python_(programming_language)>), here's how you can get to look:
+[Python](<https://en.wikipedia.org/wiki/Python_(programming_language){target="_blank"}>), here's how you can get to look:
 
-[![asciicast](https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN.svg)](https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN)
+[![asciicast](https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN.svg){target="_blank"}](https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN)
 
 ### Recipes in arbitrary languages
 
@@ -200,6 +200,6 @@ I personally think any project could benefit greatly by having a single source
 of truth in regards to project specific commands, and `just` provides a simple
 way to set that up.
 
-Have a look over at the [official readme](https://github.com/casey/just) document
+Have a look over at the [official readme](https://github.com/casey/just){target="_blank"} document
 on GitHub for more information and further elaboration on the features mentioned
 here.

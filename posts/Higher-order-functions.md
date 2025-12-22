@@ -137,4 +137,4 @@ As we can see, the function `timer` takes in a function as input and returns a w
 Being able to treat functions as first-class citizens in your programming language is a powerful idea to wrap your head around and a worth while design choice when composing large scale and complex applications.
 
 All of the functions written for this post can be found here ->
-[https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e](https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e)
+[https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e](https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e){target="_blank"}

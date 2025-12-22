@@ -6,7 +6,7 @@ I've recently fallen into a comfortable pattern when dealing with errors in Rust
 and believe it serves great for small or large projects.
 
 This post will walk through a few different ways to handle errors and then
-ultimately introduce the [`snafu`](https://github.com/shepmaster/snafu) library as a clean and ergonomic solution to the elusive task of dealing with erroneous behaviour.
+ultimately introduce the [`snafu`](https://github.com/shepmaster/snafu){target="_blank"} library as a clean and ergonomic solution to the elusive task of dealing with erroneous behaviour.
 
 ### Contents
 
@@ -56,10 +56,10 @@ This program can fail in a few different ways:
 
 - The file doesn't exist.
 - The contents of the file aren't valid UTF-8.
-- The call to [`write_all`](https://doc.rust-lang.org/std/io/trait.Write.html#method.write_all)
+- The call to [`write_all`](https://doc.rust-lang.org/std/io/trait.Write.html#method.write_all){target="_blank"}
   gets interrupted.
 
-We are handling each of these instances with our calls to [`unwrap`](https://learning-rust.github.io/docs/e4.unwrap_and_expect.html) on the fallible function calls. However, instead of being able to recover from an error if it occurs, the current thread [`panics`](https://doc.rust-lang.org/std/macro.panic.html), which, if it is the main thread, terminates all threads and ends the program with code `101`.
+We are handling each of these instances with our calls to [`unwrap`](https://learning-rust.github.io/docs/e4.unwrap_and_expect.html){target="_blank"} on the fallible function calls. However, instead of being able to recover from an error if it occurs, the current thread [`panics`](https://doc.rust-lang.org/std/macro.panic.html){target="_blank"}, which, if it is the main thread, terminates all threads and ends the program with code `101`.
 
 ### Recoverable errors with Result<T, E>
 
@@ -121,11 +121,11 @@ type to create their own type that contains multiple variants.
 
 ### Crafting custom error types
 
-We can craft our own custom error type as a Rust [`enum`](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html) and add multiple variants to it. We can then define a `Result` type which we can use throughout our program which contains our custom error type as the error to propagate.
+We can craft our own custom error type as a Rust [`enum`](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html){target="_blank"} and add multiple variants to it. We can then define a `Result` type which we can use throughout our program which contains our custom error type as the error to propagate.
 
 In order to demonstrate the need for multiple error types, we'll extend the
 functionality of this tiny application to include a call to some API endpoint
-that is written in the text file, using the [`reqwest`](https://github.com/seanmonstar/reqwest) library.
+that is written in the text file, using the [`reqwest`](https://github.com/seanmonstar/reqwest){target="_blank"} library.
 
 ```rust
 use std::{
@@ -193,7 +193,7 @@ fn main() {
 }
 ```
 
-In order to apply our nice shorthand `?` operator, we have the implement the [`From`](https://doc.rust-lang.org/std/convert/trait.From.html) trait for each error type we wish to add to our custom `enum`. In addition, in order for `main` to be able to print out the error message, we must implement [`Display`](https://doc.rust-lang.org/std/fmt/trait.Display.html) for our custom error type, matching on each variant.
+In order to apply our nice shorthand `?` operator, we have the implement the [`From`](https://doc.rust-lang.org/std/convert/trait.From.html){target="_blank"} trait for each error type we wish to add to our custom `enum`. In addition, in order for `main` to be able to print out the error message, we must implement [`Display`](https://doc.rust-lang.org/std/fmt/trait.Display.html){target="_blank"} for our custom error type, matching on each variant.
 
 This implementation solves the problem of dealing with multiple error types in a
 given function. Having our own custom error type also allows for other users of
@@ -255,13 +255,13 @@ fn main() {
 }
 ```
 
-The [`Snafu`](https://docs.rs/snafu/0.6.10/snafu/guide/the_macro/index.html) macro implements all the necessary traits in order to begin using our custom error type in functions.
+The [`Snafu`](https://docs.rs/snafu/0.6.10/snafu/guide/the_macro/index.html){target="_blank"} macro implements all the necessary traits in order to begin using our custom error type in functions.
 
 Crafting our type this way not only let's us avoid implementing traits ourselves
 but also gives us the added benefit of easily adding in custom fields to our
 error types as contextual information.
 
-This tiny example doesn't show all of the functionality the `snafu` library has to offer, so I suggest you have a look at the official [documentation](https://docs.rs/snafu/0.6.10/snafu/index.html).
+This tiny example doesn't show all of the functionality the `snafu` library has to offer, so I suggest you have a look at the official [documentation](https://docs.rs/snafu/0.6.10/snafu/index.html){target="_blank"}.
 
 ### Fin
 

@@ -8,7 +8,7 @@ image: pyproject.png
 ---
 
 **pyproject** is a linter and language server for
-[pyproject.toml](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)
+[pyproject.toml](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/){target="\_blank"}
 files.
 
 I wrote this after encountering inconsistencies in build tool error reporting

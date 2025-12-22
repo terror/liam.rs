@@ -16,6 +16,7 @@ main() {
   date "2022-02-27" "Scripting-in-markdown"
   date "2022-04-12" "Powerful-\`just\`-features"
   date "2022-07-09" "Incremental-select-with-treesitter"
+  date "2024-12-13" "Python-in-the-browser"
 }
 
 main

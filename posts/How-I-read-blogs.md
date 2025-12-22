@@ -1,5 +1,5 @@
 I have recently gotten into the habit of reading more blogs, in particular, ones featured
-on [HackerNews](https://news.ycombinator.com/news). 
+on [HackerNews](https://news.ycombinator.com/news){target="_blank"}. 
 
 Reading books, personally, has been a difficult habit to cultivate
 over time, which I mainly attribute to the periodic feelings of being "stuck" or bored on a certain set of books. Blogs, however, offer a condensed read making them efficient and often amusing sources of information.
@@ -13,7 +13,7 @@ Realizing the severe lack of efficiency present in this routine, I thought about
 2. Reading on mobile or desktop
 3. Having no effortless `like` or `archive` feature
 
-To address these problems I chose to try out [`Instapaper`](https://www.instapaper.com/) and build a simple tool called [`hackerpaper`](https://github.com/terror/hackerpaper).
+To address these problems I chose to try out [`Instapaper`](https://www.instapaper.com/){target="_blank"} and build a simple tool called [`hackerpaper`](https://github.com/terror/hackerpaper){target="_blank"}.
 
 Instapaper has a feature that let's you send articles to your Kindle, which makes reading blogs much more comfortable. Moreover, the built in `like` and `archive` features carryover to the Kindle as well, making it a seamless process of `read` -> `archive or like` -> `repeat`.
 

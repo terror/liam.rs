@@ -56,7 +56,7 @@
         >
         <div class="separator"></div>
         <div class="date">
-          2025-12-22
+          2024-12-13
           <div class="stats">
             <span class="stats-number"> 98.70 </span>
             <span class="stats-unit">cm</span>
@@ -69,29 +69,37 @@
         <div class="post-text">
           <p>
             I recently wrote and distributed a
-            <a href="https://pypi.org/project/pqg/">Python package</a> for a
-            project, and I wanted a
-            <a href="https://dislmcgill.github.io/pandas-query-generator/"
+            <a href="https://pypi.org/project/pqg/" target="_blank"
+              >Python package</a
+            >
+            for a project, and I wanted a
+            <a
+              href="https://dislmcgill.github.io/pandas-query-generator/"
+              target="_blank"
               >web interface</a
             >
             to go with it. Naturally, I chose
-            <a href="https://react.dev/">React</a> to build it, but I had never
-            called Python from a React app before, so I had to figure things
-            out.
+            <a href="https://react.dev/" target="_blank">React</a> to build it,
+            but I had never called Python from a React app before, so I had to
+            figure things out.
           </p>
           <p>
             After a quick search, I stumbled across
-            <a href="https://pyodide.org/en/stable/">Pyodide</a>, which is a
-            port of
-            <a href="https://en.wikipedia.org/wiki/CPython?useskin=vector"
+            <a href="https://pyodide.org/en/stable/" target="_blank">Pyodide</a
+            >, which is a port of
+            <a
+              href="https://en.wikipedia.org/wiki/CPython?useskin=vector"
+              target="_blank"
               >CPython</a
             >
-            to <a href="https://webassembly.org/">WebAssembly</a>/<a
-              href="https://emscripten.org/"
-              >Emscripten</a
-            >. It allows users to install and use any pure Python package with a
-            wheel on <a href="https://pypi.org/">PyPI</a> via
-            <a href="https://micropip.pyodide.org/en/stable/project/api.html"
+            to
+            <a href="https://webassembly.org/" target="_blank">WebAssembly</a
+            >/<a href="https://emscripten.org/" target="_blank">Emscripten</a>.
+            It allows users to install and use any pure Python package with a
+            wheel on <a href="https://pypi.org/" target="_blank">PyPI</a> via
+            <a
+              href="https://micropip.pyodide.org/en/stable/project/api.html"
+              target="_blank"
               >micropip</a
             >. This sounded like something that could be useful, so I decided to
             try it out.
@@ -99,7 +107,9 @@
           <p>
             Since my package was already distributed, all I needed to do,
             according to the Pyodide
-            <a href="https://pyodide.org/en/stable/usage/loading-packages.html"
+            <a
+              href="https://pyodide.org/en/stable/usage/loading-packages.html"
+              target="_blank"
               >documentation</a
             >, was:
           </p>
@@ -110,6 +120,7 @@
               Run arbitrary Python code using my package with Pyodide’s
               <a
                 href="https://pyodide.org/en/stable/usage/api/js-api.html#pyodide.runPythonAsync"
+                target="_blank"
                 >API</a
               >
             </li>
@@ -120,11 +131,12 @@
           </p>
           <h3 id="i.-installation">I. Installation</h3>
           <p>
-            This is straightforward. I used <a href="https://bun.sh/">bun</a> as
-            my package manager, so all I had to do was run
-            <code>bun add pyodide</code>. Other package managers should follow a
-            similar command. You can check out the official Pyodide package
-            <a href="https://www.npmjs.com/package/pyodide"
+            This is straightforward. I used
+            <a href="https://bun.sh/" target="_blank">bun</a> as my package
+            manager, so all I had to do was run <code>bun add pyodide</code>.
+            Other package managers should follow a similar command. You can
+            check out the official Pyodide package
+            <a href="https://www.npmjs.com/package/pyodide" target="_blank"
               >on the npm registry</a
             >.
           </p>
@@ -133,12 +145,19 @@
             Getting Pyodide up and running involves a few steps that need to
             happen in the right order. First, we need to load the core Pyodide
             runtime from a
-            <a href="https://en.wikipedia.org/wiki/Content_delivery_network"
+            <a
+              href="https://en.wikipedia.org/wiki/Content_delivery_network"
+              target="_blank"
               >CDN</a
             >. Then we can use Pyodide’s package manager, micropip, to install
             our Python package. This is similar to how you might use
-            <a href="https://pip.pypa.io/en/stable/installation/">pip</a> in a
-            regular Python environment, but it’s all happening in the browser.
+            <a
+              href="https://pip.pypa.io/en/stable/installation/"
+              target="_blank"
+              >pip</a
+            >
+            in a regular Python environment, but it’s all happening in the
+            browser.
           </p>
           <p>
             One nice thing about Pyodide’s CDN distribution is that it includes
@@ -176,6 +195,7 @@
             itself is about
             <a
               href="https://pyodide.org/en/stable/project/roadmap.html#reducing-download-sizes-and-initialization-times"
+              target="_blank"
               >6MB</a
             >, and any additional packages you install will add to that. In my
             case, I found that showing a loading indicator during this
@@ -259,6 +279,7 @@
             Pyodide-related code into a
             <a
               href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers"
+              target="_blank"
               >web worker</a
             >.
           </p>
@@ -327,11 +348,14 @@
           </div>
           <p>
             I created this as a React
-            <a href="https://react.dev/learn#using-hooks">hook</a> that manages
-            the worker lifecycle. The hook creates the worker when the component
-            mounts and provides a
+            <a href="https://react.dev/learn#using-hooks" target="_blank"
+              >hook</a
+            >
+            that manages the worker lifecycle. The hook creates the worker when
+            the component mounts and provides a
             <a
               href="https://github.com/DISLMcGill/pandas-query-generator/blob/303251c5f4ae4bdcdc945caac0c0f21a22fda56f/www/src/hooks/use-pyodide-worker.ts#L52"
+              target="_blank"
               ><code>runPython</code></a
             >
             function that components can use to execute Python code. The status
@@ -411,6 +435,7 @@
             One thing to note is that web workers have their own
             <a
               href="https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope"
+              target="_blank"
               >global scope</a
             >, so the Pyodide instance and any installed packages persist
             between executions. This is actually beneficial as it means we only
@@ -428,7 +453,9 @@
           </p>
           <p>
             While there are
-            <a href="https://pyodide.org/en/stable/usage/wasm-constraints.html"
+            <a
+              href="https://pyodide.org/en/stable/usage/wasm-constraints.html"
+              target="_blank"
               >some limitations</a
             >
             - Pyodide can only run pure Python packages, and the initial load
@@ -440,6 +467,7 @@
             The full code for the implementation can be
             <a
               href="https://github.com/DISLMcGill/pandas-query-generator/tree/master/www"
+              target="_blank"
               >found on GitHub</a
             >.
           </p>

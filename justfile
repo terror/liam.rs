@@ -35,9 +35,19 @@ fix-typos:
   typos --write-changes **/*.md
 
 [group: 'format']
-fmt:
-  uv run ruff check --select I --fix && uv run ruff format
+fmt-js:
   prettier --write .
+
+[group: 'format']
+fmt-python:
+  uv run ruff check --select I --fix && uv run ruff format
+
+[group: 'format']
+fmt-rust:
+  cargo fmt --all
+
+[group: 'format']
+fmt: fmt-js fmt-python fmt-rust
 
 [group: 'check']
 forbid:
