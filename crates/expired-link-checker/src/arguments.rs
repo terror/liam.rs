@@ -10,9 +10,8 @@ enum CheckResult {
 
 #[derive(Debug, Parser)]
 #[command(
-  name = "dead-markdown-links",
-  about = "Check markdown files for dead links.",
-  disable_help_subcommand = true
+  name = env!("CARGO_PKG_NAME"),
+  about = "Check markdown files for expired links.",
 )]
 pub(crate) struct Arguments {
   /// One or more markdown files to check.
@@ -68,7 +67,7 @@ impl Arguments {
         } else {
           let reason = format!("missing file {}", path.display());
 
-          eprintln!("{COLOR_RED}DEAD{COLOR_RESET} {normalized} ({reason})");
+          eprintln!("{COLOR_RED}EXPIRED{COLOR_RESET} {normalized} ({reason})");
 
           CheckResult::Issue(Issue {
             destination: normalized,
@@ -82,8 +81,10 @@ impl Arguments {
           eprintln!("{COLOR_GREEN}OK{COLOR_RESET} {url}");
           CheckResult::Ok
         }
-        Status::Dead(reason) => {
-          eprintln!("{COLOR_RED}DEAD{COLOR_RESET} {url} (dead: {reason})");
+        Status::Expired(reason) => {
+          eprintln!(
+            "{COLOR_RED}EXPIRED{COLOR_RESET} {url} (expired: {reason})"
+          );
 
           CheckResult::Issue(Issue {
             destination: url.to_string(),
