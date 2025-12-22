@@ -17,51 +17,51 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@v2
 
-    - name: Clippy
-      run: cargo clippy --all --all-targets
+      - name: Clippy
+        run: cargo clippy --all --all-targets
 
-    - name: Format
-      run: cargo fmt --all -- --check
+      - name: Format
+        run: cargo fmt --all -- --check
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install ripgrep shellcheck
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install ripgrep shellcheck
 
-    - name: Check for forbidden words
-      run: ./bin/forbid
+      - name: Check for forbidden words
+        run: ./bin/forbid
 
-    - name: Check /bin scripts
-      run: shellcheck bin/*
+      - name: Check /bin scripts
+        run: shellcheck bin/*
 
-    - name: Install uv
-      uses: astral-sh/setup-uv@v3
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
 
-    - name: Set up Python 3.12
-      run: uv python install 3.12
+      - name: Set up Python 3.12
+        run: uv python install 3.12
 
-    - name: Check python scripts
-      run: |
-        uv run ruff check .
-        uv run ruff format --check .
+      - name: Check python scripts
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
 
   test:
     strategy:
       matrix:
         os:
-        - ubuntu-latest
-        - macos-latest
+          - ubuntu-latest
+          - macos-latest
 
     runs-on: ${{matrix.os}}
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@v2
 
-    - name: Test
-      run: cargo test --all
+      - name: Test
+        run: cargo test --all

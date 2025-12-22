@@ -10,7 +10,7 @@ impl Client {
   fn check_get(&self, url: &Url) -> Status {
     match self.client.get(url.clone()).send() {
       Ok(response) => Status::from(response.status()),
-      Err(error) => Status::Dead(error.to_string()),
+      Err(error) => Status::Expired(error.to_string()),
     }
   }
 
@@ -45,7 +45,7 @@ impl Client {
 
         Status::from(status)
       }
-      Err(error) => Status::Dead(error.to_string()),
+      Err(error) => Status::Expired(error.to_string()),
     }
   }
 
@@ -54,7 +54,7 @@ impl Client {
       client: reqwest::blocking::Client::builder()
         .timeout(Duration::from_secs(timeout_seconds))
         .redirect(Policy::limited(10))
-        .user_agent("dead-markdown-links/0.0.0")
+        .user_agent(format!("{}/0.0.0", env!("CARGO_PKG_NAME")))
         .build()
         .context("building http client")?,
       remote_cache: HashMap::new(),
