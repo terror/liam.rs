@@ -374,9 +374,8 @@ or replace blocks of text in treesitter parsed source files, as
 expanding a node selection with a keybinding is super fast and usually
 results in the exact block of text I want to modify.&lt;/p&gt;
 &lt;p&gt;Here’s a quick demo of it in action:&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://asciinema.org/a/507405"&gt;&lt;img
-src="https://asciinema.org/a/507405.svg" target="_blank"
-alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://asciinema.org/a/507405" target="_blank"&gt;&lt;img
+src="https://asciinema.org/a/507405.svg" alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;A reference of my full neovim configuration can be found on github,
 in my &lt;a href="https://github.com/terror/dotfiles"
 target="_blank"&gt;dotfiles&lt;/a&gt; repo. Be sure to check it out!&lt;/p&gt;</description>
@@ -437,9 +436,10 @@ arguments for recipes that take them when using the default chooser.&lt;/p&gt;
 &lt;code&gt;just --show&lt;/code&gt; and a bit of &lt;a
 href="https://en.wikipedia.org/wiki/Python_(programming_language)"
 target="_blank"&gt;Python&lt;/a&gt;, here’s how you can get to look:&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN"&gt;&lt;img
+&lt;p&gt;&lt;a href="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN"
+target="_blank"&gt;&lt;img
 src="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN.svg"
-target="_blank" alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
+alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id="recipes-in-arbitrary-languages"&gt;Recipes in arbitrary
 languages&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;just&lt;/code&gt; recipes can be expressed in another language by

@@ -193,4 +193,14 @@ mod tests {
 
     assert_eq!(transform_links(input), input);
   }
+
+  #[test]
+  fn adds_target_for_image_links() {
+    let input = "[![asciicast](https://asciinema.org/a/demo.svg)](https://asciinema.org/a/demo)\n";
+
+    assert_eq!(
+      transform_links(input),
+      "[![asciicast](https://asciinema.org/a/demo.svg)](https://asciinema.org/a/demo){target=\"_blank\"}\n"
+    );
+  }
 }
