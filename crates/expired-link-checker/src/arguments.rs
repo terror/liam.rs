@@ -2,10 +2,10 @@ use super::*;
 
 #[derive(Debug)]
 enum CheckResult {
-  Ok,
-  Skipped,
   Fragment,
   Issue(Issue),
+  Ok,
+  Skipped,
 }
 
 #[derive(Debug, Parser)]
