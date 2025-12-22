@@ -4,16 +4,19 @@ use {
   regex::{Captures, Regex},
   std::{
     ffi::OsStr,
-    sync::LazyLock,
     fs,
     path::{Path, PathBuf},
     process,
+    sync::LazyLock,
   },
   walkdir::WalkDir,
 };
 
 pub static LINK_TRANSFORM: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"(?m)\[([^\]\n]*)\]\(([^()\n]*(?:\([^()\n]*\)[^()\n]*)*)\)([^{\n]|$)").unwrap()
+  Regex::new(
+    r"(?m)\[([^\]\n]*)\]\(([^()\n]*(?:\([^()\n]*\)[^()\n]*)*)\)([^{\n]|$)",
+  )
+  .unwrap()
 });
 
 type Result<T = (), E = anyhow::Error> = std::result::Result<T, E>;
@@ -55,9 +58,7 @@ fn replacement_for(captures: &Captures<'_>) -> String {
   }
 }
 
-fn process_file(
-  path: &Path,
-) -> Result {
+fn process_file(path: &Path) -> Result {
   let input = fs::read_to_string(path)
     .with_context(|| format!("reading {}", path.display()))?;
 
