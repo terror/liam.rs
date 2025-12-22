@@ -13,37 +13,55 @@ defaults:
     shell: bash
 
 jobs:
-  check-workflow:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Download actionlint
-        id: actionlint
-        run:
-          bash <(curl
-          https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+    - uses: Swatinem/rust-cache@v2
 
-      - name: Check workflow
-        run: ${{ steps.actionlint.outputs.executable }} -color
+    - name: Clippy
+      run: cargo clippy --all --all-targets
 
-  check:
-    runs-on: ubuntu-latest
+    - name: Format
+      run: cargo fmt --all -- --check
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install ripgrep shellcheck
+
+    - name: Check for forbidden words
+      run: ./bin/forbid
+
+    - name: Check /bin scripts
+      run: shellcheck bin/*
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+
+    - name: Set up Python 3.12
+      run: uv python install 3.12
+
+    - name: Check python scripts
+      run: |
+        uv run ruff check .
+        uv run ruff format --check .
+
+  test:
+    strategy:
+      matrix:
+        os:
+        - ubuntu-latest
+        - macos-latest
+
+    runs-on: ${{matrix.os}}
 
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v3
+    - uses: Swatinem/rust-cache@v2
 
-      - name: Set up Python 3.12
-        run: uv python install 3.12
-
-      - name: Check python scripts
-        run: |
-          uv run ruff check .
-          uv run ruff format --check .
-
-      - name: Check bash scripts
-        run: shellcheck bin/*
+    - name: Test
+      run: cargo test --all
