@@ -3,21 +3,21 @@ use {
   notify::{Event, EventKind, RecursiveMode, Watcher},
   std::{
     collections::HashMap,
+    env,
     io::{BufRead, BufReader},
     path::Path,
     process::{self, Command, Stdio},
-    sync::mpsc::channel,
+    sync::mpsc::{channel, RecvTimeoutError},
     time::{Duration, Instant},
   },
 };
 
-fn run(script: &str, file_path: &str) -> Result<()> {
+fn run(script: &str, file_path: &str) -> Result {
   let mut child = Command::new(script)
     .arg(file_path)
     .stdout(Stdio::piped())
     .stderr(Stdio::piped())
-    .spawn()
-    .expect("Failed to start script");
+    .spawn()?;
 
   let stdout_reader =
     BufReader::new(child.stdout.take().expect("Failed to capture stdout"));
@@ -31,7 +31,7 @@ fn run(script: &str, file_path: &str) -> Result<()> {
 type Result<T = (), E = Error> = std::result::Result<T, E>;
 
 fn main() -> Result {
-  let args = std::env::args().collect::<Vec<String>>();
+  let args = env::args().collect::<Vec<String>>();
 
   if args.len() != 3 {
     eprintln!("Usage: {} <directory> <script>", args[0]);
@@ -47,8 +47,7 @@ fn main() -> Result {
   watcher.watch(Path::new(directory), RecursiveMode::Recursive)?;
 
   println!(
-    "Watching for file modifications in {}. Press Ctrl-C to stop.",
-    directory
+    "Watching for file modifications in {directory}. Press Ctrl-C to stop.",
   );
 
   let mut last_run_time = HashMap::new();
@@ -77,10 +76,10 @@ fn main() -> Result {
             }
           }
         }
-        Err(e) => eprintln!("error: {:?}", e),
+        Err(error) => eprintln!("error: {error}"),
       },
-      Err(std::sync::mpsc::RecvTimeoutError::Timeout) => (),
-      Err(e) => eprintln!("error: {:?}", e),
+      Err(RecvTimeoutError::Timeout) => {}
+      Err(error) => eprintln!("error: {error}"),
     }
   }
 }
