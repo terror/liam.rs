@@ -435,7 +435,7 @@ target="_blank"&gt;&lt;code&gt;fzf&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 arguments for recipes that take them when using the default chooser.&lt;/p&gt;
 &lt;p&gt;However, with the help of &lt;code&gt;just --summary&lt;/code&gt;,
 &lt;code&gt;just --show&lt;/code&gt; and a bit of &lt;a
-href="https://en.wikipedia.org/wiki/Python_(programming_language)%7Btarget=%22_blank%22%7D"
+href="https://en.wikipedia.org/wiki/Python_(programming_language)"
 target="_blank"&gt;Python&lt;/a&gt;, here’s how you can get to look:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN"&gt;&lt;img
 src="https://asciinema.org/a/eNi5cZw4BZLcplHq4Ae1aN8nN.svg"
