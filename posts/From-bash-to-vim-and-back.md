@@ -1,5 +1,5 @@
 I recently ran the following command to get my top 5 most used
-[Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell){target="_blank"}) commands:
+[Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)){target="_blank"} commands:
 
 ```bash
 $ history | awk '{print $2}' | sort | uniq -c | sort -nr | head -5
@@ -33,7 +33,7 @@ To break the command down a bit:
 - `normal '0`: The last set cursor position and file
 - `bd1`: Delete the first buffer
 
-I use [Neovim](https://en.wikipedia.org/wiki/Vim_(text_editor){target="_blank"}#Neovim) alot,
+I use [Neovim](https://en.wikipedia.org/wiki/Vim_(text_editor)){target="_blank"} alot,
 and sometimes I quit the editor to run some arbitrary Bash command. Without
 having to search for the previously opened file, I invoke `lv`, which gets me
 back to where I was at.

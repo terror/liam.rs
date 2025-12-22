@@ -11,7 +11,8 @@ use {
   walkdir::WalkDir,
 };
 
-const LINK_PATTERN: &str = r"(?m)\[([^\]\n]*)\]\(([^)\n]*)\)([^{\n]|$)";
+const LINK_PATTERN: &str =
+  r"(?m)\[([^\]\n]*)\]\(([^()\n]*(?:\([^()\n]*\)[^()\n]*)*)\)([^{\n]|$)";
 
 type Result<T = (), E = anyhow::Error> = std::result::Result<T, E>;
 
@@ -140,5 +141,17 @@ mod tests {
     let input = "- [Example](https://example.com){target=\"_blank\"}\n";
 
     assert_eq!(regex.replace_all(input, replacement_for), input);
+  }
+
+  #[test]
+  fn adds_target_for_urls_with_parentheses() {
+    let regex = Regex::new(LINK_PATTERN).unwrap();
+
+    let input = "- [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))\n";
+
+    assert_eq!(
+      regex.replace_all(input, replacement_for),
+      "- [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)){target=\"_blank\"}\n"
+    );
   }
 }
