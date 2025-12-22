@@ -1,25 +1,18 @@
 use {
   anyhow::Context,
   clap::Parser,
-  regex::{Captures, Regex},
+  pulldown_cmark::{Event, LinkType, Options, Parser as MarkdownParser, Tag},
   std::{
+    backtrace::BacktraceStatus,
     ffi::OsStr,
     fs,
     path::{Path, PathBuf},
     process,
-    sync::LazyLock,
   },
   walkdir::WalkDir,
 };
 
-pub static LINK_TRANSFORM: LazyLock<Regex> = LazyLock::new(|| {
-  Regex::new(
-    r"(?m)\[([^\]\n]*)\]\(([^()\n]*(?:\([^()\n]*\)[^()\n]*)*)\)([^{\n]|$)",
-  )
-  .unwrap()
-});
-
-type Result<T = (), E = anyhow::Error> = std::result::Result<T, E>;
+const TARGET_ATTRIBUTE: &str = "{target=\"_blank\"}";
 
 #[derive(Debug, Parser)]
 #[command(
@@ -35,34 +28,69 @@ struct Arguments {
   recursive: bool,
 }
 
-fn replacement_for(captures: &Captures<'_>) -> String {
-  let url = captures.get(2).map_or("", |match_| match_.as_str());
-
-  let url_trimmed = url.trim();
-
-  if url_trimmed.starts_with('#') {
-    return captures
-      .get(0)
-      .map_or_else(String::new, |match_| match_.as_str().to_string());
+fn should_add_target(
+  link_type: LinkType,
+  destination: &str,
+  source: &str,
+  link_end: usize,
+) -> bool {
+  if matches!(link_type, LinkType::WikiLink { .. }) {
+    return false;
   }
 
-  let tail = captures.get(3).map_or("", |match_| match_.as_str());
+  let destination_trimmed = destination.trim();
 
-  if tail.is_empty() {
-    format!("[{}]({}){{target=\"_blank\"}}", &captures[1], &captures[2])
-  } else {
-    format!(
-      "[{}]({}){{target=\"_blank\"}}{tail}",
-      &captures[1], &captures[2],
-    )
+  if destination_trimmed.is_empty() || destination_trimmed.starts_with('#') {
+    return false;
   }
+
+  source.as_bytes().get(link_end) != Some(&b'{')
+}
+
+fn transform_links(input: &str) -> String {
+  let options = Options::all();
+
+  let parser = MarkdownParser::new_ext(input, options).into_offset_iter();
+
+  let mut insertions = parser
+    .filter(|(event, range)| {
+      matches!(
+          event,
+          Event::Start(Tag::Link { link_type, dest_url, .. })
+              if should_add_target(*link_type, dest_url, input, range.end)
+      )
+    })
+    .map(|(_, range)| range.end)
+    .collect::<Vec<_>>();
+
+  if insertions.is_empty() {
+    return input.to_string();
+  }
+
+  insertions.sort_unstable();
+  insertions.dedup();
+
+  let mut output = String::with_capacity(
+    input.len() + insertions.len() * TARGET_ATTRIBUTE.len(),
+  );
+
+  let mut last_index = 0;
+
+  for index in insertions {
+    output.push_str(&input[last_index..index]);
+    output.push_str(TARGET_ATTRIBUTE);
+    last_index = index;
+  }
+
+  output.push_str(&input[last_index..]);
+  output
 }
 
 fn process_file(path: &Path) -> Result {
   let input = fs::read_to_string(path)
     .with_context(|| format!("reading {}", path.display()))?;
 
-  let output = LINK_TRANSFORM.replace_all(&input, replacement_for);
+  let output = transform_links(&input);
 
   fs::write(path, output.as_bytes())
     .with_context(|| format!("writing {}", path.display()))?;
@@ -95,9 +123,28 @@ fn run() -> Result {
   Ok(())
 }
 
+type Result<T = (), E = anyhow::Error> = std::result::Result<T, E>;
+
 fn main() {
   if let Err(error) = run() {
     eprintln!("error: {error}");
+
+    for (i, error) in error.chain().skip(1).enumerate() {
+      if i == 0 {
+        eprintln!();
+        eprintln!("because:");
+      }
+
+      eprintln!("- {error}");
+    }
+
+    let backtrace = error.backtrace();
+
+    if backtrace.status() == BacktraceStatus::Captured {
+      eprintln!("backtrace:");
+      eprintln!("{backtrace}");
+    }
+
     process::exit(1);
   }
 }
@@ -111,7 +158,7 @@ mod tests {
     let input = "- [Example](https://example.com)\n";
 
     assert_eq!(
-      LINK_TRANSFORM.replace_all(input, replacement_for),
+      transform_links(input),
       "- [Example](https://example.com){target=\"_blank\"}\n"
     );
   }
@@ -120,14 +167,14 @@ mod tests {
   fn keeps_fragment_links_unchanged() {
     let input = "- [Panic! at the disco](#panic-at-the-disco)\n";
 
-    assert_eq!(LINK_TRANSFORM.replace_all(input, replacement_for), input);
+    assert_eq!(transform_links(input), input);
   }
 
   #[test]
   fn preserves_existing_target_attribute() {
     let input = "- [Example](https://example.com){target=\"_blank\"}\n";
 
-    assert_eq!(LINK_TRANSFORM.replace_all(input, replacement_for), input);
+    assert_eq!(transform_links(input), input);
   }
 
   #[test]
@@ -135,8 +182,15 @@ mod tests {
     let input = "- [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))\n";
 
     assert_eq!(
-      LINK_TRANSFORM.replace_all(input, replacement_for),
+      transform_links(input),
       "- [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)){target=\"_blank\"}\n"
     );
+  }
+
+  #[test]
+  fn ignores_links_inside_inline_code() {
+    let input = "Use `[Example](https://example.com)` as code.\n";
+
+    assert_eq!(transform_links(input), input);
   }
 }
