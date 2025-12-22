@@ -45,7 +45,7 @@ mod tests {
           );
         }
         (actual, expected) => {
-          panic!("expected {:?}, got {:?}", expected, actual);
+          panic!("expected {expected:?}, got {actual:?}");
         }
       }
     }
