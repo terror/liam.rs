@@ -31,14 +31,14 @@ fn handle_change(script: &str, file_path: &str) -> Result {
 }
 
 fn run() -> Result {
-  let args = env::args().collect::<Vec<String>>();
+  let arguments = env::args().collect::<Vec<String>>();
 
-  if args.len() != 3 {
-    eprintln!("Usage: {} <directory> <script>", args[0]);
+  if arguments.len() != 3 {
+    eprintln!("Usage: {} <directory> <script>", arguments[0]);
     process::exit(1);
   }
 
-  let (directory, script) = (&args[1], &args[2]);
+  let (directory, script) = (&arguments[1], &arguments[2]);
 
   let (tx, rx) = channel();
 
