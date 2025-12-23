@@ -14,7 +14,7 @@ read, which it then uses to generate the parser. This grammar specifies the
 named syntax nodes in the tree and how they relate to other nodes.
 
 For instance, if we head over to the
-[syntax tree playground](https://tree-sitter.github.io/tree-sitter/playground){target="_blank"}
+[syntax tree playground](https://tree-sitter.github.io/tree-sitter/7-playground.html){target="_blank"}
 and parse rust source code that looks like this:
 
 ```rust
