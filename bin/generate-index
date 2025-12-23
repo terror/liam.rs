@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 export ESH_AWK="/opt/homebrew/bin/gawk"
 
 INDEX_BLOG_LIMIT=3

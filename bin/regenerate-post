@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 ./bin/generate-index --single "$(basename "$1")"

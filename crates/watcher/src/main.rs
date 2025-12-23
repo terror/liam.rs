@@ -2,17 +2,18 @@ use {
   anyhow::Error,
   notify::{Event, EventKind, RecursiveMode, Watcher},
   std::{
+    backtrace::BacktraceStatus,
     collections::HashMap,
     env,
     io::{BufRead, BufReader},
     path::Path,
     process::{self, Command, Stdio},
-    sync::mpsc::{channel, RecvTimeoutError},
+    sync::mpsc::{RecvTimeoutError, channel},
     time::{Duration, Instant},
   },
 };
 
-fn run(script: &str, file_path: &str) -> Result {
+fn handle_change(script: &str, file_path: &str) -> Result {
   let mut child = Command::new(script)
     .arg(file_path)
     .stdout(Stdio::piped())
@@ -25,12 +26,11 @@ fn run(script: &str, file_path: &str) -> Result {
   for line in stdout_reader.lines() {
     println!("{}", line?);
   }
+
   Ok(())
 }
 
-type Result<T = (), E = Error> = std::result::Result<T, E>;
-
-fn main() -> Result {
+fn run() -> Result {
   let args = env::args().collect::<Vec<String>>();
 
   if args.len() != 3 {
@@ -70,7 +70,7 @@ fn main() -> Result {
                 }
               }
 
-              run(script, path_str)?;
+              handle_change(script, path_str)?;
 
               last_run_time.insert(path_str.to_string(), now);
             }
@@ -81,5 +81,31 @@ fn main() -> Result {
       Err(RecvTimeoutError::Timeout) => {}
       Err(error) => eprintln!("error: {error}"),
     }
+  }
+}
+
+type Result<T = (), E = Error> = std::result::Result<T, E>;
+
+fn main() {
+  if let Err(error) = run() {
+    eprintln!("error: {error}");
+
+    for (i, error) in error.chain().skip(1).enumerate() {
+      if i == 0 {
+        eprintln!();
+        eprintln!("because:");
+      }
+
+      eprintln!("- {error}");
+    }
+
+    let backtrace = error.backtrace();
+
+    if backtrace.status() == BacktraceStatus::Captured {
+      eprintln!("backtrace:");
+      eprintln!("{backtrace}");
+    }
+
+    process::exit(1);
   }
 }
