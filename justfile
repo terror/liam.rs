@@ -10,12 +10,15 @@ alias g := generate
 default:
   just --list
 
-all: forbid fix-typos generate fmt
+all: fix-typos generate fmt forbid check
 
 [group: 'check']
 check:
-  uv run ruff check
+  cargo fmt --all -- --check
+  prettier --check .
   shellcheck ./bin/*
+  uv run ruff check .
+  uv run ruff format --check .
 
 [group: 'check']
 check-favicon port='https://liam.rs':
@@ -27,7 +30,15 @@ dev:
 
 [group: 'dev']
 dev-deps:
-  brew install just prettier typos-cli shellcheck uv
+  brew install \
+    just \
+    prettier \
+    shellcheck \
+    typos-cli \
+    uv
+
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
   curl https://raw.githubusercontent.com/jirutka/esh/master/esh > /usr/local/bin/esh
 
 [group: 'fix']
@@ -35,19 +46,10 @@ fix-typos:
   typos --write-changes **/*.md
 
 [group: 'format']
-fmt-js:
-  prettier --write .
-
-[group: 'format']
-fmt-python:
-  uv run ruff check --select I --fix && uv run ruff format
-
-[group: 'format']
-fmt-rust:
+fmt:
   cargo fmt --all
-
-[group: 'format']
-fmt: fmt-js fmt-python fmt-rust
+  prettier --write .
+  uv run ruff check --select I --fix && uv run ruff format
 
 [group: 'check']
 forbid:
@@ -61,8 +63,13 @@ generate:
 
 [group: 'dev']
 generate-favicon image:
-  npx realfavicon generate {{ image }} favicon/favicon-settings.json favicon/favicon-output.json docs/favicon
+  npx realfavicon generate {{ image }} \
+    favicon/favicon-settings.json \
+    favicon/favicon-output.json \
+    docs/favicon
+
   cat favicon-output.json | jq -r '.markups | sort | join("\n")' > favicon/favicon-output.txt
+
   rm favicon-output.json
 
 [group: 'dev']
