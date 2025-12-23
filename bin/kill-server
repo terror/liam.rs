@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
-if pgrep -f "python3 -m http.server 8000" > /dev/null; then
-  echo "Server is running. Stopping it now..."
-  pkill -f "python3 -m http.server 8000"
+set -euo pipefail
+
+CMD="python3 -m http.server"
+PORT=8000
+PATTERN="$CMD $PORT"
+
+if pgrep -f "$PATTERN" > /dev/null; then
+  echo "Server is running on port $PORT. Stopping it..."
+  pkill -f "$PATTERN"
 else
   echo "Server is not running."
 fi

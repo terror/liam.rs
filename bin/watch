@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+PORT=8000
+DOCS_DIR="./docs"
+SERVER_CMD=(python3 -m http.server "$PORT" --directory "$DOCS_DIR")
+
+SERVER_PID=""
+
+cleanup() {
+  if [[ -n "${SERVER_PID}" ]] && kill -0 "$SERVER_PID" 2>/dev/null; then
+    echo "Stopping HTTP server (pid $SERVER_PID)..."
+    kill "$SERVER_PID"
+    wait "$SERVER_PID" 2>/dev/null || true
+  fi
+}
+
+trap cleanup EXIT INT TERM
+
+echo "Starting HTTP server on port $PORT..."
+"${SERVER_CMD[@]}" &
+SERVER_PID=$!
+
+echo "Server started (pid $SERVER_PID)"
+
+cargo run -p watcher ./posts ./bin/regenerate-post

@@ -23,7 +23,7 @@ check-favicon port='https://liam.rs':
 
 [group: 'dev']
 dev:
-  python3 -m http.server 8000 --directory ./docs
+  python3 -m http.server --directory ./docs
 
 [group: 'dev']
 dev-deps:
@@ -67,6 +67,4 @@ generate-favicon image:
 
 [group: 'dev']
 watch:
-  ./bin/kill-server
-  python3 -m http.server 8000 --directory ./docs &
-  cargo run --manifest-path crates/watcher/Cargo.toml ./posts ./bin/regenerate-post
+  ./bin/watch
