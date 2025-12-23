@@ -21,7 +21,7 @@ git clone https://github.com/{username}/liam.rs.git
 Make changes and generate static assets:
 
 ```bash
-./bin/last-modified
+./bin/sync-post-timestamps
 ./bin/generate-index
 ./bin/generate-projects.py
 ```

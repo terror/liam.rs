@@ -55,7 +55,7 @@ forbid:
 
 [group: 'dev']
 generate:
-  ./bin/last-modified
+  ./bin/sync-post-timestamps
   ./bin/generate-index
   ./bin/generate-projects.py
 
