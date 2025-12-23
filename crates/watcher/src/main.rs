@@ -64,10 +64,10 @@ fn run() -> Result {
 
               let now = Instant::now();
 
-              if let Some(&last_run) = last_run_time.get(path_str) {
-                if now.duration_since(last_run) < debounce_duration {
-                  continue;
-                }
+              if let Some(&last_run) = last_run_time.get(path_str)
+                && now.duration_since(last_run) < debounce_duration
+              {
+                continue;
               }
 
               handle_change(script, path_str)?;
