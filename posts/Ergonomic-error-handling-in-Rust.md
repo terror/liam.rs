@@ -59,7 +59,7 @@ This program can fail in a few different ways:
 - The call to [`write_all`](https://doc.rust-lang.org/std/io/trait.Write.html#method.write_all){target="_blank"}
   gets interrupted.
 
-We are handling each of these instances with our calls to [`unwrap`](https://learning-rust.github.io/docs/e4.unwrap_and_expect.html){target="_blank"} on the fallible function calls. However, instead of being able to recover from an error if it occurs, the current thread [`panics`](https://doc.rust-lang.org/std/macro.panic.html){target="_blank"}, which, if it is the main thread, terminates all threads and ends the program with code `101`.
+We are handling each of these instances with our calls to [`unwrap`](https://doc.rust-lang.org/std/result/enum.Result.html#method.unwrap){target="_blank"} on the fallible function calls. However, instead of being able to recover from an error if it occurs, the current thread [`panics`](https://doc.rust-lang.org/std/macro.panic.html){target="_blank"}, which, if it is the main thread, terminates all threads and ends the program with code `101`.
 
 ### Recoverable errors with Result<T, E>
 
