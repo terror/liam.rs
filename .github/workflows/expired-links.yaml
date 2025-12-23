@@ -1,4 +1,4 @@
-name: Scan for expired links
+name: Expired links
 
 on:
   pull_request:
@@ -12,7 +12,7 @@ defaults:
     shell: bash
 
 jobs:
-  expired-links:
+  scan:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,4 +21,4 @@ jobs:
       - uses: Swatinem/rust-cache@v2
 
       - name: Check expired links
-        run: cargo run -p cargo run -p expired-link-checker posts/*.md
+        run: cargo run -p expired-link-checker posts/*.md
