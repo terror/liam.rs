@@ -54,6 +54,108 @@
         <h1>Projects</h1>
         <div class="separator"></div>
         <table>
+          <tr class="grid-container" id="axil">
+            <td>
+              <div style="margin-bottom: 1em">
+                <strong>axil</strong> March 2026
+              </div>
+              <div style="margin-bottom: 1em; display: flex; gap: 0.4em">
+                <span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Rust</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >CLI</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Treesitter</span
+                ><span
+                  style="
+                    padding: 2px 4px 2px 4px;
+                    border: 2px solid var(--dark-white);
+                    border-radius: 0.5em;
+                  "
+                  >Tools</span
+                >
+              </div>
+              <em> A terminal user-interface for treesitter. </em>
+              <div>
+                <p>
+                  <strong>axil</strong> lets you interactively view the parsed
+                  syntax given by
+                  <a
+                    href="https://tree-sitter.github.io/tree-sitter/"
+                    target="_blank"
+                    >treesitter</a
+                  >
+                  for a file in any supported language.
+                </p>
+                <p>
+                  I initially wrote this as a debugging tool for my
+                  treesitter-based
+                  <a href="https://github.com/terror/just-lsp" target="_blank"
+                    >language server</a
+                  >
+                  for
+                  <a href="https://github.com/casey/just" target="_blank"
+                    ><code>just</code></a
+                  >, where inspecting and running queries against syntax trees
+                  was a common occurrence.
+                </p>
+                <p>Among other things, <strong>axil</strong> supports:</p>
+                <ul>
+                  <li>
+                    <p>
+                      Browsing the full syntax tree in an interactive TUI with
+                      vim-style navigation
+                      (<code>h</code>/<code>j</code>/<code>k</code>/<code>l</code>),
+                      collapsible nodes, and half-page scrolling.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Searching for node types with <code>/</code>, jumping
+                      between matches with <code>n</code>/<code>N</code>.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Printing the syntax tree to stdout for non-interactive
+                      use, with optional <code>--query</code> highlighting.
+                    </p>
+                  </li>
+                  <li>
+                    <p>Mouse events for click-to-navigate and scroll wheel.</p>
+                  </li>
+                </ul>
+                <p>
+                  Links:
+                  <a href="https://github.com/terror/axil" target="_blank"
+                    >GitHub</a
+                  >,
+                  <a href="https://crates.io/crates/axilt" target="_blank"
+                    >Crates.io</a
+                  >
+                </p>
+              </div>
+            </td>
+            <td style="display: flex; align-items: center">
+              <img src="/images/axil.png" />
+            </td>
+          </tr>
+
           <tr class="grid-container" id="swab">
             <td>
               <div style="margin-bottom: 1em">
