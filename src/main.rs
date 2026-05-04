@@ -9,6 +9,7 @@ use {
     routing::get,
   },
   clap::Parser,
+  converter::Converter,
   environment::Environment,
   frontmatter::Frontmatter,
   generator::Generator,
@@ -17,14 +18,18 @@ use {
   notify::{EventKind, RecursiveMode},
   post::Post,
   project::Project,
+  rayon::prelude::*,
   serde::{Deserialize, Serialize, Serializer},
   server::Server,
   slug::Slug,
   std::{
+    collections::BTreeSet,
+    env,
     ffi::OsStr,
     fmt::{self, Display, Formatter},
     fs,
-    io::Write,
+    io::{self, IsTerminal, Write},
+    iter,
     path::{Path, PathBuf},
     process::{self, Command, Stdio},
     string::String,
@@ -32,6 +37,7 @@ use {
     thread,
     time::{Duration, Instant, SystemTime},
   },
+  style::{BOLD, CYAN, DIM, GREEN, RED, Style, YELLOW},
   subcommand::Subcommand,
   time::{
     Date, Month, format_description::FormatItem, macros::format_description,
@@ -43,6 +49,7 @@ use {
 };
 
 mod arguments;
+mod converter;
 mod environment;
 mod frontmatter;
 mod generator;
@@ -51,6 +58,7 @@ mod post;
 mod project;
 mod server;
 mod slug;
+mod style;
 mod subcommand;
 mod watcher;
 
@@ -58,7 +66,7 @@ type Result<T = (), E = Error> = std::result::Result<T, E>;
 
 fn main() {
   if let Err(error) = Arguments::parse().run() {
-    eprintln!("error: {error}");
+    eprintln!("{} {error}", Style::stdout().apply(RED, "error:"));
 
     let causes = error.chain().skip(1).count();
 

@@ -17,7 +17,7 @@ impl Generator {
     let (posts, projects) = (self.loader.posts()?, self.loader.projects()?);
 
     fs::remove_dir_all("docs/posts").or_else(|error| {
-      if error.kind() == std::io::ErrorKind::NotFound {
+      if error.kind() == io::ErrorKind::NotFound {
         Ok(())
       } else {
         Err(error)

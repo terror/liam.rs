@@ -2,6 +2,7 @@ use super::*;
 
 pub(crate) struct Server {
   port: u16,
+  style: Style,
 }
 
 impl Server {
@@ -20,19 +21,20 @@ impl Server {
   }
 
   pub(crate) fn new(port: u16) -> Self {
-    Self { port }
+    Self {
+      port,
+      style: Style::stdout(),
+    }
   }
 
   pub(crate) fn serve(self) -> Result {
-    Generator::new().run()?;
-
     let live_reload = LiveReloadLayer::new();
 
     let reloader = live_reload.reloader();
 
     thread::spawn(move || {
       if let Err(error) = Watcher::new(reloader).watch() {
-        eprintln!("error: {error}");
+        eprintln!("{} {error}", self.style.apply(RED, "error:"));
         process::exit(1);
       }
     });
@@ -47,7 +49,11 @@ impl Server {
 
     let listener = TcpListener::bind(("127.0.0.1", self.port)).await?;
 
-    println!("Serving http://127.0.0.1:{}", self.port);
+    println!(
+      "{} http://127.0.0.1:{}",
+      self.style.apply(CYAN, self.style.apply(BOLD, "[server]")),
+      self.port
+    );
 
     axum::serve(listener, app).await?;
 

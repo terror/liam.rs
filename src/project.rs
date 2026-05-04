@@ -1,7 +1,5 @@
 use super::*;
 
-const PROJECT_DATE: &[FormatItem] = format_description!("[year]-[month]-[day]");
-
 #[derive(Debug, Deserialize, PartialEq)]
 pub(crate) struct ProjectFrontmatter {
   pub(crate) date: String,
@@ -24,19 +22,27 @@ pub(crate) struct Project {
 }
 
 impl Project {
+  const DATE_FORMAT: &[FormatItem<'_>] =
+    format_description!("[year]-[month]-[day]");
+
   pub(crate) fn load(path: &Path) -> Result<Self> {
+    let converter = Converter::new();
+
     let input = fs::read_to_string(path).with_context(|| {
       format!("failed to read project `{}`", path.display())
     })?;
 
     let frontmatter = Frontmatter::<ProjectFrontmatter>::parse(&input)?;
 
-    let date = Date::parse(&frontmatter.metadata.date, PROJECT_DATE)?;
+    let date = Date::parse(&frontmatter.metadata.date, Self::DATE_FORMAT)?;
 
     Ok(
       Self::builder()
         .date(frontmatter.metadata.date.clone())
-        .html(Loader::markdown(frontmatter.content)?)
+        .html(converter.run(
+          ["--mathjax", "--syntax-highlighting", "monochrome"],
+          frontmatter.content,
+        )?)
         .image(frontmatter.metadata.image)
         .lead(frontmatter.metadata.lead)
         .month(format!(
