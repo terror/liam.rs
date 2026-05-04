@@ -68,7 +68,7 @@ impl Post {
           .trim_end()
           .to_string(),
         )
-        .slug(Slug(title.to_string()))
+        .slug(Slug(title.clone()))
         .title(title)
         .build(),
     )
