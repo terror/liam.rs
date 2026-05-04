@@ -13,6 +13,7 @@ use {
   front_matter::FrontMatter,
   generator::Generator,
   loader::Loader,
+  minijinja::context,
   notify::{EventKind, RecursiveMode},
   post::Post,
   project::{Project, ProjectFrontMatter},
@@ -20,7 +21,6 @@ use {
   server::Server,
   slug::Slug,
   std::{
-    backtrace::BacktraceStatus,
     ffi::OsStr,
     fs,
     io::Write,
@@ -58,20 +58,10 @@ fn main() {
   if let Err(error) = Arguments::parse().run() {
     eprintln!("error: {error}");
 
+    let causes = error.chain().skip(1).count();
+
     for (i, error) in error.chain().skip(1).enumerate() {
-      if i == 0 {
-        eprintln!();
-        eprintln!("because:");
-      }
-
-      eprintln!("- {error}");
-    }
-
-    let backtrace = error.backtrace();
-
-    if backtrace.status() == BacktraceStatus::Captured {
-      eprintln!("backtrace:");
-      eprintln!("{backtrace}");
+      eprintln!("       {}─ {error}", if i < causes - 1 { '├' } else { '└' });
     }
 
     process::exit(1);

@@ -33,13 +33,13 @@ impl Generator {
     environment.write(
       "docs/posts/index.html",
       "posts.html",
-      minijinja::context! { posts => posts.clone() },
+      context! { posts => posts.clone() },
     )?;
 
     environment.write(
       "docs/index.html",
       "index.html",
-      minijinja::context! {
+      context! {
         posts => posts.iter().take(3).cloned().collect::<Vec<Post>>(),
         projects => projects.iter().take(3).cloned().collect::<Vec<_>>(),
       },
@@ -48,13 +48,13 @@ impl Generator {
     environment.write(
       "docs/projects/index.html",
       "projects.html",
-      minijinja::context! { projects => projects.clone() },
+      context! { projects => projects },
     )?;
 
     environment.write(
       "docs/index.xml",
       "rss.xml",
-      minijinja::context! { posts => posts },
+      context! { posts => posts },
     )?;
 
     Ok(())
