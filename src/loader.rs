@@ -115,7 +115,7 @@ impl Loader {
       format!("failed to read project `{}`", path.display())
     })?;
 
-    let front_matter = FrontMatter::<ProjectFrontMatter>::parse(&input)?;
+    let front_matter = Frontmatter::<ProjectFrontmatter>::parse(&input)?;
 
     Project::new(front_matter.metadata, Self::markdown(front_matter.content)?)
   }

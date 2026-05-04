@@ -10,13 +10,13 @@ use {
   },
   clap::Parser,
   environment::Environment,
-  front_matter::FrontMatter,
+  frontmatter::{Frontmatter, ProjectFrontmatter},
   generator::Generator,
   loader::Loader,
   minijinja::context,
   notify::{EventKind, RecursiveMode},
   post::Post,
-  project::{Project, ProjectFrontMatter},
+  project::Project,
   serde::{Deserialize, Serialize, Serializer},
   server::Server,
   slug::Slug,
@@ -44,7 +44,7 @@ use {
 
 mod arguments;
 mod environment;
-mod front_matter;
+mod frontmatter;
 mod generator;
 mod loader;
 mod post;

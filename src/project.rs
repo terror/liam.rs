@@ -2,15 +2,6 @@ use super::*;
 
 const PROJECT_DATE: &[FormatItem] = format_description!("[year]-[month]-[day]");
 
-#[derive(Deserialize)]
-pub(crate) struct ProjectFrontMatter {
-  pub(crate) date: String,
-  pub(crate) image: String,
-  pub(crate) lead: String,
-  pub(crate) title: String,
-  pub(crate) topics: Vec<String>,
-}
-
 #[derive(Clone, Serialize)]
 pub(crate) struct Project {
   pub(crate) date: String,
@@ -25,26 +16,28 @@ pub(crate) struct Project {
 
 impl Project {
   fn month(date: Date) -> String {
-    let month = match date.month() {
-      Month::January => "January",
-      Month::February => "February",
-      Month::March => "March",
-      Month::April => "April",
-      Month::May => "May",
-      Month::June => "June",
-      Month::July => "July",
-      Month::August => "August",
-      Month::September => "September",
-      Month::October => "October",
-      Month::November => "November",
-      Month::December => "December",
-    };
-
-    format!("{month} {}", date.year())
+    format!(
+      "{} {}",
+      match date.month() {
+        Month::January => "January",
+        Month::February => "February",
+        Month::March => "March",
+        Month::April => "April",
+        Month::May => "May",
+        Month::June => "June",
+        Month::July => "July",
+        Month::August => "August",
+        Month::September => "September",
+        Month::October => "October",
+        Month::November => "November",
+        Month::December => "December",
+      },
+      date.year()
+    )
   }
 
   pub(crate) fn new(
-    front_matter: ProjectFrontMatter,
+    front_matter: ProjectFrontmatter,
     html: String,
   ) -> Result<Self> {
     let date = Date::parse(&front_matter.date, PROJECT_DATE)?;
