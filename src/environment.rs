@@ -7,6 +7,7 @@ pub(crate) struct Environment {
 impl Environment {
   pub(crate) fn new() -> Result<Self> {
     let mut environment = minijinja::Environment::new();
+
     environment.set_keep_trailing_newline(true);
 
     for (name, path) in [
