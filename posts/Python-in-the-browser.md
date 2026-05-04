@@ -1,3 +1,8 @@
+---
+title: Python in the browser
+date: 2024-12-13
+---
+
 I recently wrote and distributed a [Python package](https://pypi.org/project/pqg/){target="_blank"}
 for a project, and I wanted a [web interface](https://dislmcgill.github.io/pandas-query-generator/){target="_blank"} to go with it. Naturally, I chose [React](https://react.dev/){target="_blank"}
 to build it, but I had never called Python from a React app before, so I had to figure things out.

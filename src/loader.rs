@@ -72,11 +72,7 @@ impl Loader {
       .flatten()
       .collect::<Vec<Post>>();
 
-    posts.sort_by(|a, b| {
-      b.modified
-        .cmp(&a.modified)
-        .then_with(|| a.path.cmp(&b.path))
-    });
+    posts.sort_by(|a, b| b.date.cmp(&a.date).then_with(|| a.path.cmp(&b.path)));
 
     Ok(posts)
   }

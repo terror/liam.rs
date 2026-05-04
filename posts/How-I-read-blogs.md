@@ -1,3 +1,8 @@
+---
+title: How I read blogs
+date: 2020-11-15
+---
+
 I have recently gotten into the habit of reading more blogs, in particular, ones featured
 on [HackerNews](https://news.ycombinator.com/news){target="_blank"}. 
 
@@ -32,4 +37,3 @@ To recap the routine:
 2. Have `Instapaper` send those articles to Kindle
 3. Read and archive those articles
 4. Repeat
-

@@ -1,3 +1,8 @@
+---
+title: Scripting in markdown
+date: 2022-02-27
+---
+
 I recently wrote yet another command-line utility in Rust called
 [`present`](https://github.com/terror/present){target="_blank"} that lets you interpolate the
 standard output of arbitrary commands that get interpreted by the shell into a

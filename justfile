@@ -16,8 +16,6 @@ check:
   cargo fmt --all -- --check
   prettier --check .
   shellcheck ./bin/*
-  uv run ruff check .
-  uv run ruff format --check .
 
 [group: 'check']
 check-favicon port='https://liam.rs':
@@ -33,8 +31,7 @@ dev-deps:
     just \
     prettier \
     shellcheck \
-    typos-cli \
-    uv
+    typos-cli
 
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
@@ -45,8 +42,11 @@ fix-typos:
 [group: 'format']
 fmt:
   cargo fmt --all
+
+[group: 'format']
+[working-directory: 'docs']
+fmt-docs:
   prettier --write .
-  uv run ruff check --select I --fix && uv run ruff format
 
 [group: 'check']
 forbid:
@@ -54,8 +54,7 @@ forbid:
 
 [group: 'dev']
 generate:
-  ./bin/sync-post-timestamps
-  cargo run -p generator
+  cargo run
 
 [group: 'dev']
 generate-favicon image:
@@ -67,7 +66,3 @@ generate-favicon image:
   cat favicon-output.json | jq -r '.markups | sort | join("\n")' > favicon/favicon-output.txt
 
   rm favicon-output.json
-
-[group: 'dev']
-watch:
-  cargo run -p generator -- serve

@@ -1,3 +1,8 @@
+---
+title: Incremental select with treesitter
+date: 2022-07-09
+---
+
 [treesitter](https://github.com/tree-sitter/tree-sitter){target="_blank"} is a tool that can
 build a concrete syntax tree for a source file and incrementally update the tree
 as the file is modified.

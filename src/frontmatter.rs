@@ -27,31 +27,22 @@ where
   }
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
-pub(crate) struct ProjectFrontmatter {
-  pub(crate) date: String,
-  pub(crate) image: String,
-  pub(crate) lead: String,
-  pub(crate) title: String,
-  pub(crate) topics: Vec<String>,
-}
-
 #[cfg(test)]
 mod tests {
   use {super::*, indoc::indoc};
 
+  #[derive(Debug, Deserialize, PartialEq)]
+  struct Metadata {
+    title: String,
+  }
+
   #[test]
   fn parse() {
     assert_eq!(
-      Frontmatter::<ProjectFrontmatter>::parse(indoc! {
+      Frontmatter::<Metadata>::parse(indoc! {
         "
         ---
         title: foo
-        date: 2025-03-17
-        repo: foo/bar
-        topics: ['foo', 'bar']
-        lead: foo
-        image: foo.png
         ---
         bar
         "
@@ -59,12 +50,8 @@ mod tests {
       .unwrap(),
       Frontmatter {
         content: "bar\n",
-        metadata: ProjectFrontmatter {
-          date: "2025-03-17".to_string(),
-          image: "foo.png".to_string(),
-          lead: "foo".to_string(),
+        metadata: Metadata {
           title: "foo".to_string(),
-          topics: vec!["foo".to_string(), "bar".to_string()],
         },
       }
     );

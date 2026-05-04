@@ -1,3 +1,8 @@
+---
+title: Binary search for bugs
+date: 2021-02-15
+---
+
 I recently encountered a build failure in a dependency of a Rust crate I was trying to install which led me to
 be introduced to a git command called `bisect`.
 

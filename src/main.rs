@@ -10,7 +10,7 @@ use {
   },
   clap::Parser,
   environment::Environment,
-  frontmatter::{Frontmatter, ProjectFrontmatter},
+  frontmatter::Frontmatter,
   generator::Generator,
   loader::Loader,
   minijinja::context,
@@ -34,8 +34,7 @@ use {
   },
   subcommand::Subcommand,
   time::{
-    Date, Month, OffsetDateTime, format_description::FormatItem,
-    macros::format_description,
+    Date, Month, format_description::FormatItem, macros::format_description,
   },
   tokio::{net::TcpListener, runtime::Runtime},
   tower_livereload::{LiveReloadLayer, Reloader},

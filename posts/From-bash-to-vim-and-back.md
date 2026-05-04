@@ -1,3 +1,8 @@
+---
+title: From bash to vim and back
+date: 2022-02-25
+---
+
 I recently ran the following command to get my top 5 most used
 [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)){target="_blank"} commands:
 

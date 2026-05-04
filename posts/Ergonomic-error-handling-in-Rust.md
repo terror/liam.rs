@@ -1,3 +1,8 @@
+---
+title: Ergonomic error handling in Rust
+date: 2021-08-22
+---
+
 There are many ways you can handle errors in Rust programs: panic at every
 fallible situation, propagate foreign errors up the call stack, craft your
 own error type.

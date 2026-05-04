@@ -6,6 +6,12 @@ const RSS_DATE: &[FormatItem] = format_description!(
   "[weekday repr:short], [day padding:zero] [month repr:short] [year] [hour]:[minute]:00 +0000"
 );
 
+#[derive(Debug, Deserialize, PartialEq)]
+pub(crate) struct PostFrontmatter {
+  pub(crate) date: String,
+  pub(crate) title: String,
+}
+
 #[derive(Clone, Serialize, TypedBuilder)]
 pub(crate) struct Post {
   pub(crate) date: String,
@@ -26,6 +32,8 @@ impl Post {
     let input = fs::read_to_string(path)
       .with_context(|| format!("failed to read post `{}`", path.display()))?;
 
+    let frontmatter = Frontmatter::<PostFrontmatter>::parse(&input)?;
+
     let modified = fs::metadata(path)?.modified()?;
 
     let filename = path
@@ -34,43 +42,73 @@ impl Post {
       .to_string_lossy()
       .to_string();
 
-    let title = path
-      .file_stem()
-      .context("post path has no filename")?
-      .to_string_lossy()
-      .replace('-', " ");
-
     Ok(
       Self::builder()
-        .date(OffsetDateTime::from(modified).format(DATE)?)
+        .date(frontmatter.metadata.date.clone())
         .filename(filename)
         .height(format!(
           "{:.2}",
-          f64::from(u32::try_from(input.lines().count()).unwrap_or(u32::MAX))
-            * 18.0
+          f64::from(
+            u32::try_from(frontmatter.content.lines().count())
+              .unwrap_or(u32::MAX)
+          ) * 18.0
             * 0.0222
         ))
-        .html(Loader::markdown(&input)?)
+        .html(Loader::markdown(frontmatter.content)?)
         .modified(modified)
         .path(path.to_path_buf())
         .read_time(format!(
           "{:.1}",
           f64::from(
-            u32::try_from(input.split_whitespace().count()).unwrap_or(u32::MAX)
+            u32::try_from(frontmatter.content.split_whitespace().count())
+              .unwrap_or(u32::MAX)
           ) / 150.0
         ))
-        .rss_date(OffsetDateTime::from(modified).format(RSS_DATE)?)
+        .rss_date(
+          Date::parse(&frontmatter.metadata.date, DATE)?
+            .with_hms(0, 0, 0)?
+            .assume_utc()
+            .format(RSS_DATE)?,
+        )
         .rss_html(
           html_escape::encode_text(&Loader::pandoc(
             ["--quiet", "-t", "html"],
-            &input,
+            frontmatter.content,
           )?)
           .trim_end()
           .to_string(),
         )
-        .slug(Slug(title.clone()))
-        .title(title)
+        .slug(Slug(frontmatter.metadata.title.clone()))
+        .title(frontmatter.metadata.title)
         .build(),
     )
+  }
+}
+
+#[cfg(test)]
+mod tests {
+  use {super::*, indoc::indoc};
+
+  #[test]
+  fn parse_frontmatter() {
+    assert_eq!(
+      Frontmatter::<PostFrontmatter>::parse(indoc! {
+        "
+        ---
+        title: foo
+        date: 2025-03-17
+        ---
+        bar
+        "
+      })
+      .unwrap(),
+      Frontmatter {
+        content: "bar\n",
+        metadata: PostFrontmatter {
+          date: "2025-03-17".to_string(),
+          title: "foo".to_string(),
+        },
+      }
+    );
   }
 }

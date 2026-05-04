@@ -1,3 +1,8 @@
+---
+title: Powerful `just` features
+date: 2022-04-12
+---
+
 [`just`](https://github.com/casey/just){target="_blank"} is a command runner written in Rust.
 Commands, or _recipes_ in `just` lingo, are populated in a file called 'justfile',
 and are expressed in a make-like syntax.
