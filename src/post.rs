@@ -28,41 +28,47 @@ pub(crate) struct Post {
 }
 
 impl Post {
-  pub(crate) fn load(path: &Path) -> Result<Self> {
+  const FEET_PER_PIXEL: f64 = 0.0222;
+  const LINE_HEIGHT: f64 = 18.0;
+  const WORDS_PER_MINUTE: f64 = 150.0;
+
+  pub(crate) fn load(converter: &Converter, path: &Path) -> Result<Self> {
     let input = fs::read_to_string(path)
       .with_context(|| format!("failed to read post `{}`", path.display()))?;
 
     let frontmatter = Frontmatter::<PostFrontmatter>::parse(&input)?;
 
-    let modified = fs::metadata(path)?.modified()?;
-
-    let filename = path
-      .file_name()
-      .context("post path has no filename")?
-      .to_string_lossy()
-      .to_string();
-
     Ok(
       Self::builder()
         .date(frontmatter.metadata.date.clone())
-        .filename(filename)
+        .filename(
+          path
+            .file_name()
+            .context("post path has no filename")?
+            .to_str()
+            .context("post filename is not valid UTF-8")?
+            .into(),
+        )
         .height(format!(
           "{:.2}",
           f64::from(
             u32::try_from(frontmatter.content.lines().count())
               .unwrap_or(u32::MAX)
-          ) * 18.0
-            * 0.0222
+          ) * Self::LINE_HEIGHT
+            * Self::FEET_PER_PIXEL
         ))
-        .html(Loader::markdown(frontmatter.content)?)
-        .modified(modified)
+        .html(converter.run(
+          ["--mathjax", "--syntax-highlighting", "monochrome"],
+          frontmatter.content,
+        )?)
+        .modified(fs::metadata(path)?.modified()?)
         .path(path.to_path_buf())
         .read_time(format!(
           "{:.1}",
           f64::from(
             u32::try_from(frontmatter.content.split_whitespace().count())
               .unwrap_or(u32::MAX)
-          ) / 150.0
+          ) / Self::WORDS_PER_MINUTE
         ))
         .rss_date(
           Date::parse(&frontmatter.metadata.date, DATE)?
@@ -71,10 +77,9 @@ impl Post {
             .format(RSS_DATE)?,
         )
         .rss_html(
-          html_escape::encode_text(&Loader::pandoc(
-            ["--quiet", "-t", "html"],
-            frontmatter.content,
-          )?)
+          html_escape::encode_text(
+            &converter.run(iter::empty::<&str>(), frontmatter.content)?,
+          )
           .trim_end()
           .to_string(),
         )

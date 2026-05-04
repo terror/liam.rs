@@ -49,8 +49,6 @@ impl Environment {
   }
 
   pub(crate) fn write_post(&self, post: &Post) -> Result {
-    println!("[~] {}", post.title);
-
     let path = PathBuf::from("docs/posts")
       .join(post.slug.to_string())
       .join("index.html");

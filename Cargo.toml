@@ -37,6 +37,7 @@ clap = { workspace = true, features = ["derive"] }
 html-escape = "0.2.13"
 minijinja = "2.19.0"
 notify = "8.2.0"
+rayon = "1.12.0"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_yaml = "0.9.34"
 time = { version = "0.3.47", features = ["formatting", "macros", "parsing"] }

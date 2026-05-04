@@ -2,6 +2,7 @@ use super::*;
 
 pub(crate) struct Server {
   port: u16,
+  style: Style,
 }
 
 impl Server {
@@ -20,11 +21,24 @@ impl Server {
   }
 
   pub(crate) fn new(port: u16) -> Self {
-    Self { port }
+    Self {
+      port,
+      style: Style::stdout(),
+    }
   }
 
   pub(crate) fn serve(self) -> Result {
+    let start = Instant::now();
+
     Generator::new().run()?;
+
+    println!(
+      "{} generated site in {}ms",
+      self
+        .style
+        .apply(GREEN, self.style.apply(BOLD, "[generate]")),
+      start.elapsed().as_millis()
+    );
 
     let live_reload = LiveReloadLayer::new();
 
@@ -32,7 +46,7 @@ impl Server {
 
     thread::spawn(move || {
       if let Err(error) = Watcher::new(reloader).watch() {
-        eprintln!("error: {error}");
+        eprintln!("{} {error}", Style::stdout().apply(RED, "error:"));
         process::exit(1);
       }
     });
@@ -47,7 +61,11 @@ impl Server {
 
     let listener = TcpListener::bind(("127.0.0.1", self.port)).await?;
 
-    println!("Serving http://127.0.0.1:{}", self.port);
+    println!(
+      "{} http://127.0.0.1:{}",
+      self.style.apply(CYAN, self.style.apply(BOLD, "[server]")),
+      self.port
+    );
 
     axum::serve(listener, app).await?;
 
@@ -64,7 +82,7 @@ impl Server {
 
     let body = match tokio::fs::read(&file).await {
       Ok(body) => body,
-      Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+      Err(error) if error.kind() == io::ErrorKind::NotFound => {
         return (StatusCode::NOT_FOUND, "not found").into_response();
       }
       Err(error) => {

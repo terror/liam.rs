@@ -2,11 +2,17 @@ use super::*;
 
 pub(crate) struct Watcher {
   reloader: Reloader,
+  style: Style,
 }
 
 impl Watcher {
+  const DEBOUNCE: Duration = Duration::from_millis(250);
+
   pub(crate) fn new(reloader: Reloader) -> Self {
-    Self { reloader }
+    Self {
+      reloader,
+      style: Style::stdout(),
+    }
   }
 
   pub(crate) fn watch(self) -> Result {
@@ -22,34 +28,59 @@ impl Watcher {
       )?;
     }
 
-    println!("Watching posts, projects, and templates. Press Ctrl-C to stop.");
+    println!(
+      "{} posts, projects, templates",
+      self.style.apply(GREEN, self.style.apply(BOLD, "[watch]"))
+    );
 
-    let debounce = Duration::from_millis(250);
-
-    let mut pending = false;
+    let mut pending = BTreeSet::new();
     let mut last_change = Instant::now();
 
     loop {
       match receiver.recv_timeout(Duration::from_millis(100)) {
         Ok(event) => {
+          let event = event?;
+
           if matches!(
-            event?.kind,
+            &event.kind,
             EventKind::Create(_) | EventKind::Modify(_) | EventKind::Remove(_)
           ) {
-            pending = true;
+            pending.extend(event.paths);
             last_change = Instant::now();
           }
         }
         Err(RecvTimeoutError::Timeout) => {
-          if pending && last_change.elapsed() >= debounce {
-            pending = false;
+          if !pending.is_empty() && last_change.elapsed() >= Self::DEBOUNCE {
+            let remaining = pending.len().saturating_sub(3);
+
+            let changes = pending
+              .iter()
+              .take(3)
+              .map(|path| path.display().to_string())
+              .collect::<Vec<_>>()
+              .join(", ");
+
+            let changes = if remaining == 0 {
+              changes
+            } else {
+              format!("{changes}, and {remaining} more")
+            };
+
+            println!(
+              "{} {}",
+              self.style.apply(YELLOW, self.style.apply(BOLD, "[reload]")),
+              self.style.apply(DIM, changes)
+            );
+
+            pending.clear();
 
             match Generator::new().run() {
               Ok(()) => {
-                println!("[+] rebuilt");
                 self.reloader.reload();
               }
-              Err(error) => eprintln!("error: {error}"),
+              Err(error) => {
+                eprintln!("{} {error}", self.style.apply(RED, "error:"));
+              }
             }
           }
         }
