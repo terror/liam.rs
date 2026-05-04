@@ -2,8 +2,8 @@
 
 [![build](https://img.shields.io/github/actions/workflow/status/terror/liam.rs/ci.yaml?branch=master&style=flat&labelColor=1d1d1d&color=424242&logo=GitHub%20Actions&logoColor=white&label=build)](https://github.com/terror/liam.rs/actions/workflows/ci.yaml)
 
-Source code for my personal website built with bash and
-[esh](https://github.com/jirutka/esh).
+Source code for my personal website built with Rust and
+[MiniJinja](https://github.com/mitsuhiko/minijinja).
 
 <img width="800" alt="demo" src="screenshot.png" />
 
@@ -22,9 +22,14 @@ Make changes and generate static assets:
 
 ```bash
 ./bin/sync-post-timestamps
-./bin/generate-index
-./bin/generate-projects.py
+cargo run -p generator
 ```
 
-**n.b.** This requires you to have [uv](https://github.com/astral-sh/uv)
-installed on your system.
+Serve the site locally with automatic browser refresh:
+
+```bash
+cargo run -p generator -- serve
+```
+
+**n.b.** This requires you to have [Pandoc](https://pandoc.org/) installed on
+your system.

@@ -1,6 +1,28 @@
+[package]
+name = "generator"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
 [workspace]
 members = [".", "crates/*"]
 resolver = "2"
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow.workspace = true
+axum = "0.8.9"
+clap = { workspace = true, features = ["derive"] }
+html-escape = "0.2.13"
+minijinja = "2.19.0"
+notify = "8.2.0"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_yaml = "0.9.34"
+time = { version = "0.3.47", features = ["formatting", "macros", "parsing"] }
+tokio = { version = "1.52.2", features = ["rt-multi-thread", "net", "fs"], default-features = false }
+tower-livereload = "0.10.3"
 
 [workspace.lints.rust]
 mismatched_lifetime_syntaxes = "allow"

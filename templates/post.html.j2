@@ -6,7 +6,7 @@
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="viewport" content="initial-scale=1" />
-    <meta property="og:title" content="<%=$title%>" />
+    <meta property="og:title" content="{{ post.title }}" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://liam.rs" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
@@ -16,12 +16,8 @@
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/syntax.css" />
-    <title><%=$title%> · liam.rs</title>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-151954055-3"
-    ></script>
+    <title>{{ post.title }} · liam.rs</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151954055-3"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -38,41 +34,46 @@
         <span>/</span>
         <a href="/posts" class="post-end-link">Posts</a>
         <span>/</span>
-        <a class="post-end-link"><%=$title%></a>
-        <a
-          class="stats post-end-link"
-          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/<% basename $file%>"
-          >View Raw</a
-        >
+        <a class="post-end-link">{{ post.title }}</a>
+        <a class="stats post-end-link" href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/{{ post.filename }}">View Raw</a>
         <div class="separator"></div>
         <div class="date">
-          <%="$date"%>
+          {{ post.date }}
           <div class="stats">
-            <span class="stats-number"> <%="$height"%> </span>
+            <span class="stats-number"> {{ post.height }} </span>
             <span class="stats-unit">cm</span>
-            &nbsp
-            <span class="stats-number"> <%="$read_time"%> </span>
+            &nbsp;
+            <span class="stats-number"> {{ post.read_time }} </span>
             <span class="stats-unit">min</span>
           </div>
         </div>
-        <h1><%=$title%></h1>
-        <div class="post-text">
-          <% pandoc --mathjax --quiet -t html --syntax-highlighting monochrome "$file" %>
+        <h1>{{ post.title }}</h1>
+        <div class="post-text">{{ post.html|safe }}</div>
+        <div class="intro">
+          Hi.
+          <div class="hot-links">
+            <a href="https://liam.rs/index.xml" class="feed-button">Subscribe</a>
+          </div>
+          <p>I'm Liam.</p>
+          <p>
+            I'm currently a software engineer at <a href="https://1password.com/" target="_blank">1Password</a> on the
+            Filling and Saving team, where I primarily work on the
+            <a href="https://1password.com/downloads/browser-extension/" target="_blank">browser extension</a>
+            and related infrastructure.
+            <br /><br />
+            I studied computer science and economics at <a href="https://www.mcgill.ca/" target="_blank">McGill University</a>.<br /><br />
+            I like developer tooling, distributed systems, performance engineering and compiler design.
+          </p>
+          <p>You can reach out to me via email at <a href="mailto: liam@scalzulli.com">liam@scalzulli.com</a>.</p>
         </div>
-        <%= "$intro" %>
         <a href="/" class="post-end-link">Home</a>
         <span>/</span>
         <a href="/posts" class="post-end-link">Posts</a>
         <span>/</span>
-        <a class="post-end-link"><%=$title%></a>
-        <a
-          class="stats post-end-link"
-          href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/<% basename $file%>"
-          >View Raw</a
-        >
+        <a class="post-end-link">{{ post.title }}</a>
+        <a class="stats post-end-link" href="https://raw.githubusercontent.com/terror/liam.rs/master/posts/{{ post.filename }}">View Raw</a>
       </div>
     </div>
-    <!-- Wikipedia preview -->
     <script src="/js/wikipedia-preview.production.js"></script>
     <script type="text/javascript">
       wikipediaPreview.init({
@@ -80,12 +81,7 @@
         detectLinks: true,
       });
     </script>
-    <!-- MathJax -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script
-      id="MathJax-script"
-      async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-    ></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   </body>
 </html>

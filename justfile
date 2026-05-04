@@ -1,7 +1,6 @@
 set dotenv-load
 
 export EDITOR := 'nvim'
-export ESH_AWK := '/opt/homebrew/bin/gawk'
 
 alias d := dev
 alias f := fmt
@@ -26,7 +25,7 @@ check-favicon port='https://liam.rs':
 
 [group: 'dev']
 dev:
-  python3 -m http.server --directory ./docs
+  cargo run serve
 
 [group: 'dev']
 dev-deps:
@@ -38,8 +37,6 @@ dev-deps:
     uv
 
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-  curl https://raw.githubusercontent.com/jirutka/esh/master/esh > /usr/local/bin/esh
 
 [group: 'fix']
 fix-typos:
@@ -58,8 +55,7 @@ forbid:
 [group: 'dev']
 generate:
   ./bin/sync-post-timestamps
-  ./bin/generate-index
-  ./bin/generate-projects.py
+  cargo run -p generator
 
 [group: 'dev']
 generate-favicon image:
@@ -74,4 +70,4 @@ generate-favicon image:
 
 [group: 'dev']
 watch:
-  ./bin/watch
+  cargo run -p generator -- serve
