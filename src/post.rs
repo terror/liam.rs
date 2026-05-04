@@ -32,9 +32,7 @@ impl Post {
   const LINE_HEIGHT: f64 = 18.0;
   const WORDS_PER_MINUTE: f64 = 150.0;
 
-  pub(crate) fn load(path: &Path) -> Result<Self> {
-    let converter = Converter::new();
-
+  pub(crate) fn load(converter: &Converter, path: &Path) -> Result<Self> {
     let input = fs::read_to_string(path)
       .with_context(|| format!("failed to read post `{}`", path.display()))?;
 
