@@ -4,11 +4,11 @@ date: 2020-11-15
 ---
 
 I have recently gotten into the habit of reading more blogs, in particular, ones featured
-on [HackerNews](https://news.ycombinator.com/news){target="_blank"}. 
+on [HackerNews](https://news.ycombinator.com/news){target="_blank"}.
 
 Reading books, personally, has been a difficult habit to cultivate
 over time, which I mainly attribute to the periodic feelings of being "stuck" or bored on a certain set of books. Blogs, however, offer a condensed read making them efficient and often amusing sources of information.
- 
+
 My typical sourcing routine would usually just consist of scrolling through HackerNews, potentially
 seeing something that peaked my interest and reading it, or realizing I didn't have the time and putting the url off in a `.txt` file somewhere.
 
