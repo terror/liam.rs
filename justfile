@@ -9,13 +9,7 @@ alias g := generate
 default:
   just --list
 
-all: fix-typos generate fmt forbid check
-
-[group: 'check']
-check:
-  cargo fmt --all -- --check
-  prettier --check .
-  shellcheck ./bin/*
+all: fix-typos generate fmt-docs forbid
 
 [group: 'check']
 check-favicon port='https://liam.rs':
@@ -24,16 +18,6 @@ check-favicon port='https://liam.rs':
 [group: 'dev']
 dev:
   cargo run serve
-
-[group: 'dev']
-dev-deps:
-  brew install \
-    just \
-    prettier \
-    shellcheck \
-    typos-cli
-
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 [group: 'fix']
 fix-typos:
@@ -54,7 +38,7 @@ forbid:
 
 [group: 'dev']
 generate:
-  cargo run
+  cargo run generate
 
 [group: 'dev']
 generate-favicon image:

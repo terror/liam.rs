@@ -22,7 +22,7 @@ Make changes and generate static assets:
 
 ```bash
 ./bin/sync-post-timestamps
-cargo run -p generator
+cargo run -p generator -- generate
 ```
 
 Serve the site locally with automatic browser refresh:
