@@ -1,3 +1,8 @@
+---
+title: Higher order functions
+date: 2021-06-08
+---
+
 The higher-order function is one of the many powerful and important concepts I have run into when dabbling in the world of functional programming.
 
 Before diving into the details, it's worth mentioning that in certain languages like Python or Javascript, functions are treated as first-class citizens. What does this mean? It means that functions can be stored in variables, passed around to functions or returned from functions, just as you would be able to do with a primitive or non-primitive data type.

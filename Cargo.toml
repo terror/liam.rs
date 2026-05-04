@@ -1,30 +1,48 @@
+[package]
+name = "generator"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[profile.release]
+lto = true
+codegen-units = 1
+
+[lints]
+workspace = true
+
 [workspace]
 members = [".", "crates/*"]
 resolver = "2"
 
-[workspace.lints.rust]
-mismatched_lifetime_syntaxes = "allow"
-unexpected_cfgs = { level = "warn", check-cfg = ['cfg(fuzzing)'] }
-
 [workspace.lints.clippy]
 all = { level = "deny", priority = -1 }
 arbitrary-source-item-ordering = "deny"
-enum_glob_use = "allow"
-ignore_without_reason = "allow"
-needless_pass_by_value = "allow"
 pedantic = { level = "deny", priority = -1 }
-similar_names = "allow"
-struct_excessive_bools = "allow"
-struct_field_names = "allow"
-too_many_arguments = "allow"
-too_many_lines = "allow"
-type_complexity = "allow"
-undocumented_unsafe_blocks = "deny"
-unnecessary_wraps = "allow"
 wildcard_imports = "allow"
+
+[workspace.lints.rust]
+unreachable_pub = "deny"
 
 [workspace.dependencies]
 anyhow = "1.0.100"
 clap = { version = "4.5.53", features = ["derive"] }
 pulldown-cmark = "0.13.0"
 walkdir = "2.5.0"
+
+[dependencies]
+anyhow.workspace = true
+axum = "0.8.9"
+clap = { workspace = true, features = ["derive"] }
+html-escape = "0.2.13"
+minijinja = "2.19.0"
+notify = "8.2.0"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_yaml = "0.9.34"
+time = { version = "0.3.47", features = ["formatting", "macros", "parsing"] }
+tokio = { version = "1.52.2", features = ["rt-multi-thread", "net", "fs"], default-features = false }
+tower-livereload = "0.10.3"
+typed-builder = "0.23.2"
+
+[dev-dependencies]
+indoc = "2.0.7"

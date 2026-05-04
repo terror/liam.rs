@@ -1,65 +1,46 @@
 set dotenv-load
 
-export EDITOR := 'nvim'
-export ESH_AWK := '/opt/homebrew/bin/gawk'
-
-alias d := dev
-alias f := fmt
-alias g := generate
-
 default:
   just --list
 
-all: fix-typos generate fmt forbid check
+alias f := fmt
+alias r := run
+alias t := test
+
+all: build test clippy fmt-check
+
+[group: 'misc']
+build:
+  cargo build
 
 [group: 'check']
 check:
-  cargo fmt --all -- --check
-  prettier --check .
-  shellcheck ./bin/*
-  uv run ruff check .
-  uv run ruff format --check .
+  cargo check
 
 [group: 'check']
 check-favicon port='https://liam.rs':
   npx realfavicon check {{ port }}
 
-[group: 'dev']
-dev:
-  python3 -m http.server --directory ./docs
+[group: 'check']
+ci: test clippy forbid
+  cargo fmt --all -- --check
+  cargo update --locked --package generator
 
-[group: 'dev']
-dev-deps:
-  brew install \
-    just \
-    prettier \
-    shellcheck \
-    typos-cli \
-    uv
-
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-  curl https://raw.githubusercontent.com/jirutka/esh/master/esh > /usr/local/bin/esh
-
-[group: 'fix']
-fix-typos:
-  typos --write-changes **/*.md
+[group: 'check']
+clippy:
+  cargo clippy --all --all-targets
 
 [group: 'format']
 fmt:
   cargo fmt --all
-  prettier --write .
-  uv run ruff check --select I --fix && uv run ruff format
+
+[group: 'format']
+fmt-check:
+  cargo fmt --all -- --check
 
 [group: 'check']
 forbid:
   ./bin/forbid
-
-[group: 'dev']
-generate:
-  ./bin/sync-post-timestamps
-  ./bin/generate-index
-  ./bin/generate-projects.py
 
 [group: 'dev']
 generate-favicon image:
@@ -73,5 +54,18 @@ generate-favicon image:
   rm favicon-output.json
 
 [group: 'dev']
-watch:
-  ./bin/watch
+run *args:
+  cargo run {{ args }}
+
+[group: 'test']
+test:
+  cargo test
+
+[group: 'fix']
+typos:
+  typos --write-changes **/*.md
+
+[group: 'format']
+[working-directory: 'docs']
+web-format:
+  prettier --write .

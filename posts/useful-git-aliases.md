@@ -1,3 +1,8 @@
+---
+title: Useful git aliases
+date: 2020-09-02
+---
+
 I really enjoy using `aliases` for git commands because a) I'm lazy
 and b) it makes me feel more productive.
 

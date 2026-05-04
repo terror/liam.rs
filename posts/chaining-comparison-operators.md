@@ -1,3 +1,8 @@
+---
+title: Chaining comparison operators
+date: 2020-08-25
+---
+
 I recently came across this lesser known feature in Python
 and started to play around with it. 
 

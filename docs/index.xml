@@ -7,7 +7,7 @@
     <language>en-us</language>
     <copyright>Creative Commons BY-NC-SA 4.0</copyright>
     <item>
-<title>Python-in-the-browser</title>
+<title>Python in the browser</title>
 <description>&lt;p&gt;I recently wrote and distributed a &lt;a
 href="https://pypi.org/project/pqg/" target="_blank"&gt;Python package&lt;/a&gt;
 for a project, and I wanted a &lt;a
@@ -311,12 +311,12 @@ complexity.&lt;/p&gt;
 &lt;p&gt;The full code for the implementation can be &lt;a
 href="https://github.com/DISLMcGill/pandas-query-generator/tree/master/www"
 target="_blank"&gt;found on GitHub&lt;/a&gt;.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Python-in-the-browser/</link>
-<pubDate>Fri, 13 Dec 2024 05:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Python-in-the-browser/</guid>
+<link>https://liam.rs/posts/python-in-the-browser/</link>
+<pubDate>Fri, 13 Dec 2024 00:00:00 +0000</pubDate>
+<guid>https://liam.rs/posts/python-in-the-browser/</guid>
 </item>
 <item>
-<title>Incremental-select-with-treesitter</title>
+<title>Incremental select with treesitter</title>
 <description>&lt;p&gt;&lt;a href="https://github.com/tree-sitter/tree-sitter"
 target="_blank"&gt;treesitter&lt;/a&gt; is a tool that can build a concrete
 syntax tree for a source file and incrementally update the tree as the
@@ -379,12 +379,12 @@ src="https://asciinema.org/a/507405.svg" alt="asciicast" /&gt;&lt;/a&gt;&lt;/p&g
 &lt;p&gt;A reference of my full neovim configuration can be found on github,
 in my &lt;a href="https://github.com/terror/dotfiles"
 target="_blank"&gt;dotfiles&lt;/a&gt; repo. Be sure to check it out!&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Incremental-select-with-treesitter/</link>
-<pubDate>Sat, 09 Jul 2022 04:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Incremental-select-with-treesitter/</guid>
+<link>https://liam.rs/posts/incremental-select-with-treesitter/</link>
+<pubDate>Sat, 09 Jul 2022 00:00:00 +0000</pubDate>
+<guid>https://liam.rs/posts/incremental-select-with-treesitter/</guid>
 </item>
 <item>
-<title>Powerful-`just`-features</title>
+<title>Powerful `just` features</title>
 <description>&lt;p&gt;&lt;a href="https://github.com/casey/just"
 target="_blank"&gt;&lt;code&gt;just&lt;/code&gt;&lt;/a&gt; is a command runner written in
 Rust. Commands, or &lt;em&gt;recipes&lt;/em&gt; in &lt;code&gt;just&lt;/code&gt; lingo, are
@@ -551,12 +551,12 @@ single source of truth in regards to project specific commands, and
 &lt;p&gt;Have a look over at the &lt;a href="https://github.com/casey/just"
 target="_blank"&gt;official readme&lt;/a&gt; document on GitHub for more
 information and further elaboration on the features mentioned here.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Powerful-`just`-features/</link>
-<pubDate>Tue, 12 Apr 2022 04:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Powerful-`just`-features/</guid>
+<link>https://liam.rs/posts/powerful-just-features/</link>
+<pubDate>Tue, 12 Apr 2022 00:00:00 +0000</pubDate>
+<guid>https://liam.rs/posts/powerful-just-features/</guid>
 </item>
 <item>
-<title>Scripting-in-markdown</title>
+<title>Scripting in markdown</title>
 <description>&lt;p&gt;I recently wrote yet another command-line utility in Rust called &lt;a
 href="https://github.com/terror/present"
 target="_blank"&gt;&lt;code&gt;present&lt;/code&gt;&lt;/a&gt; that lets you interpolate the
@@ -689,12 +689,12 @@ target="_blank"&gt;https://github.com/terror/present&lt;/a&gt;. It is licensed
 under the highly permissive &lt;a
 href="https://en.wikipedia.org/wiki/Creative_Commons_license"
 target="_blank"&gt;CC0-1.0&lt;/a&gt; license.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Scripting-in-markdown/</link>
-<pubDate>Sun, 27 Feb 2022 05:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Scripting-in-markdown/</guid>
+<link>https://liam.rs/posts/scripting-in-markdown/</link>
+<pubDate>Sun, 27 Feb 2022 00:00:00 +0000</pubDate>
+<guid>https://liam.rs/posts/scripting-in-markdown/</guid>
 </item>
 <item>
-<title>From-bash-to-vim-and-back</title>
+<title>From bash to vim and back</title>
 <description>&lt;p&gt;I recently ran the following command to get my top 5 most used &lt;a
 href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)"
 target="_blank"&gt;Bash&lt;/a&gt; commands:&lt;/p&gt;
@@ -733,12 +733,12 @@ some arbitrary Bash command. Without having to search for the previously
 opened file, I invoke &lt;code&gt;lv&lt;/code&gt;, which gets me back to where I was
 at.&lt;/p&gt;
 &lt;p&gt;From bash to vim and back, in a flash.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/From-bash-to-vim-and-back/</link>
-<pubDate>Fri, 25 Feb 2022 05:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/From-bash-to-vim-and-back/</guid>
+<link>https://liam.rs/posts/from-bash-to-vim-and-back/</link>
+<pubDate>Fri, 25 Feb 2022 00:00:00 +0000</pubDate>
+<guid>https://liam.rs/posts/from-bash-to-vim-and-back/</guid>
 </item>
 <item>
-<title>Ergonomic-error-handling-in-Rust</title>
+<title>Ergonomic error handling in Rust</title>
 <description>&lt;p&gt;There are many ways you can handle errors in Rust programs: panic at
 every fallible situation, propagate foreign errors up the call stack,
 craft your own error type.&lt;/p&gt;
@@ -1023,12 +1023,12 @@ to, and knowing this you should make the best of the situation by
 crafting your own error types that other people can use in their
 applications. You can either make it tedious, by doing it by hand, or by
 using the nifty &lt;code&gt;snafu&lt;/code&gt; library to do the job.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Ergonomic-error-handling-in-Rust/</link>
-<pubDate>Sun, 22 Aug 2021 04:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Ergonomic-error-handling-in-Rust/</guid>
+<link>https://liam.rs/posts/ergonomic-error-handling-in-rust/</link>
+<pubDate>Sun, 22 Aug 2021 00:00:00 +0000</pubDate>
+<guid>https://liam.rs/posts/ergonomic-error-handling-in-rust/</guid>
 </item>
 <item>
-<title>Higher-order-functions</title>
+<title>Higher order functions</title>
 <description>&lt;p&gt;The higher-order function is one of the many powerful and important
 concepts I have run into when dabbling in the world of functional
 programming.&lt;/p&gt;
@@ -1172,12 +1172,12 @@ applications.&lt;/p&gt;
 &lt;p&gt;All of the functions written for this post can be found here -&amp;gt; &lt;a
 href="https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e"
 target="_blank"&gt;https://gist.github.com/terror/4d86aaf49cc724d0bfe5af11d05da88e&lt;/a&gt;&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Higher-order-functions/</link>
-<pubDate>Tue, 08 Jun 2021 04:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Higher-order-functions/</guid>
+<link>https://liam.rs/posts/higher-order-functions/</link>
+<pubDate>Tue, 08 Jun 2021 00:00:00 +0000</pubDate>
+<guid>https://liam.rs/posts/higher-order-functions/</guid>
 </item>
 <item>
-<title>Binary-search-for-bugs</title>
+<title>Binary search for bugs</title>
 <description>&lt;p&gt;I recently encountered a build failure in a dependency of a Rust
 crate I was trying to install which led me to be introduced to a git
 command called &lt;code&gt;bisect&lt;/code&gt;.&lt;/p&gt;
@@ -1205,12 +1205,12 @@ you can evaluate using &lt;code&gt;git bisect good&lt;/code&gt; or
 &lt;p&gt;It is clear that using this method, over the linear scan approach,
 can save a tremendous amount of time in the quest for finding where a
 breaking change was introduced.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Binary-search-for-bugs/</link>
-<pubDate>Mon, 15 Feb 2021 05:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Binary-search-for-bugs/</guid>
+<link>https://liam.rs/posts/binary-search-for-bugs/</link>
+<pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
+<guid>https://liam.rs/posts/binary-search-for-bugs/</guid>
 </item>
 <item>
-<title>How-I-read-blogs</title>
+<title>How I read blogs</title>
 <description>&lt;p&gt;I have recently gotten into the habit of reading more blogs, in
 particular, ones featured on &lt;a href="https://news.ycombinator.com/news"
 target="_blank"&gt;HackerNews&lt;/a&gt;.&lt;/p&gt;
@@ -1260,12 +1260,12 @@ class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb1-
 &lt;li&gt;Read and archive those articles&lt;/li&gt;
 &lt;li&gt;Repeat&lt;/li&gt;
 &lt;/ol&gt;</description>
-<link>https://liam.rs/posts/How-I-read-blogs/</link>
-<pubDate>Sun, 15 Nov 2020 05:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/How-I-read-blogs/</guid>
+<link>https://liam.rs/posts/how-i-read-blogs/</link>
+<pubDate>Sun, 15 Nov 2020 00:00:00 +0000</pubDate>
+<guid>https://liam.rs/posts/how-i-read-blogs/</guid>
 </item>
 <item>
-<title>Useful-git-aliases</title>
+<title>Useful git aliases</title>
 <description>&lt;p&gt;I really enjoy using &lt;code&gt;aliases&lt;/code&gt; for git commands because a)
 I’m lazy and b) it makes me feel more productive.&lt;/p&gt;
 &lt;p&gt;Some basic ones I use&lt;/p&gt;
@@ -1298,12 +1298,12 @@ branch&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;last&lt;/code&gt; shows information for the last commit&lt;/p&gt;
 &lt;p&gt;Whether they make me more productive or not, I just enjoy using them
 and see no reason not to.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Useful-git-aliases/</link>
-<pubDate>Wed, 02 Sep 2020 04:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Useful-git-aliases/</guid>
+<link>https://liam.rs/posts/useful-git-aliases/</link>
+<pubDate>Wed, 02 Sep 2020 00:00:00 +0000</pubDate>
+<guid>https://liam.rs/posts/useful-git-aliases/</guid>
 </item>
 <item>
-<title>Chaining-comparison-operators</title>
+<title>Chaining comparison operators</title>
 <description>&lt;p&gt;I recently came across this lesser known feature in Python and
 started to play around with it.&lt;/p&gt;
 &lt;p&gt;Being able to chain comparison operators is a rarity among most
@@ -1333,10 +1333,9 @@ class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="
 &lt;span id="cb4-4"&gt;&lt;a href="#cb4-4" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# True&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;You can see how tedious things might get. Python continues to amaze
 me with how beautiful and concise it can be.&lt;/p&gt;</description>
-<link>https://liam.rs/posts/Chaining-comparison-operators/</link>
-<pubDate>Tue, 25 Aug 2020 04:00:00 +0000</pubDate>
-<guid>https://liam.rs/posts/Chaining-comparison-operators/</guid>
+<link>https://liam.rs/posts/chaining-comparison-operators/</link>
+<pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+<guid>https://liam.rs/posts/chaining-comparison-operators/</guid>
 </item>
-
   </channel>
 </rss>
