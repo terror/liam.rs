@@ -17,7 +17,7 @@ pub(crate) struct Post {
   pub(crate) read_time: String,
   pub(crate) rss_date: String,
   pub(crate) rss_html: String,
-  pub(crate) slug: String,
+  pub(crate) slug: Slug,
   pub(crate) title: String,
 }
 
@@ -48,7 +48,7 @@ impl Post {
       read_time: Self::read_time(input.split_whitespace().count()),
       rss_date: OffsetDateTime::from(modified).format(RSS_DATE)?,
       rss_html,
-      slug: Slug::title(&title),
+      slug: Slug(title.clone()),
       title,
     })
   }

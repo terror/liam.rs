@@ -1,26 +1,31 @@
 use super::*;
 
-pub(crate) struct Slug;
+#[derive(Clone)]
+pub(crate) struct Slug(pub(crate) String);
 
-impl Slug {
-  pub(crate) fn title(input: &str) -> String {
-    let mut output = String::new();
-    let mut separator = false;
+impl Display for Slug {
+  fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    f.write_str(
+      &self
+        .0
+        .chars()
+        .flat_map(char::to_lowercase)
+        .map(|c| if c.is_ascii_alphanumeric() { c } else { '-' })
+        .collect::<String>()
+        .split('-')
+        .filter(|s| !s.is_empty())
+        .collect::<Vec<_>>()
+        .join("-"),
+    )
+  }
+}
 
-    for c in input.chars().flat_map(char::to_lowercase) {
-      if c.is_ascii_alphanumeric() {
-        if separator && !output.is_empty() {
-          output.push('-');
-        }
-
-        output.push(c);
-        separator = false;
-      } else {
-        separator = true;
-      }
-    }
-
-    output
+impl Serialize for Slug {
+  fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+  where
+    S: Serializer,
+  {
+    serializer.collect_str(self)
   }
 }
 
@@ -30,13 +35,16 @@ mod tests {
 
   #[test]
   fn titles() {
-    #[track_caller]
-    fn case(input: &str, expected: &str) {
-      assert_eq!(Slug::title(input), expected);
-    }
+    assert_eq!(
+      Slug("Powerful `just` features".to_string()).to_string(),
+      "powerful-just-features"
+    );
 
-    case("Powerful `just` features", "powerful-just-features");
-    case("microeconomics.study", "microeconomics-study");
-    case("  foo---bar  ", "foo-bar");
+    assert_eq!(
+      Slug("microeconomics.study".to_string()).to_string(),
+      "microeconomics-study"
+    );
+
+    assert_eq!(Slug("  foo---bar  ".to_string()).to_string(), "foo-bar");
   }
 }

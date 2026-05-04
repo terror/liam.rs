@@ -52,7 +52,7 @@ impl Environment {
     println!("[~] {}", post.title);
 
     let path = PathBuf::from("docs/posts")
-      .join(&post.slug)
+      .join(post.slug.to_string())
       .join("index.html");
 
     self.write(path, "post.html", minijinja::context! { post => post })

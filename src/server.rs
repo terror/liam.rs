@@ -27,6 +27,7 @@ impl Server {
     Generator::new().run()?;
 
     let live_reload = LiveReloadLayer::new();
+
     let reloader = live_reload.reloader();
 
     thread::spawn(move || {
@@ -36,7 +37,7 @@ impl Server {
       }
     });
 
-    tokio::runtime::Runtime::new()?.block_on(self.serve_http(live_reload))
+    Runtime::new()?.block_on(self.serve_http(live_reload))
   }
 
   async fn serve_http(self, live_reload: LiveReloadLayer) -> Result {
@@ -44,8 +45,7 @@ impl Server {
       .fallback(get(Self::static_file))
       .layer(live_reload);
 
-    let listener =
-      tokio::net::TcpListener::bind(("127.0.0.1", self.port)).await?;
+    let listener = TcpListener::bind(("127.0.0.1", self.port)).await?;
 
     println!("Serving http://127.0.0.1:{}", self.port);
 
@@ -61,6 +61,7 @@ impl Server {
         return (StatusCode::BAD_REQUEST, error.to_string()).into_response();
       }
     };
+
     let body = match tokio::fs::read(&file).await {
       Ok(body) => body,
       Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
@@ -76,8 +77,10 @@ impl Server {
   }
 
   fn static_path(path: &str) -> Result<PathBuf> {
-    let path = path.split_once('?').map_or(path, |(path, _query)| path);
-    let path = path.trim_start_matches('/');
+    let path = path
+      .split_once('?')
+      .map_or(path, |(path, _query)| path)
+      .trim_start_matches('/');
 
     ensure!(
       !path.split('/').any(|component| component == ".."),

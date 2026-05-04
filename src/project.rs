@@ -18,7 +18,7 @@ pub(crate) struct Project {
   pub(crate) image: String,
   pub(crate) lead: String,
   pub(crate) month: String,
-  pub(crate) slug: String,
+  pub(crate) slug: Slug,
   pub(crate) title: String,
   pub(crate) topics: Vec<String>,
 }
@@ -55,7 +55,7 @@ impl Project {
       image: front_matter.image,
       lead: front_matter.lead,
       month: Self::month(date),
-      slug: Slug::title(&front_matter.title),
+      slug: Slug(front_matter.title.clone()),
       title: front_matter.title,
       topics: front_matter.topics,
     })
