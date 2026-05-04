@@ -21,14 +21,13 @@ git clone https://github.com/{username}/liam.rs.git
 Make changes and generate static assets:
 
 ```bash
-./bin/sync-post-timestamps
-cargo run -p generator -- generate
+cargo run generate
 ```
 
 Serve the site locally with automatic browser refresh:
 
 ```bash
-cargo run -p generator -- serve
+cargo run serve
 ```
 
 **n.b.** This requires you to have [Pandoc](https://pandoc.org/) installed on
