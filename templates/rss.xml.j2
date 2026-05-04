@@ -6,14 +6,12 @@
     <atom:link href="https://liam.rs/index.xml" rel="self" type="application/rss+xml" />
     <language>en-us</language>
     <copyright>Creative Commons BY-NC-SA 4.0</copyright>
-    {% for post in posts %}
-      <item>
-        <title>{{ post.title }}</title>
-        <description>{{ post.rss_html|safe }}</description>
-        <link>https://liam.rs/posts/{{ post.slug }}/</link>
-        <pubDate>{{ post.rss_date }}</pubDate>
-        <guid>https://liam.rs/posts/{{ post.slug }}/</guid>
-      </item>
-    {% endfor %}
-  </channel>
+{% for post in posts %}{% if loop.first %}    {% endif %}<item>
+<title>{{ post.title }}</title>
+<description>{{ post.rss_html|safe }}</description>
+<link>https://liam.rs/posts/{{ post.slug }}/</link>
+<pubDate>{{ post.rss_date }}</pubDate>
+<guid>https://liam.rs/posts/{{ post.slug }}/</guid>
+</item>
+{% endfor %}  </channel>
 </rss>

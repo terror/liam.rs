@@ -80,6 +80,7 @@ impl Loader {
         ["--quiet", "-t", "html"],
         &input,
       )?)
+      .trim_end()
       .to_string(),
     )
   }
