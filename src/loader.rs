@@ -6,7 +6,7 @@ pub(crate) struct Loader {
 }
 
 impl Loader {
-  fn markdown(input: &str) -> Result<String> {
+  pub(crate) fn markdown(input: &str) -> Result<String> {
     Self::pandoc(
       [
         "--mathjax",
@@ -27,7 +27,7 @@ impl Loader {
     }
   }
 
-  fn pandoc<I, S>(args: I, input: &str) -> Result<String>
+  pub(crate) fn pandoc<I, S>(args: I, input: &str) -> Result<String>
   where
     I: IntoIterator<Item = S>,
     S: AsRef<OsStr>,
@@ -56,42 +56,13 @@ impl Loader {
     Ok(String::from_utf8(output.stdout)?)
   }
 
-  fn post(path: &Path) -> Result<Post> {
-    let input = fs::read_to_string(path)
-      .with_context(|| format!("failed to read post `{}`", path.display()))?;
-
-    let metadata = fs::metadata(path)?;
-
-    let modified = metadata.modified()?;
-
-    let filename = path
-      .file_name()
-      .context("post path has no filename")?
-      .to_string_lossy()
-      .to_string();
-
-    Post::new(
-      filename,
-      Self::markdown(&input)?,
-      &input,
-      modified,
-      path.to_path_buf(),
-      html_escape::encode_text(&Self::pandoc(
-        ["--quiet", "-t", "html"],
-        &input,
-      )?)
-      .trim_end()
-      .to_string(),
-    )
-  }
-
   pub(crate) fn posts(&self) -> Result<Vec<Post>> {
     let mut posts = fs::read_dir(&self.posts)?
       .map(|entry| -> Result<Option<Post>> {
         let path = entry?.path();
 
         if path.extension().is_some_and(|extension| extension == "md") {
-          Ok(Some(Self::post(path.as_path())?))
+          Ok(Some(Post::load(path.as_path())?))
         } else {
           Ok(None)
         }
@@ -110,23 +81,13 @@ impl Loader {
     Ok(posts)
   }
 
-  fn project(path: &Path) -> Result<Project> {
-    let input = fs::read_to_string(path).with_context(|| {
-      format!("failed to read project `{}`", path.display())
-    })?;
-
-    let front_matter = Frontmatter::<ProjectFrontmatter>::parse(&input)?;
-
-    Project::new(front_matter.metadata, Self::markdown(front_matter.content)?)
-  }
-
   pub(crate) fn projects(&self) -> Result<Vec<Project>> {
     let mut projects = fs::read_dir(&self.projects)?
       .map(|entry| -> Result<Option<Project>> {
         let path = entry?.path();
 
         if path.extension().is_some_and(|extension| extension == "md") {
-          Ok(Some(Self::project(path.as_path())?))
+          Ok(Some(Project::load(path.as_path())?))
         } else {
           Ok(None)
         }

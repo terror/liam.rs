@@ -2,7 +2,7 @@ use super::*;
 
 const PROJECT_DATE: &[FormatItem] = format_description!("[year]-[month]-[day]");
 
-#[derive(Clone, Serialize)]
+#[derive(Clone, Serialize, TypedBuilder)]
 pub(crate) struct Project {
   pub(crate) date: String,
   pub(crate) html: String,
@@ -15,55 +15,43 @@ pub(crate) struct Project {
 }
 
 impl Project {
-  fn month(date: Date) -> String {
-    format!(
-      "{} {}",
-      match date.month() {
-        Month::January => "January",
-        Month::February => "February",
-        Month::March => "March",
-        Month::April => "April",
-        Month::May => "May",
-        Month::June => "June",
-        Month::July => "July",
-        Month::August => "August",
-        Month::September => "September",
-        Month::October => "October",
-        Month::November => "November",
-        Month::December => "December",
-      },
-      date.year()
+  pub(crate) fn load(path: &Path) -> Result<Self> {
+    let input = fs::read_to_string(path).with_context(|| {
+      format!("failed to read project `{}`", path.display())
+    })?;
+
+    let frontmatter = Frontmatter::<ProjectFrontmatter>::parse(&input)?;
+
+    let date = Date::parse(&frontmatter.metadata.date, PROJECT_DATE)?;
+
+    Ok(
+      Self::builder()
+        .date(frontmatter.metadata.date.clone())
+        .html(Loader::markdown(frontmatter.content)?)
+        .image(frontmatter.metadata.image)
+        .lead(frontmatter.metadata.lead)
+        .month(format!(
+          "{} {}",
+          match date.month() {
+            Month::January => "January",
+            Month::February => "February",
+            Month::March => "March",
+            Month::April => "April",
+            Month::May => "May",
+            Month::June => "June",
+            Month::July => "July",
+            Month::August => "August",
+            Month::September => "September",
+            Month::October => "October",
+            Month::November => "November",
+            Month::December => "December",
+          },
+          date.year()
+        ))
+        .slug(Slug(frontmatter.metadata.title.clone()))
+        .title(frontmatter.metadata.title)
+        .topics(frontmatter.metadata.topics)
+        .build(),
     )
-  }
-
-  pub(crate) fn new(
-    front_matter: ProjectFrontmatter,
-    html: String,
-  ) -> Result<Self> {
-    let date = Date::parse(&front_matter.date, PROJECT_DATE)?;
-
-    Ok(Self {
-      date: front_matter.date,
-      html,
-      image: front_matter.image,
-      lead: front_matter.lead,
-      month: Self::month(date),
-      slug: Slug(front_matter.title.clone()),
-      title: front_matter.title,
-      topics: front_matter.topics,
-    })
-  }
-}
-
-#[cfg(test)]
-mod tests {
-  use super::*;
-
-  #[test]
-  fn months() {
-    assert_eq!(
-      Project::month(Date::parse("2025-03-17", PROJECT_DATE).unwrap()),
-      "March 2025"
-    );
   }
 }

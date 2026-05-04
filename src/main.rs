@@ -39,6 +39,7 @@ use {
   },
   tokio::{net::TcpListener, runtime::Runtime},
   tower_livereload::{LiveReloadLayer, Reloader},
+  typed_builder::TypedBuilder,
   watcher::Watcher,
 };
 

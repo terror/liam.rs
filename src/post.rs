@@ -6,7 +6,7 @@ const RSS_DATE: &[FormatItem] = format_description!(
   "[weekday repr:short], [day padding:zero] [month repr:short] [year] [hour]:[minute]:00 +0000"
 );
 
-#[derive(Clone, Serialize)]
+#[derive(Clone, Serialize, TypedBuilder)]
 pub(crate) struct Post {
   pub(crate) date: String,
   pub(crate) filename: String,
@@ -22,61 +22,55 @@ pub(crate) struct Post {
 }
 
 impl Post {
-  fn height(lines: usize) -> String {
-    let lines = f64::from(u32::try_from(lines).unwrap_or(u32::MAX));
+  pub(crate) fn load(path: &Path) -> Result<Self> {
+    let input = fs::read_to_string(path)
+      .with_context(|| format!("failed to read post `{}`", path.display()))?;
 
-    format!("{:.2}", lines * 18.0 * 0.0222)
-  }
+    let modified = fs::metadata(path)?.modified()?;
 
-  pub(crate) fn new(
-    filename: String,
-    html: String,
-    input: &str,
-    modified: SystemTime,
-    path: PathBuf,
-    rss_html: String,
-  ) -> Result<Self> {
-    let title = Self::title(&filename);
-
-    Ok(Self {
-      date: OffsetDateTime::from(modified).format(DATE)?,
-      filename,
-      height: Self::height(input.lines().count()),
-      html,
-      modified,
-      path,
-      read_time: Self::read_time(input.split_whitespace().count()),
-      rss_date: OffsetDateTime::from(modified).format(RSS_DATE)?,
-      rss_html,
-      slug: Slug(title.clone()),
-      title,
-    })
-  }
-
-  fn read_time(words: usize) -> String {
-    let words = f64::from(u32::try_from(words).unwrap_or(u32::MAX));
-
-    format!("{:.1}", words / 150.0)
-  }
-
-  fn title(filename: &str) -> String {
-    Path::new(filename)
-      .file_stem()
-      .unwrap_or_default()
+    let filename = path
+      .file_name()
+      .context("post path has no filename")?
       .to_string_lossy()
-      .replace('-', " ")
-  }
-}
+      .to_string();
 
-#[cfg(test)]
-mod tests {
-  use super::*;
+    let title = path
+      .file_stem()
+      .context("post path has no filename")?
+      .to_string_lossy()
+      .replace('-', " ");
 
-  #[test]
-  fn titles() {
-    assert_eq!(
-      Post::title("Powerful-`just`-features.md"),
-      "Powerful `just` features"
-    );
+    Ok(
+      Self::builder()
+        .date(OffsetDateTime::from(modified).format(DATE)?)
+        .filename(filename)
+        .height(format!(
+          "{:.2}",
+          f64::from(u32::try_from(input.lines().count()).unwrap_or(u32::MAX))
+            * 18.0
+            * 0.0222
+        ))
+        .html(Loader::markdown(&input)?)
+        .modified(modified)
+        .path(path.to_path_buf())
+        .read_time(format!(
+          "{:.1}",
+          f64::from(
+            u32::try_from(input.split_whitespace().count()).unwrap_or(u32::MAX)
+          ) / 150.0
+        ))
+        .rss_date(OffsetDateTime::from(modified).format(RSS_DATE)?)
+        .rss_html(
+          html_escape::encode_text(&Loader::pandoc(
+            ["--quiet", "-t", "html"],
+            &input,
+          )?)
+          .trim_end()
+          .to_string(),
+        )
+        .slug(Slug(title.to_string()))
+        .title(title)
+        .build(),
+    )
   }
 }
