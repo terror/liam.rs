@@ -1,44 +1,46 @@
 set dotenv-load
 
-export EDITOR := 'nvim'
-
-alias d := dev
-alias f := fmt
-alias g := generate
-
 default:
   just --list
 
-all: fix-typos generate fmt-docs forbid
+alias f := fmt
+alias r := run
+alias t := test
+
+all: build test clippy fmt-check
+
+[group: 'misc']
+build:
+  cargo build
+
+[group: 'check']
+check:
+  cargo check
 
 [group: 'check']
 check-favicon port='https://liam.rs':
   npx realfavicon check {{ port }}
 
-[group: 'dev']
-dev:
-  cargo run serve
+[group: 'check']
+ci: test clippy forbid
+  cargo fmt --all -- --check
+  cargo update --locked --package generator
 
-[group: 'fix']
-fix-typos:
-  typos --write-changes **/*.md
+[group: 'check']
+clippy:
+  cargo clippy --all --all-targets
 
 [group: 'format']
 fmt:
   cargo fmt --all
 
 [group: 'format']
-[working-directory: 'docs']
-fmt-docs:
-  prettier --write .
+fmt-check:
+  cargo fmt --all -- --check
 
 [group: 'check']
 forbid:
   ./bin/forbid
-
-[group: 'dev']
-generate:
-  cargo run generate
 
 [group: 'dev']
 generate-favicon image:
@@ -50,3 +52,20 @@ generate-favicon image:
   cat favicon-output.json | jq -r '.markups | sort | join("\n")' > favicon/favicon-output.txt
 
   rm favicon-output.json
+
+[group: 'dev']
+run *args:
+  cargo run {{ args }}
+
+[group: 'test']
+test:
+  cargo test
+
+[group: 'fix']
+typos:
+  typos --write-changes **/*.md
+
+[group: 'format']
+[working-directory: 'docs']
+web-format:
+  prettier --write .
