@@ -24,7 +24,7 @@ impl Server {
   }
 
   pub(crate) fn serve(self) -> Result {
-    Generator::new().build()?;
+    Generator::new().run()?;
 
     let live_reload = LiveReloadLayer::new();
     let reloader = live_reload.reloader();

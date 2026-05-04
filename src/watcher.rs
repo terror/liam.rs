@@ -10,7 +10,7 @@ impl Watcher {
   }
 
   fn rebuild_and_reload(&self) {
-    match Generator::new().build() {
+    match Generator::new().run() {
       Ok(()) => {
         println!("[+] rebuilt");
         self.reloader.reload();

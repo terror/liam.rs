@@ -5,7 +5,13 @@ pub(crate) struct Generator {
 }
 
 impl Generator {
-  pub(crate) fn build(&self) -> Result {
+  pub(crate) fn new() -> Self {
+    Self {
+      loader: Loader::new(),
+    }
+  }
+
+  pub(crate) fn run(&self) -> Result {
     let environment = Environment::new()?;
 
     let (posts, projects) = (self.loader.posts()?, self.loader.projects()?);
@@ -52,11 +58,5 @@ impl Generator {
     )?;
 
     Ok(())
-  }
-
-  pub(crate) fn new() -> Self {
-    Self {
-      loader: Loader::new(),
-    }
   }
 }
