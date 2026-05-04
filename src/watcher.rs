@@ -9,18 +9,9 @@ impl Watcher {
     Self { reloader }
   }
 
-  fn rebuild_and_reload(&self) {
-    match Generator::new().run() {
-      Ok(()) => {
-        println!("[+] rebuilt");
-        self.reloader.reload();
-      }
-      Err(error) => eprintln!("error: {error}"),
-    }
-  }
-
   pub(crate) fn watch(self) -> Result {
     let (sender, receiver) = mpsc::channel();
+
     let mut watcher = notify::recommended_watcher(sender)?;
 
     for path in ["posts", "projects", "templates"] {
@@ -34,6 +25,7 @@ impl Watcher {
     println!("Watching posts, projects, and templates. Press Ctrl-C to stop.");
 
     let debounce = Duration::from_millis(250);
+
     let mut pending = false;
     let mut last_change = Instant::now();
 
@@ -51,7 +43,14 @@ impl Watcher {
         Err(RecvTimeoutError::Timeout) => {
           if pending && last_change.elapsed() >= debounce {
             pending = false;
-            self.rebuild_and_reload();
+
+            match Generator::new().run() {
+              Ok(()) => {
+                println!("[+] rebuilt");
+                self.reloader.reload();
+              }
+              Err(error) => eprintln!("error: {error}"),
+            }
           }
         }
         Err(error) => return Err(error.into()),
