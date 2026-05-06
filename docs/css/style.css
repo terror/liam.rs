@@ -43,24 +43,46 @@ div.hot-links {
 }
 
 :root {
-  --cyan: #00cece;
-  --pink: #d344e2;
+  --cyan: #d9d9d9;
   --black: #212121;
   --light-black: #666666;
   --white: #ffffff;
   --dark-white: #eeeeee;
-  --light-yellow: #f7b955;
-  --dark-yellow: #f49b0b;
+  --code-background: var(--dark-white);
+  --code-border: #dddddd;
+  --code-foreground: var(--black);
+  --syntax-attribute: #55b5db;
+  --syntax-comment: #41535b;
+  --syntax-error: #cd3f45;
+  --syntax-keyword: #a074c4;
+  --syntax-number: #db7b55;
+  --syntax-operator: #55dbbe;
+  --quote-accent: #dddddd;
+  --quote-background: transparent;
+  --syntax-string: #9fca56;
+  --syntax-variable: #cd3f45;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --cyan: #79ffe1;
-    --pink: #ff3299;
+    --cyan: #4a4a4a;
     --black: #dedede;
     --light-black: #ccc;
     --white: #000;
     --dark-white: #323232;
+    --code-background: var(--dark-white);
+    --code-border: #444444;
+    --code-foreground: var(--black);
+    --syntax-attribute: #55b5db;
+    --syntax-comment: #41535b;
+    --syntax-error: #cd3f45;
+    --syntax-keyword: #a074c4;
+    --syntax-number: #db7b55;
+    --syntax-operator: #55dbbe;
+    --quote-accent: #444444;
+    --quote-background: transparent;
+    --syntax-string: #9fca56;
+    --syntax-variable: #cd3f45;
   }
   ::-moz-selection,
   ::selection {
@@ -217,13 +239,36 @@ code {
 }
 
 code {
-  color: var(--pink);
+  background-color: var(--code-background);
+  border: 1px solid var(--code-border);
+  border-radius: 0.2rem;
+  color: var(--code-foreground);
+  padding: 0.05rem 0.25rem;
 }
 
 pre > code {
-  white-space: pre !important;
+  background-color: transparent;
   border: none;
+  border-radius: 0;
   color: var(--black);
+  padding: 0;
+  white-space: pre !important;
+}
+
+blockquote {
+  background-color: var(--quote-background);
+  border-left: 0.15rem solid var(--quote-accent);
+  color: var(--light-black);
+  margin: 1.5rem 0;
+  padding: 0.2rem 0 0.2rem 1rem;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
 }
 
 @media only screen and (min-width: 1080px) {
