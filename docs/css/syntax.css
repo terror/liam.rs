@@ -101,64 +101,94 @@ pre.numberSource {
   padding-left: 4px;
 }
 
-@media screen {
-  pre > code.sourceCode > span > a:first-child::before {
-    text-decoration: underline;
-  }
-}
-
 code span.al {
-  font-weight: bold;
+  color: var(--syntax-error);
 }
 
 code span.an {
+  color: var(--syntax-comment);
   font-style: italic;
 }
 
 code span.cf {
-  font-weight: bold;
+  color: var(--syntax-keyword);
 }
 
 code span.co {
+  color: var(--syntax-comment);
   font-style: italic;
 }
 
 code span.cv {
+  color: var(--syntax-comment);
   font-style: italic;
 }
 
 code span.do {
+  color: var(--syntax-comment);
   font-style: italic;
 }
 
 code span.dt {
-  text-decoration: underline;
+  color: var(--syntax-attribute);
 }
 
 code span.er {
-  font-weight: bold;
+  color: var(--syntax-error);
 }
 
 code span.in {
+  color: var(--syntax-comment);
   font-style: italic;
 }
 
 code span.kw {
-  font-weight: bold;
+  color: var(--syntax-keyword);
 }
 
 code span.pp {
-  font-weight: bold;
+  color: var(--syntax-keyword);
 }
 
 code span.wa {
+  color: var(--syntax-attribute);
   font-style: italic;
 }
 
-code span.st {
-  color: var(--cyan);
+code span.at,
+code span.ot {
+  color: var(--syntax-attribute);
 }
 
-code span.at {
-  color: var(--pink);
+code span.bu,
+code span.cn,
+code span.dt {
+  color: var(--syntax-attribute);
+}
+
+code span.dv,
+code span.fl {
+  color: var(--syntax-number);
+}
+
+code span.ch,
+code span.sc,
+code span.ss,
+code span.st {
+  color: var(--syntax-string);
+}
+
+code span.ex,
+code span.fu,
+code span.im {
+  color: var(--syntax-keyword);
+}
+
+code span.op {
+  color: var(--syntax-operator);
+}
+
+code span.va,
+code span.vs {
+  color: var(--syntax-variable);
 }
