@@ -38,7 +38,11 @@ impl Project {
       Self::builder()
         .date(frontmatter.metadata.date.clone())
         .html(converter.run(
-          ["--mathjax", "--syntax-highlighting", "monochrome"],
+          [
+            "--math-method=mathjax",
+            "--syntax-highlighting",
+            "monochrome",
+          ],
           frontmatter.content,
         )?)
         .image(frontmatter.metadata.image)
