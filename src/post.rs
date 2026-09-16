@@ -58,7 +58,11 @@ impl Post {
             * Self::FEET_PER_PIXEL
         ))
         .html(converter.run(
-          ["--mathjax", "--syntax-highlighting", "monochrome"],
+          [
+            "--math-method=mathjax",
+            "--syntax-highlighting",
+            "monochrome",
+          ],
           frontmatter.content,
         )?)
         .modified(fs::metadata(path)?.modified()?)
